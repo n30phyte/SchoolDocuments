@@ -8,7 +8,7 @@
             ]
         }
     ],
-    "latex-workshop.latex.outDir": "../obj",
+    "latex-workshop.latex.outDir": "../../obj/",
     "latex-workshop.latex.tools": [
         {
             "name": "latexmk",
