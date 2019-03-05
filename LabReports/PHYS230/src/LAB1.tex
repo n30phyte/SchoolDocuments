@@ -1,0 +1,95 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1.9cm, letterpaper]{geometry}
+\usepackage{fontspec}
+\usepackage{mathtools}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat=newest}
+
+\title{EXPERIMENT 2: \protect\\ Electrostatic Potential \protect\\ and Fields}
+\date{February 5, 2019}
+\author{Michael Kwok | Partner: Cyrus Diego }
+
+\begin{document}
+\maketitle
+\pagebreak
+
+\section{Introduction}
+
+In this experiment, we are investigating the effect of Gauss’ laws using a
+circular and parallel plate capacitor by measuring the potential differences
+between two conductors in both cases. Due to the relatively simple shapes of the
+capacitors (two concentric circles and two parallel rectangles), the results can
+easily be correlated to Gauss’ laws. Since this experiment is conducted with a
+DC power source as the source of charge, we will be using electrostatic
+equations which are defined below,
+
+\textbf{Bold} variables represent vectors
+
+\begin{equation} \label{eq:ln_eq}
+    \ln r = \ln \frac{A}{B}(\frac{V_r-V_B}{V_0})+\ln B
+\end{equation}
+
+where $r$  is the distance of the test point from the center of the circle, $A$
+and $B$ are the calculated radii, $V_r$, $V_B$, $V_0$ are the measured voltages.
+
+The equation used to find the strength of the electric field would be:
+
+\begin{equation} \label{eq:ef_strength}
+    E=-\frac{\Delta V}{\Delta S}
+\end{equation}
+
+\section{Methods}
+
+For part 1, connect the power supply to both leads of the capacitor, and a
+voltmeter with the ground side connected to the negative end of the power
+supply, and the probe on the appropriate slot of the voltmeter. Record the
+voltages at the appropriate distances from the centre of the capacitor, in this
+case every 0.5 cm. Adjust precision of voltmeter as necessary. We opted on
+recording up to 3 significant digits whenever possible.
+
+For part 2, like the first part, the power supply leads should be connected to
+both plates, and the voltmeter with the ground connected to the negative end as
+well. Probe the conductive sheet at regular intervals in a grid pattern,
+recording the voltage in each spot.
+
+\section{Results}
+\begin{center}
+\begin{tabular}{ |r|r| }
+    \hline
+    Radius (cm) & $V_r - V_B$ (V) \\ \hline
+    2.5 & 3.55\\
+    3.0 & 3.22\\
+    3.5 & 4.0\\
+    \hline
+\end{tabular}
+\begin{tabular}{ |r|r| }
+    \hline
+    $\frac{V_r-V_B}{V_0}$ & $\ln r$ (V) \\ \hline
+    2.5 & 3.55\\
+    3.0 & 3.22\\
+    3.5 & 4.0\\
+    \hline
+\end{tabular}
+\end{center}
+
+% Graph test
+\begin{tikzpicture}
+    \begin{axis}[
+      domain=-1:1,
+      samples=101,
+      smooth,
+      no markers,
+      ]
+      \addplot {x};
+    \end{axis}
+  \end{tikzpicture}
+  
+\section{Discussion}
+\section{Conclusion}
+\pagebreak
+\section*{References}
+\pagebreak
+\section*{Appendix}
+\end{document}
