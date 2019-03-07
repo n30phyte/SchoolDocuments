@@ -1,0 +1,50 @@
+\documentclass[10pt]{article}
+\usepackage[margin=1.9cm, letterpaper]{geometry}
+\usepackage[style=ieee, backend=biber]{biblatex}
+\addbibresource{citations.bib}
+
+\title{Annotated Bibliography \\ of \\ Speculative Execution \\ Processor Vulnerabilities}
+\author{Michael Kwok (mkwok1@ualberta.ca) \\ University of Alberta \\ Edmonton, Alberta}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\cite{Meltdown} \fullcite{Meltdown}
+
+The authors of the paper are the computer security researchers who discovered
+the Meltdown exploit, and in the whitepaper provide sample outputs that show
+the exploit in action. The paper points out one feature of modern CPUs that allow
+for the vulnerability to exist, which is called "Out-of-order execution". This
+feature allows CPUs to cut down on program execution time by running code that
+they think will evenetually get run in the future, and execute them ahead of
+time. The researchers claimed to
+be able to read the kernel's at the speed of 503KB/s, which is quite quick for an
+attack that heavily relies on trial and error. This paper gives an interesting
+implcation to the disaster, as this affected one company's (Intel) CPUs
+disproportionately more than their competitors' (AMD, ARM) CPUs, which could
+point to either an engineering or management problem inherent in that company.
+Since the paper is a direct source from the researchers, the information can be
+taken as correct and accurate. It also contains many references to prior works
+on exploiting this specific feature, but most of the previous research were only
+theoretical in nature, and were not exploitable, which makes this discovery
+novel at the time. However, the paper does not provide sample code that show a
+full implementation of the problem, which makes it difficult for beginning
+researchers to fully understand the exploit. Although this makes sense considering
+the unfixable nature of the exploit, and the not wanting to allow the code to be
+reused for nefarious purposes, a benign example would still be appreciated, especially
+to prove the claims of the high read speeds.
+
+% TODO: Reread and delete unnecessary things (Too specific?)
+
+\cite{Spectre} \fullcite{Spectre}
+
+Similar to the previous paper, this was written by the researchers who
+discovered the exploit. In fact, there are some overlapping authors between the
+papers. This exploit is much less easily fixed compared to the previous one, and
+in this paper, the authors described different ways of "Side channel attacks"
+that have been attempted before. 
+
+% TODO: Talk more about Spectre
+
+\end{document}
