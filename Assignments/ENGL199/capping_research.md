@@ -15,5 +15,4 @@
 * Intel's CVEs
 * Find benchmarks on slowdowns after patches
 
-
 ## Test
