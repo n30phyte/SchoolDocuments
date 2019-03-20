@@ -1,6 +1,7 @@
 \documentclass[11pt]{article}
 \usepackage[margin=1in, letterpaper]{geometry}
 \usepackage[style=ieee, backend=biber]{biblatex}
+\usepackage{setspace}
 
 \addbibresource{citations.bib}
 
@@ -9,6 +10,8 @@ Speculative Execution}
 \author{Michael Kwok (mkwok1@ualberta.ca) \\ University of Alberta \\ Edmonton,
 Alberta}
 \date{\today}
+
+\doublespacing
 
 \begin{document}
 \pagestyle{headings}
@@ -23,8 +26,8 @@ allow for the vulnerability to exist, which is called ”Out-of-order execution�
 This feature allows CPUs to cut down on program execution time by running code
 that they think will eventually get run in the future, and execute them ahead of
 time. There is an interesting takeaway from this paper about the disaster, as
-this affected one company’s (Intel) CPUs disproportionately more than their
-competitors’ (AMD, ARM) CPUs, which could point to either an engineering or
+this affected one company’s (Intel) CPUs more than their competitors’ (AMD, ARM)
+CPUs \cite[13]{Meltdown}, which could point to either an engineering or
 management problem inherent in that company. Since the paper is a direct source
 from the researchers, the information can be taken as correct and accurate. It
 also contains many references to prior research on exploiting this family of
@@ -32,10 +35,7 @@ features, but most of the previous research were only theoretical in nature,
 and have not been successfully exploited, which makes this discovery novel at
 the time. However, the paper does not provide sample code that show a full
 implementation of the problem, which makes it difficult for beginning
-researchers to fully understand the exploit. Although this makes sense
-considering the severity of the problem, and the not wanting to allow the code
-to be reused for nefarious purposes, sample code would still be appreciated.
-% TODO: Reread and delete unnecessary things (Too specific?)
+researchers to fully understand the exploit.
 
 \hfill
 
@@ -45,8 +45,14 @@ Just like the previous paper, this was written by the researchers who
 discovered the exploit. In fact, there are some overlapping authors between the
 papers. This exploit is much less easily fixed compared to the previous one, and
 in this paper, the authors described different ways of "Side channel attacks"
-that have been attempted before.
-
-% TODO: Talk more about Spectre
+that have been attempted before. This vulnerability affected the same devices from
+the same companies as the previous one, but is higher in severity as it "will
+require fixes to processor designs" \cite[1]{Spectre}. This paper goes into more
+detail, and explains the background on what was being exploited much more
+clearly than the previous paper. Example code is provided for analysis, and
+multiple different exploitation techniques were presented. This paper has much
+stronger points against the industry's current standard practice of letting their
+devices "take shortcuts" and "cut corners" to increase speed and throughoutput,
+disregarding security.
 
 \end{document}
