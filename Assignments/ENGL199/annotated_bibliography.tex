@@ -24,7 +24,7 @@ the Meltdown exploit, and in the white paper provide sample outputs that show
 the exploit in action. The paper points out one feature of modern CPUs that
 allow for the vulnerability to exist, which is called ”Out-of-order execution”.
 This feature allows CPUs to cut down on program execution time by running code
-that they think will eventually get run in the future, and execute them ahead of
+that they think will eventually get run in the future and execute them ahead of
 time. There is an interesting takeaway from this paper about the disaster, as
 this affected one company’s (Intel) CPUs more than their competitors’ (AMD, ARM)
 CPUs \cite[13]{Meltdown}, which could point to either an engineering or
@@ -46,13 +46,13 @@ discovered the exploit. In fact, there are some overlapping authors between the
 papers. This exploit is much less easily fixed compared to the previous one, and
 in this paper, the authors described different ways of "Side channel attacks"
 that have been attempted before. This vulnerability affected the same devices from
-the same companies as the previous one, but is higher in severity as it "will
+the same companies as the previous one but is higher in severity as it "will
 require fixes to processor designs" \cite[1]{Spectre}. This paper goes into more
-detail, and explains the background on what was being exploited much more
+detail and explains the background on what was being exploited much more
 clearly than the previous paper. Example code is provided for analysis, and
 multiple different exploitation techniques were presented. This paper has much
 stronger points against the industry's current standard practice of letting their
-devices "take shortcuts" and "cut corners" to increase speed and throughoutput,
+devices "take shortcuts" and "cut corners" to increase speed and throughput,
 disregarding security.
 
 \end{document}
