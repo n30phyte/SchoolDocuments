@@ -1,16 +1,14 @@
-{    
-    "editor.rulers": [80],
-    "latex-workshop.latex.recipes": [
-        {
-            "name": "latexmk",
-            "tools": [
-                "latexmk",
-            ]
-        }
-    ],
+{
+    "editor.wordWrapColumn": 120,
+    "editor.wordWrap":"bounded",
+    "latex-workshop.latex.recipes": [{
+        "name": "latexmk",
+        "tools": [
+            "latexmk",
+        ]
+    }],
     "latex-workshop.latex.outDir": "../../obj/",
-    "latex-workshop.latex.tools": [
-        {
+    "latex-workshop.latex.tools": [{
             "name": "latexmk",
             "command": "latexmk",
             "args": [

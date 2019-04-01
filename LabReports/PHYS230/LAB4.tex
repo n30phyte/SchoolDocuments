@@ -1,0 +1,355 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1.9cm, letterpaper]{geometry}
+\usepackage{fontspec}
+\usepackage{mathtools}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{siunitx}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{makecell}
+\usepackage{float}
+
+\pgfplotsset{compat=newest}
+
+\title{EXPERIMENT 4: \protect\\Magnetic Fields}
+\date{March 12, 2019}
+\author{Michael Kwok | Partner: Cyrus Diego }
+
+\begin{document}
+
+
+\pgfplotstableread[col sep=ampersand,row sep=\\,header=true]{
+    X                & Y              \\
+    7286982907.14373 & 0	          \\
+    8740068243.7282  & 0.00010791	  \\
+    10533869446.1819 & 0.00012753	  \\
+    12760934944.3829 & 0.0001962	  \\
+    15542600689.9458 & 0.00023544	  \\
+    19039151106.2863 & 0.00034335	  \\
+    23464020037.9838 & 0.0004905	  \\
+    29103830456.7337 & 0.00053955	  \\
+    36346964194.8776 & 0.00081423	  \\
+    45724737082.7618 & 0.00103005	  \\
+    57971430176.4736 & 0.00135378	  \\
+    74112895440.7967 & 0.00181485	  \\
+    95599066359.7481 & 0.0021582	  \\
+    124504934515.026 & 0.0032373	  \\
+    163840000000     & 0.0041202	  \\
+}\BismuthA
+
+
+\pgfplotstableread[col sep=ampersand,row sep=\\,header=true]{
+    X                & Y             \\
+    33887926.5847264 & 0	         \\
+    36851345.84919   & -7.848E-05	 \\
+    40114652.3992261 & -8.829E-05	 \\
+    43712421.7465698 & -9.81E-05	 \\
+    47683715.8203125 & -0.00011772	 \\
+    52072731.6881547 & -0.00015696	 \\
+    56929553.9620604 & -0.00016677	 \\
+    62311029.0817488 & -0.0001962	 \\
+    68281783.1541266 & -0.00023544	 \\
+    74915409.2363969 & -0.00024525	 \\
+    82295855.0482959 & -0.00028449	 \\
+    90519048.2873736 & -0.00028449	 \\
+    99694804.2529911 & -0.00034335	 \\
+    109949069.675283 & -0.0003924	 \\
+    121426567.890201 & -0.00041202	 \\
+    134293924.298087 & -0.00047088	 \\
+    148743368.017862 & -0.00051993	 \\
+    164997126.595121 & -0.0005886	 \\
+    183312656.546749 & -0.00062784	 \\
+    203988884.709419 & -0.0006867	 \\
+    227373675.443232 & -0.00074556	 \\
+    253872788.826775 & -0.00081423	 \\
+    283960657.772481 & -0.00093195	 \\
+    318193390.989029 & -0.00099081	 \\
+    357224508.459076 & -0.00113796	 \\
+    401824042.498554 & -0.0010791	 \\
+    452901798.2537   & -0.00120663	 \\
+    511535772.83823  & -0.00135378	 \\
+    579006995.631224 & -0.0013734	 \\
+    656842391.335305 & -0.00161865	 \\
+    746867705.935532 & -0.0017658	 \\
+    851273105.436591 & -0.00199143	 \\
+    972694800.89864  & -0.00219744	 \\
+    1114317028.62581 & -0.0024525	 \\
+    1280000000       & -0.0027468	 \\
+    1474441138.95936 & -0.0030411	 \\
+}\KimberliteA
+
+\pgfplotstableread[col sep=ampersand,row sep=\\,header=true]{
+    X                & Y              \\
+    452901798.2537      & -0.00120663	\\
+    511535772.83823     & -0.00135378	\\
+    579006995.631224    & -0.0013734	\\
+    656842391.335305    & -0.00161865	\\
+    746867705.935532    & -0.0017658	\\
+    851273105.436591    & -0.00199143	\\
+    972694800.89864     & -0.00219744	\\
+    1114317028.62581    & -0.0024525	\\
+    1280000000          & -0.0027468	\\
+    1474441138.95936    & -0.0030411	\\
+}\KimberliteB
+
+
+\clearpage\maketitle
+\thispagestyle{empty}
+
+\pagebreak
+
+\setcounter{page}{1}
+\section{Introduction}
+
+Magnetic effects are everywhere in our daily lives, from GPS navigation to headphones and computer speakers. We exploit the magnetic properties of electron beams to display images in CRT monitors and generate large magnetic fields for MRI machines.
+
+In this experiment, we are comparing two different types of magnetic materials. We opted to test a paramagnet and a diamagnet, kimberlite and bismuth respectively. A diamagnetic material repels magnetic fields applied to it, while a paramagnet gets attracted to magnetic fields applied to it, regardless of the orientation of the material. This is in contrast to ferromagnets which have specific polarizations. Due to the samples we chose, we will only be able to determine $\chi$, the magnetic susceptibility of the material.
+
+The mathematical relations between both types of magnetic material differ. For ferromagnets, the relation is the following:
+
+\begin{equation} \label{eq:permanent_force}
+    F_z = \pm \frac{3 m_s \mu_0 m_m}{2 \pi z^4} = \pm \frac{3 m_s \mu_0 m_m}{2 \pi} \frac{1}{z^4}
+\end{equation}
+
+Which is derived from the relation between force and potential energy
+%EQ6TB
+\begin{equation}
+    F_z(z) = -\frac{dU}{dz}
+\end{equation}
+Where
+%EQ7TB
+\begin{equation}
+    U = -\mathbf{m} \cdot \mathbf{B} = -mB\cos\theta
+\end{equation}
+And
+%EQ4TB
+\begin{equation}
+    B_z = \frac{\mu_0 I a^2}{2(z^2+a^2)^\frac{3}{2}} = \frac{\mu_0 I A}{2\pi(z^2+a^2)^\frac{3}{2}} = \frac{\mu_0 m}{2\pi(z^2+a^2)^\frac{3}{2}}
+\end{equation}
+Which was derived using the Biot-Savart Law.
+Giving
+%EQ8TB
+\begin{equation}\label{eq:tb8}
+    U = -\frac{m_s \mu_0 m_m}{2\pi z^3}
+\end{equation}
+Which when derived with respect to $z$ produces \ref{eq:permanent_force}
+
+The sign is dependent on the orientation of the ferromagnet with respect to the permanent magnet.
+
+And the following is the relation for diamagnets and paramagnets:
+%TBEQ12
+\begin{equation} \label{eq:para_force}
+    F_z = \frac{3 \mu_0 \chi V m_m}{2 \pi^2 z^7} = \frac{3 \mu_0 \chi V m_m}{2 \pi^2} \frac{1}{z^7}
+\end{equation}
+
+Which is similarly derived but with
+%Equation 10
+\begin{equation}
+    \mathbf{m}_s=\mathbf{M}V=\frac{\chi\mathbf{B}_mV}{\mu_0}
+\end{equation}
+Instead, giving
+%Equation 11
+\begin{equation}
+    U=m_s B_m \cos \theta=\frac{\chi B_m}{\mu_0}B_m = \frac{\chi V}{\mu_0}\frac{\mu_0 ^2 m_m^2}{4\pi^2z^6}
+\end{equation}
+Instead of \ref{eq:tb8}
+
+\section{Methods}
+
+We first ensured the weighing scale was level using the spirit level on the faceplate before taring the cups with the samples on the cups. We calibrated the micrometer stage and decreased the separation between the sample and the permanent magnet, recording every 1 mm. The steps were repeated for the second sample. Orientation did not matter for our experiment as we were testing para/diamagnets instead of ferromagnets. To convince ourselves, we looked at the values measured at different orientations and verified that orientation did in fact not matter.
+
+\section{Results}
+
+The results collected are as follows:
+\begin{figure}[H]
+    \begin{subfigure}{0.5\textwidth}
+        \begin{tikzpicture}
+            \begin{axis}[enlargelimits=true,
+                    grid=major,
+                    title=$\frac{1}{z^7}$ vs $F$,
+                    ylabel=$F$,
+                    xlabel=$\frac{1}{z^7}$,
+                    axis lines = center]
+                \addplot[only marks] table{\BismuthA};
+                \addplot[no marks] table[y={create col/linear regression={y=Y}}] {\BismuthA};
+            \end{axis}
+        \end{tikzpicture}
+        \caption{Bismuth Linearized}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \begin{tikzpicture}
+            \begin{axis}[enlargelimits=true,
+                    grid=major,
+                    title=$\frac{1}{z^7}$ vs $F$,
+                    ylabel=$F$,
+                    xlabel=$\frac{1}{z^7}$,
+                    axis lines = center]
+                \addplot[only marks] table{\KimberliteB};
+                \addplot[no marks] table[y={create col/linear regression={y=Y}}] {\KimberliteB};
+            \end{axis}
+        \end{tikzpicture}
+        \caption{Kimberlite Linearized}
+    \end{subfigure}
+    \caption{Linearized Graphs}
+\end{figure}
+\begin{figure}[H]
+    \begin{subfigure}{0.5\textwidth}
+        \begin{tabular}{|S[round-precision = 3, round-mode=figures, scientific-notation = true]|S[round-precision = 3,round-mode=figures, scientific-notation = true]|}
+            \hline
+            {z (\si{\meter})} & {Mass Reading (\si{\kilogram})} \\ \hline
+            0.039             & 0                               \\
+            0.038             & 0.000011                        \\
+            0.037             & 0.000013                        \\
+            0.036             & 0.000020                        \\
+            0.035             & 0.000024                        \\
+            0.034             & 0.000035                        \\
+            0.033             & 0.000050                        \\
+            0.032             & 0.000055                        \\
+            0.031             & 0.000083                        \\
+            0.030             & 0.000105                        \\
+            0.029             & 0.000138                        \\
+            0.028             & 0.000185                        \\
+            0.027             & 0.00022                         \\
+            0.026             & 0.00033                         \\
+            0.025             & 0.00042                         \\ \hline
+        \end{tabular}
+        \caption{Recorded data}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \begin{tabular}{|S[round-precision = 3, round-mode=figures, scientific-notation = true]|S[round-precision = 3,round-mode=figures, scientific-notation = true]|}
+            \hline
+            {Force (\si{\newton})} & {$z^-7$ (\si{\meter ^ -7})} \\ \hline
+            0                      & 7286982907.14373            \\
+            0.00010791             & 8740068243.7282             \\
+            0.00012753             & 10533869446.1819            \\
+            0.0001962              & 12760934944.3829            \\
+            0.00023544             & 15542600689.9458            \\
+            0.00034335             & 19039151106.2863            \\
+            0.0004905              & 23464020037.9838            \\
+            0.00053955             & 29103830456.7337            \\
+            0.00084123             & 36346964194.8776            \\
+            0.00103005             & 45724737082.7618            \\
+            0.00135378             & 57971430176.4736            \\
+            0.00181485             & 74112895440.7967            \\
+            0.0021582              & 95599066359.7481            \\
+            0.0032373              & 124504934515.026            \\
+            0.0041202              & 163840000000                \\ \hline
+        \end{tabular}
+        \caption{Calculated data}
+    \end{subfigure}
+    \caption{Bismuth data}
+\end{figure}
+\begin{figure}
+    \begin{subfigure}{0.5\textwidth}
+        \begin{tabular}{|S[round-precision = 3, round-mode=figures, scientific-notation = true]|S[round-precision = 3,round-mode=figures, scientific-notation = true]|}
+            \hline
+            {z (\si{\meter})} & {Mass Reading (\si{\kilogram})} \\ \hline
+            0.084             & 0                               \\
+            0.083             & -0.000008                       \\
+            0.082             & -0.000009                       \\
+            0.081             & -0.000010                       \\
+            0.080             & -0.000012                       \\
+            0.079             & -0.000016                       \\
+            0.078             & -0.000017                       \\
+            0.077             & -0.000020                       \\
+            0.076             & -0.000024                       \\
+            0.075             & -0.000025                       \\
+            0.074             & -0.000029                       \\
+            0.073             & -0.000029                       \\
+            0.072             & -0.000035                       \\
+            0.071             & -0.000040                       \\
+            0.070             & -0.000042                       \\
+            0.069             & -0.000048                       \\
+            0.068             & -0.000053                       \\
+            0.067             & -0.000060                       \\
+            0.066             & -0.000064                       \\
+            0.065             & -0.000070                       \\
+            0.064             & -0.000076                       \\
+            0.063             & -0.000083                       \\
+            0.062             & -0.000095                       \\
+            0.061             & -0.000101                       \\
+            0.060             & -0.000116                       \\
+            0.059             & -0.000110                       \\
+            0.058             & -0.000123                       \\
+            0.057             & -0.000138                       \\
+            0.056             & -0.000140                       \\
+            0.055             & -0.000165                       \\
+            0.054             & -0.00018                        \\
+            0.053             & -0.000203                       \\
+            0.052             & -0.000224                       \\
+            0.051             & -0.000250                       \\
+            0.050             & -0.000280                       \\
+            0.049             & -0.000310                       \\\hline
+        \end{tabular}
+        \caption{Recorded data}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \begin{tabular}{|S[round-precision = 3, round-mode=figures, scientific-notation = true]|S[round-precision = 3,round-mode=figures, scientific-notation = true]|}
+            \hline
+            {Force (\si{\newton})} & {$z^-7$ (\si{\meter ^ -7})} \\\hline
+            0                      & 33887926.5847264            \\
+            -7.848E-05             & 36851345.84919              \\
+            -8.829E-05             & 40114652.3992261            \\
+            -9.81E-05              & 43712421.7465698            \\
+            -0.00011772            & 47683715.8203125            \\
+            -0.00015696            & 52072731.6881547            \\
+            -0.00016677            & 56929553.9620604            \\
+            -0.0001962             & 62311029.0817488            \\
+            -0.00023544            & 68281783.1541266            \\
+            -0.00024525            & 74915409.2363969            \\
+            -0.00028449            & 82295855.0482959            \\
+            -0.00028449            & 90519048.2873736            \\
+            -0.00034335            & 99694804.2529911            \\
+            -0.0003924             & 109949069.675283            \\
+            -0.00041202            & 121426567.890201            \\
+            -0.00047088            & 134293924.298087            \\
+            -0.00051993            & 148743368.017862            \\
+            -0.0005886             & 164997126.595121            \\
+            -0.00062784            & 183312656.546749            \\
+            -0.0006867             & 203988884.709419            \\
+            -0.00074556            & 227373675.443232            \\
+            -0.00081423            & 253872788.826775            \\
+            -0.00093195            & 283960657.772481            \\
+            -0.00099081            & 318193390.989029            \\
+            -0.00113796            & 357224508.459076            \\
+            -0.0010791             & 401824042.498554            \\
+            -0.00120663            & 452901798.2537              \\
+            -0.00135378            & 511535772.83823             \\
+            -0.0013734             & 579006995.631224            \\
+            -0.00161865            & 656842391.335305            \\
+            -0.0017658             & 746867705.935532            \\
+            -0.00199143            & 851273105.436591            \\
+            -0.00219744            & 972694800.89864             \\
+            -0.0024525             & 1114317028.62581            \\
+            -0.0027468             & 1280000000                  \\
+            -0.0030411             & 1474441138.95936            \\\hline
+        \end{tabular}
+        \caption{Calculated data}
+    \end{subfigure}
+    \caption{Kimberlite Data}
+\end{figure}
+
+The linearized graph was obtained by culling values where the displacement was further as it is less accurate in terms of force obtained compared to when the displacement is closer. For bismuth all the values were used. However for kimberlite, only the last 10 values were used.
+
+\section{Discussion}
+The linearized graph of bismuth had a positive slope, showing that the susceptibility $\chi > 0$ as $Vm_m > 0$ in this case. However, the linearization did not give an equation in the form $Y=mX$ and instead there was a $+C$, showing us that there was an error in our measurements.
+
+The linearized graph of kimberlite had a negative slope. Similar to bismuth, since $Vm_m > 0$, $\chi < 0$. The linearization in this case did not give a slope without an intercept either, again showing us possible errors in our measurements.
+
+A source of the error could be the vibrations due to the group sitting opposite to us, air currents from the HVAC system affecting the measuring scale, giving us unstable readings and imperfections in the samples used, causing the magnetic field to not be uniform.
+
+\section{Conclusion}
+
+The values collected are consistent with the theory, that being paramagnetic materials are attracted to the magnetic field, and diamagnetic materials are repelled by the magnetic field and the values of $\chi$ being consistent with the convention of $\chi>0$ for paramagnets and $\chi<0$ for diamagnets
+
+\pagebreak
+
+\section*{References}
+\begin{itemize}
+    \item 2018-2019 PHYSICS 230 Laboratory Manual (I, Isaac): Equations and Methods
+    \item Cyrus Diego: Experimental results
+\end{itemize}
+\pagebreak
+\end{document}
