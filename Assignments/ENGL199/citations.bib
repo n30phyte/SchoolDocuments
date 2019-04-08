@@ -1,27 +1,35 @@
-@misc{Foreshadow,
-author = {Bulck, Jo Van and Minkin, Marina and Weisse, Ofir and Genkin, Daniel and Kasikci, Baris and Piessens, Frank and Silberstein, Mark and Wenisch, Thomas F. and Yarom, Yuval and Strackx, Raoul},
-file = {:home/n30phyte/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Bulck et al. - 2018 - Foreshadow Extracting the Keys to the Intel {\{}SGX{\}} Kingdom with Transient Out-of-Order Execution.pdf:pdf},
-pages = {991--1008},
-title = {{Foreshadow: Extracting the Keys to the Intel {\{}SGX{\}} Kingdom with Transient Out-of-Order Execution}},
-url = {https://www.usenix.org/conference/usenixsecurity18/presentation/bulck},
-year = {2018}
+@article{ForeshadowNG,
+  title={{Foreshadow-NG}: Breaking the Virtual Memory Abstraction with Transient Out-of-Order Execution},
+  author={Weisse, Ofir and Van Bulck, Jo and Minkin, Marina and  Genkin, Daniel and Kasikci, Baris and
+              Piessens, Frank and Silberstein, Mark and Strackx, Raoul and Wenisch, Thomas F. and Yarom, Yuval},
+  journal={Technical report},
+  year={2018},
+  note={See also {USENIX} Security paper Foreshadow~\cite{Foreshadow}}
 }
+
+@inproceedings{Foreshadow,
+    author = {Van Bulck, Jo and Minkin, Marina and Weisse, Ofir and Genkin, Daniel and Kasikci, Baris and
+              Piessens, Frank and Silberstein, Mark and Wenisch, Thomas F. and Yarom, Yuval and Strackx, Raoul},
+    title = {Foreshadow: Extracting the Keys to the {Intel SGX} Kingdom with Transient Out-of-Order Execution},
+    booktitle = {Proceedings of the 27th {USENIX} Security Symposium},
+    year = {2018},
+    month = {August},
+    publisher = {{USENIX} Association},
+    note={See also technical report Foreshadow-NG~\cite{ForeshadowNG}}
+}
+
 @article{Spectre,
 abstract = {Modern processors use branch prediction and speculative execution to maximize performance. For example, if the destination of a branch depends on a memory value that is in the process of being read, CPUs will try guess the destination and attempt to execute ahead. When the memory value finally arrives, the CPU either discards or commits the speculative computation. Speculative logic is unfaithful in how it executes, can access to the victim's memory and registers, and can perform operations with measurable side effects. Spectre attacks involve inducing a victim to speculatively perform operations that would not occur during correct program execution and which leak the victim's confidential information via a side channel to the adversary. This paper describes practical attacks that combine methodology from side channel attacks, fault attacks, and return-oriented programming that can read arbitrary memory from the victim's process. More broadly, the paper shows that speculative execution implementations violate the security assumptions underpinning numerous software security mechanisms, including operating system process separation, static analysis, containerization, just-in-time (JIT) compilation, and countermeasures to cache timing/side-channel attacks. These attacks represent a serious threat to actual systems, since vulnerable speculative execution capabilities are found in microprocessors from Intel, AMD, and ARM that are used in billions of devices. While makeshift processor-specific countermeasures are possible in some cases, sound solutions will require fixes to processor designs as well as updates to instruction set architectures (ISAs) to give hardware architects and software developers a common understanding as to what computation state CPU implementations are (and are not) permitted to leak.},
 archivePrefix = {arXiv},
 arxivId = {1801.01203},
 author = {Kocher, Paul and Genkin, Daniel and Gruss, Daniel and Haas, Werner and Hamburg, Mike and Lipp, Moritz and Mangard, Stefan and Prescher, Thomas and Schwarz, Michael and Yarom, Yuval},
-doi = {10.1007/s10764-011-9503-1},
 eprint = {1801.01203},
-file = {:home/n30phyte/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Kocher et al. - 2018 - Spectre Attacks Exploiting Speculative Execution.pdf:pdf},
-isbn = {0123704901},
-issn = {00049514},
 month = {jan},
-pmid = {15003161},
 title = {{Spectre Attacks: Exploiting Speculative Execution}},
-URL = {http://login.ezproxy.library.ualberta.ca/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.1801.01203&site=eds-live&scope=site},
+URL = {https://arxiv.org/abs/1801.01203},
 year = {2018}
 }
+
 @article{Meltdown,
 abstract = {The security of computer systems fundamentally relies on memory isolation, e.g., kernel address ranges are marked as non-accessible and are protected from user access. In this paper, we present Meltdown. Meltdown exploits side effects of out-of-order execution on modern processors to read arbitrary kernel-memory locations including personal data and passwords. Out-of-order execution is an indispensable performance feature and present in a wide range of modern processors. The attack works on different Intel microarchitectures since at least 2010 and potentially other processors are affected. The root cause of Meltdown is the hardware. The attack is independent of the operating system, and it does not rely on any software vulnerabilities. Meltdown breaks all security assumptions given by address space isolation as well as paravirtualized environments and, thus, every security mechanism building upon this foundation. On affected systems, Meltdown enables an adversary to read memory of other processes or virtual machines in the cloud without any permissions or privileges, affecting millions of customers and virtually every user of a personal computer. We show that the KAISER defense mechanism for KASLR has the important (but inadvertent) side effect of impeding Meltdown. We stress that KAISER must be deployed immediately to prevent large-scale exploitation of this severe information leakage.},
 archivePrefix = {arXiv},
@@ -30,6 +38,6 @@ author = {Lipp, Moritz and Schwarz, Michael and Gruss, Daniel and Prescher, Thom
 eprint = {1801.01207},
 month = {jan},
 title = {{Meltdown}},
-URL = {http://login.ezproxy.library.ualberta.ca/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=edsarx&AN=edsarx.1801.01207&site=eds-live&scope=site},
+URL = {https://arxiv.org/abs/1801.01207},
 year = {2018}
 }
