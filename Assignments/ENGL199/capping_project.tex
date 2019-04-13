@@ -21,7 +21,7 @@
 
 \section*{Background}
 
-The Intel Pentium released in 1993 the first CPU with branch prediction \cite{Intel:Pentium}. This meant that it no longer ran code in a strictly sequential way, and would run whatever code it predicts would run next. This increases performance as, assuming the processor predicted the right code path, the calculation is already done, and the data would only need to be retrieved, and does not need to be calculated again. If the code ran was in the wrong path, the data was thrown away and the calculation would be redone.
+The Intel Pentium released in 1993 the first CPU with branch prediction \cite{Intel:Pentium}. This meant that it no longer ran code in a strictly sequential way and would run whatever code it predicts would run next. This increases performance as, assuming the processor predicted the right code path, the calculation is already done, and the data would only need to be retrieved, and does not need to be calculated again. If the code ran was in the wrong path, the data was thrown away and the calculation would be redone.
 
 The next Pentium, the ``Pentium Pro'' implemented Out-of-Order execution, which in the patent description is stated ``To increase performance and limit delays'' \cite{Patents:OutOfOrder}. This feature, combined with branch prediction is what Spectre sought to exploit \cite[Sec.~1]{Paper:Spectre}. Meltdown also used Out-of-Order execution \cite{Paper:Meltdown}. This processor was released in 1995, essentially making every processor released by Intel since then vulnerable.
 
@@ -49,14 +49,14 @@ Some mitigations have been developed against cache timing attacks for processors
     \item Those that make it hard to set up the data collection,
     \item Those that make it hard for the data collection to run,
     \item Those that remove or reduce features that can be used for data collection, and finally
-    \item Those that remove the data source's abnormal access methods, i.e. removing the ability for things to get timed.
+    \item Those that remove the data source’s abnormal access methods, e.g. removing the ability for things to get timed.
 \end{enumerate}
 
-Not all of the methods are realistic, however as some, like 4 and 5 for example, would remove features that other legitimate programs use for a variety of scenarios. For number 4 as an example, how accurate the timer in a computer is could be reduced, so that the microsecond accurate timer required to check wether or not the read data exists can't go lower than milliseconds. This would affect programs that require precise timing such as scientific data collection tools though, and is not an idea solution.
+Not all the methods are realistic, however as some, like 4 and 5 for example, would remove features that other legitimate programs use for a variety of scenarios. For number 4 as an example, how accurate the timer in a computer is could be reduced, so that the microsecond accurate timer required to check whether the read data exists can't go lower than milliseconds. This would affect programs that require precise timing such as scientific data collection tools though and is not an idea solution.
 
-The solution by V. Kiriansky et al. requires modification to hardware \cite[Sec.~3]{Paper:DAWG}, so would be difficult to apply to already existing computers, but one can hope that in the future Intel would apply this fix.
+The solution by V. Kiriansky et al. requires modification to hardware \cite[Sec.~3]{Paper:DAWG}, so would be difficult to apply to already existing computers, but one can hope that in the future Intel would apply this fix as  hardware fixes are usually less detrimental to performance than purely software based ones.
 
-Most current operating systems have been updated to protect against these attacks, however the protections are said to have negative impacts to performance \cite{DigitalFoundry:PatchingVid}, making hardware and architecural changes the only sure way to ensure that this does not happen again in the future.
+Most current operating systems have been updated to protect against these attacks, however the protections are said to have negative impacts to performance \cite{DigitalFoundry:PatchingVid}, making hardware and architectural changes the only sure way to ensure that this does not happen again in the future.
 
 \printbibliography
 
