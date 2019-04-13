@@ -1,0 +1,63 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in, letterpaper]{geometry}
+\usepackage[style=ieee, backend=biber, maxbibnames=6, minbibnames=1]{biblatex}
+\usepackage{setspace}
+
+\addbibresource{citations.bib}
+
+\title{Intel's Processor Vulnerabilities Due to \\ Speculative Execution}
+\author{Michael Kwok (mkwok1@ualberta.ca) \\ University of Alberta \\ Edmonton, Alberta}
+\date{April 8, 2019}
+
+\doublespacing
+
+\begin{document}
+
+\clearpage\maketitle
+\thispagestyle{empty}
+
+\pagebreak
+
+\section*{Background}
+
+The Intel Pentium released in 1993 the first CPU with branch prediction \cite{Intel:Pentium}. This meant that it no longer ran code in a strictly sequential way, and would run whatever code it predicts would run next. This increases performance as, assuming the processor predicted the right code path, the calculation is already done, and the data would only need to be retrieved, and does not need to be calculated again. If the code ran was in the wrong path, the data was thrown away and the calculation would be redone.
+
+The next Pentium, the ``Pentium Pro'' implemented Out-of-Order execution, which in the patent description is stated ``To increase performance and limit delays'' \cite{Patents:OutOfOrder}. This feature, combined with branch prediction is what Spectre sought to exploit \cite[Sec.~1]{Paper:Spectre}. Meltdown also used Out-of-Order execution \cite{Paper:Meltdown}. This processor was released in 1995, essentially making every processor released by Intel since then vulnerable.
+
+The three largest processor designers in the world as of 2019 are ARM, AMD and Intel. ARM designs processors for use in mostly mobile devices, while AMD and Intel both target personal computers and servers. All three of them were affected by the exploits in some form.
+
+\section*{Analysis}
+
+Both attacks mentioned in the section before were the impetus for the barrage to a new class of hardware exploits that followed. There is currently a total of nine methods of breaking speculative execution that have been publicly acknowledged. Spectre has two variants \cite[Sec.~1.2]{Paper:Spectre}, Meltdown has one variant \cite{Paper:Meltdown}, four variants with no analysis paper, but CVE entries and bug reports were created \cite{Heise:SpectreNG}, and several other variants recently released, with the latest called SPOILER \cite{Paper:SPOILER}, released on the March 1st of 2019.
+
+The first few attacks were focused on baiting the out Out-of-Order execution paths to run on the illegal code path, which usually involves reading a section of memory that doesn't belong to the program. This allows a malicious program to read the contents of a computer's memory. If this was used in a cloud server, like Amazon's or Google's it could be used to read sensitive information of many other services as Google and Amazon both host other companies' websites. If it was unleashed to consumer computers, imagine a virus reading all your keystrokes and sensitive information without you being able to notice, and no antivirus could detect as the code looks like it's non-malicious.
+
+\subsection*{Bad Engineering}
+
+While all the attacks affected Intel processors, most of them did not affect AMD and ARM, which heavily points to the possibility that there was a lapse in engineering from Intel's side. This is despite the fact that all 3 companies were implementing the same idea, pointing to bad engineering.
+
+\subsection*{Bad Management}
+
+However, this might also hint at the possibility that the design was copied over since the first time they have done this, maybe in an effort to save costs or development time to release their products to the market first. This usecase was also never tested as a possibility because it was so novel at it's time.
+
+\section*{Conclusion}
+
+Some mitigations have been developed against cache timing attacks for processors that make use of speculative execution, and right now, there are five ways to protect against Spectre type attacks \cite[Sec.~2C]{Paper:DAWG}:
+\begin{enumerate}
+    \item Those that prevent the programs from reading the stuff to be kept secret,
+    \item Those that make it hard to set up the data collection,
+    \item Those that make it hard for the data collection to run,
+    \item Those that remove or reduce features that can be used for data collection, and finally
+    \item Those that remove the data source's abnormal access methods, i.e. removing the ability for things to get timed.
+\end{enumerate}
+
+Not all of the methods are realistic, however as some, like 4 and 5 for example, would remove features that other legitimate programs use for a variety of scenarios. For number 4 as an example, how accurate the timer in a computer is could be reduced, so that the microsecond accurate timer required to check wether or not the read data exists can't go lower than milliseconds. This would affect programs that require precise timing such as scientific data collection tools though, and is not an idea solution.
+
+The solution by V. Kiriansky et al. requires modification to hardware \cite[Sec.~3]{Paper:DAWG}, so would be difficult to apply to already existing computers, but one can hope that in the future Intel would apply this fix.
+
+Most current operating systems have been updated to protect against these attacks, however the protections are said to have negative impacts to performance \cite{DigitalFoundry:PatchingVid}, making hardware and architecural changes the only sure way to ensure that this does not happen again in the future.
+
+\printbibliography
+
+\end{document}
