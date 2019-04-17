@@ -4,9 +4,10 @@
 \usepackage{fontspec}
 \usepackage{mathtools}
 \usepackage{multicol}
-\usepackage{float}
-\usepackage{multirow}
-\usepackage{tabulary}
+\usepackage{unicode-math}
+
+\setmainfont{Calibri}
+\setmathfont{Cambria Math}
 
 \begin{document}
 \begin{multicols}{3}
@@ -22,6 +23,7 @@
 
     \subsection*{Balance Sheet}
     \begin{itemize}
+        \itemsep0em
         \item Current Assets
               \begin{itemize}
                   \item Cash, Receivables, Inventory, Bills
@@ -78,7 +80,7 @@
         RoA            & = & \frac{NetIncome + i(1-Tax)}{AvgTotalAssets}            \\
         RoE            & = & \frac{NetIncome}{AvgTotalEquity}                       \\
         Price-Earnings & = & \frac{PricePerShare}{EarningsPerShare}                 \\
-        BVPS           & = & \frac{TotalEquity - PreferredStock}{SharesOutstanding} \\
+        BVPS           & = & \frac{TotalEquity - PrefStock}{SharesOutstanding} \\
     \end{align*}
     \section*{Interest Rates}
     \textbf{Effective Interest Rate per Payment Period}
@@ -112,16 +114,18 @@
     \section*{Bonds}
     \begin{tabular}{|l|l|}
         \hline
-        Par value     & Face value                     \\
-        Maturity date & When the par value gets repaid \\\hline
-        Coupon rate   & Interest rate                  \\\hline
-        Cheap Bond    & Discount                       \\\hline
-        Expensive     & Premium                        \\\hline
+        Market value  & Sum of all present values  \\\hline
+        Par value     & Face value                 \\\hline
+        Maturity date & When does the par get paid \\\hline
+        Coupon rate   & Interest rate              \\\hline
+        Cheap Bond    & Discount                   \\\hline
+        Expensive     & Premium                    \\\hline
     \end{tabular}
     \begin{align*}
-        \text{Yield to maturity} & = & A(P/A, i, N) + PV(P/F, i, N)            \\
-        \text{Current yield}     & : & \text{Annual interest per market price} \\
-                                 & = & \frac{i}{Purchase}
+        \text{Yield to maturity} & : & \text{Return if kept to maturity}        \\
+                                 & = & A(P/A, i, N) + Par(P/F, i, N)            \\
+        \text{Current yield}     & : & \text{Interest payment per market price} \\
+                                 & = & \frac{A}{Purchase}                       \\
     \end{align*}
     \section*{Project Analysis}
     \textbf{Never} compare two projects by measuring IRR. Always use MARR and find present worth, or do incremental analysis if no MARR provided.
@@ -170,14 +174,6 @@
     \textbf{For debt}, interest is taxable, but principal is not. Interest goes to Income Statement, Principal goes to Cash Flow Statement.
 
     \begin{align*}
-        % \textbf{Operating}                                                \\
-        % \text{O} & = \text{Net Income} + \text{Depreciation}              \\
-        % \textbf{Investing}                                                \\
-        % \text{I} & = -\text{Capital Investment} + \text{Asset Sales}      \\
-        %          & - \text{Gains Tax} - \text{Working Capital Investment} \\
-        %          & + \text{Working Capital Recovery}                      \\
-        % \textbf{Financing}                                                \\
-        % \text{F} & = \text{Borrowed Funds} - \text{Principal Repayment}   \\
         \textbf{Taxable Income} & = \text{Revenue} - \text{Expenses}                   \\
         \textbf{Expenses}       & =  \text{Operating} + \text{CCA} + \text{Interest}   \\
         \textbf{Income Tax}     & = \text{Income} \times \text{Tax Rate}               \\
@@ -187,6 +183,7 @@
 
     \section*{Sensitivity Analysis}
     Seperate the cashflows that you are sure will come, and those that are variable such as revenue, salvage value, fixed costs, etc.
+    %WARN: Need more here. Didn't seem too important in class?
     \section*{Replacement Analysis}
     \subsection*{Same Period}
     \textbf{Notation:} $(j_0, n_0), (j_1, n_1), (j_2, n_3), \ldots, (j_i, n_i)$.
