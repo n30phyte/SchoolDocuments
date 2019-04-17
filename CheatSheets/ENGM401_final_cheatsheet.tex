@@ -1,0 +1,203 @@
+\documentclass[landscape, letterpaper, 10pt]{article}
+
+\usepackage[margin=.25in]{geometry}
+\usepackage{fontspec}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{tabulary}
+
+\begin{document}
+\begin{multicols}{3}
+    \section*{Financial Statements}
+    \begin{tabular}{|l|l|}
+        \hline
+        Statement Type    & Uses               \\ \hline
+        Balance Sheet     & Money at the end   \\ \hline
+        Cash Flow         & How much cash made \\ \hline
+        Income            & Fiscal profit      \\ \hline
+        Retained Earnings & How money is spent \\ \hline
+    \end{tabular}
+
+    \subsection*{Balance Sheet}
+    \begin{itemize}
+        \item Current Assets
+              \begin{itemize}
+                  \item Cash, Receivables, Inventory, Bills
+              \end{itemize}
+        \item Long Term Assets
+              \begin{itemize}
+                  \item Fixed assets: Land, Buildings, Machines, Equipment, Vehicles
+                  \item Investments
+                  \item Intangibles: Licenses, Patents, Copyrights, Goodwill/PR
+              \end{itemize}
+        \item Current Liabilities
+              \begin{itemize}
+                  \item Short term credit, Payables, Expenses, Taxes, Current portion of long term debt/loan
+              \end{itemize}
+        \item Long Term Liabilities
+              \begin{itemize}
+                  \item Long term portion of debt, Bonds, Mortgages, Grants
+              \end{itemize}
+        \item Shareholder's equity
+              \begin{itemize}
+                  \item Common Stock: Pays dividends depending on company's income
+                  \item Preferred Stock: Pays fixed dividends
+                  \item Treasury Stock: Bought back stock
+                  \item Paid-in capital: More expensive stock
+                  \item Retained earnings: Cumulative net income since beginning
+              \end{itemize}
+    \end{itemize}
+    \subsection*{Cash Flow}
+    \begin{itemize}
+        \item Operating: Production and sale of goods, Depreciation
+        \item Investing: New assets, Selling equipment, investments
+        \item Financing: Borrowing, Selling stock, Paying debt
+    \end{itemize}
+    \section*{Ratio Analysis}
+
+    \textbf{Contribution Margin}: the amount of profit each unit makes.
+
+    \textbf{Capital}: obtained from debt and equity.
+
+    \textbf{Debt}: money from bank.
+
+    \textbf{Equity}: money from owners.
+
+    \subsection*{Ratios}
+    \begin{align*}
+        DebtRatio      & = & \frac{TotalDebt}{TotalAssets}                          \\
+        TIE            & = & \frac{TaxableIncome}{Interest}                         \\
+        Current        & = & \frac{Assets}{Liabilities}                             \\
+        Quick          & = & \frac{AssetsInventory}{Liabilities}                    \\
+        IT             & = & \frac{Sales}{AverageInventory}                         \\
+        DSO            & = & \frac{Receivables}{AvgSales/day}                       \\
+        TAT            & = & \frac{Sales}{TotalAssets}                              \\
+        PMoS           & = & \frac{NetIncome}{Revenue}                              \\
+        RoA            & = & \frac{NetIncome + i(1-Tax)}{AvgTotalAssets}            \\
+        RoE            & = & \frac{NetIncome}{AvgTotalEquity}                       \\
+        Price-Earnings & = & \frac{PricePerShare}{EarningsPerShare}                 \\
+        BVPS           & = & \frac{TotalEquity - PreferredStock}{SharesOutstanding} \\
+    \end{align*}
+    \section*{Interest Rates}
+    \textbf{Effective Interest Rate per Payment Period}
+    \begin{align*}
+        i & = & \left(1+\frac{r}{M}\right)^C -1 \\
+        M & = & CK                              \\
+    \end{align*}
+    \textbf{Continuous Compounding}
+    \begin{align*}
+        i_a & = e^r - 1           \\
+        i   & = e^\frac{r}{k} - 1 \\
+    \end{align*}
+    \begin{align*}
+        i & : & \text{Effective interest rate per payment period} \\
+        M & : & \text{Compounding periods per year}               \\
+        C & : & \text{Compounding periods per payment period}     \\
+        K & : & \text{Payment periods per year}                   \\
+        r & : & \text{Nominal interest rate}                      \\
+    \end{align*}
+    \section*{Loans}
+    \begin{align*}
+        A    & : & \text{Annual payments}                       \\
+        B_N  & : & \text{Remaining balance at period } N        \\
+        B_0  & = & P                                            \\
+        B_N  & = & A(P/A, i, N-n)                               \\
+        I_N  & : & \text{Interest part of payment at period } N \\
+        I_N  & = & B_{N-1} i                                    \\
+        PP_N & : & \text{Principal Payment at period } N        \\
+        A    & = & PP_N + I_N                                   \\
+    \end{align*}
+    \section*{Bonds}
+    \begin{tabular}{|l|l|}
+        \hline
+        Par value     & Face value                     \\
+        Maturity date & When the par value gets repaid \\\hline
+        Coupon rate   & Interest rate                  \\\hline
+        Cheap Bond    & Discount                       \\\hline
+        Expensive     & Premium                        \\\hline
+    \end{tabular}
+    \begin{align*}
+        \text{Yield to maturity} & = & A(P/A, i, N) + PV(P/F, i, N)            \\
+        \text{Current yield}     & : & \text{Annual interest per market price} \\
+                                 & = & \frac{i}{Purchase}
+    \end{align*}
+    \section*{Project Analysis}
+    \textbf{Never} compare two projects by measuring IRR. Always use MARR and find present worth, or do incremental analysis if no MARR provided.
+
+    \textbf{When project lifespans differ}: If the analysis period is shorter than both projects, us PW analysis. If analysis period is longer, find replacement to pad.
+
+    If analysis period is equal to the highest length, find NPW, do not repeat projects.
+
+    If no analysis period specified, get LCM of projects, and find NPW, repeating to fill out period.
+
+    \section*{Depreciation}
+    \subsection*{Book}
+    \begin{align*}
+        \textbf{Straight Line}                                            \\
+        D           & = \frac{P-S}{N}                                     \\
+        BV_n        & = P-nD                                              \\
+        \textbf {Declining Balance}                                       \\
+        d           & = \frac{\text{Multiplier}}{N}                       \\
+        D_n         & = dP(1-d)^{n-1}                                     \\
+        BV_n        & = P(1-d)^n                                          \\
+        \textbf {Sum of Years Digits}                                     \\
+        \text{SOYD} & = \frac{N(N+1)}{2}                                  \\
+        D_n         & = \frac{N-n+1}{\text{SOYD}}(P-S)                    \\
+        \textbf{Units of Production}                                      \\
+        D_n         & = \frac{\text{Units/year}}{\text{Total Units}}(P-S) \\
+    \end{align*}
+    \subsection*{Tax}
+    \textbf{Overhaul of equipment} is considered a \textbf{seperate} asset, that gets its own line of depreciation.
+    \section*{Taxation}
+    \subsection*{Disposal Tax Effects}
+    \begin{align*}
+        \text{Cost > Salvage > UCC}: G & = t(UCC_N - S) \\
+        \text{Cost > UCC > Salvage}: G & = t(UCC_N - S) \\
+        \text{Salvage > Cost > UCC}: G & = t(UCC_N - P) \\
+                                       & - 0.5t(S-P)    \\
+        NS                             & = S + G        \\
+    \end{align*}
+    \begin{align*}
+        NS & : \text{Net Salvage Value}   \\
+        G  & : \text{Disposal Tax Effect} \\
+        S  & : \text{Salvage Value}       \\
+        P  & : \text{Principal}           \\
+    \end{align*}
+    \subsection*{After Tax Cashflows}
+
+    \textbf{For debt}, interest is taxable, but principal is not. Interest goes to Income Statement, Principal goes to Cash Flow Statement.
+
+    \begin{align*}
+        % \textbf{Operating}                                                \\
+        % \text{O} & = \text{Net Income} + \text{Depreciation}              \\
+        % \textbf{Investing}                                                \\
+        % \text{I} & = -\text{Capital Investment} + \text{Asset Sales}      \\
+        %          & - \text{Gains Tax} - \text{Working Capital Investment} \\
+        %          & + \text{Working Capital Recovery}                      \\
+        % \textbf{Financing}                                                \\
+        % \text{F} & = \text{Borrowed Funds} - \text{Principal Repayment}   \\
+        \textbf{Taxable Income} & = \text{Revenue} - \text{Expenses}                   \\
+        \textbf{Expenses}       & =  \text{Operating} + \text{CCA} + \text{Interest}   \\
+        \textbf{Income Tax}     & = \text{Income} \times \text{Tax Rate}               \\
+        \textbf{Net Cash Flow}  & = \text{Net Income} + \text{CCA} +\text{Investments} \\
+                                & +\text{Salvage} +\text{Disposal Tax Effect}          \\
+    \end{align*}
+
+    \section*{Sensitivity Analysis}
+    Seperate the cashflows that you are sure will come, and those that are variable such as revenue, salvage value, fixed costs, etc.
+    \section*{Replacement Analysis}
+    \subsection*{Same Period}
+    \textbf{Notation:} $(j_0, n_0), (j_1, n_1), (j_2, n_3), \ldots, (j_i, n_i)$.
+
+    First pair is defender. All following pairs are challengers. Example: $(j_0, 2), (j_1, 5), (j_2, 3)$ means defender stays for 2 years, replaced by challenger 1 for 5 years then challenger 2 for 3 years.
+
+    \textbf{Opportunity Cost Approach} is to find Annual Equivalent Cost of both the defender and challenger, and keep the one with lower costs. Recommended for an infinite planning horizon.
+
+    \textbf{Present Worth Apporach} is to find the present worths of both projects, and choosing one with higher worth. Recommended for a finite planning horizon.
+
+    \textbf{Optimal time to replace} is determined to be when you have the lowest AEC/highest NPW. Trial and error is the only way to find. Easiest method is as follows: Check if immediate replacement fulfils above criteria. If yes, replace immediately. If not, list down all possible AEC/NPWs for both defender and challenger. Find N where AEC/NPW fits criteria.
+
+\end{multicols}
+\end{document}

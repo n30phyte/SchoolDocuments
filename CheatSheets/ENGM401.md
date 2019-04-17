@@ -2,12 +2,12 @@
 
 ## Financial Statements
 
-|Statement Type     |Uses               |
-|:------------------|:------------------|
-|Balance Sheet      |Money at the end   |
-|Cash Flow          |How much cash made |
-|Income             |Fiscal profit      |
-|Retained Earnings  |How money spent    |
+| Statement Type    | Uses               |
+| :---------------- | :----------------- |
+| Balance Sheet     | Money at the end   |
+| Cash Flow         | How much cash made |
+| Income            | Fiscal profit      |
+| Retained Earnings | How money spent    |
 
 - Contribution Margin: The amount of profit each unit makes
 
@@ -79,7 +79,7 @@ $i = e^\frac{r}{k} - 1$
 - Components of loan
   - $A$: Annual payments
   - $B_N$: Remaining balance at period $N$, $B_0 = P$, $B_N = A(P/A, i, N-n)$
-  - $I_N =$: Interest part of payment at period $N$. $I_N = B_{N-1} i$
+  - $I_N$: Interest part of payment at period $N$. $I_N = B_{N-1} i$
   - $PP_N$: Principal Payment at period $N$
   - $A = PP_N + I_N$
 - Mortgages are special loans, usually compounded semi-anually
@@ -94,14 +94,32 @@ $i = e^\frac{r}{k} - 1$
   - Yield to maturity = ROI
     - $A(P/A, i, N) + PV(P/F, i, N)$
   - Current yield: annual interest per market price:
-  - $\frac{i}{Purchase}$
+    - $\frac{i}{Purchase}$
 
 ## Depreciation
 
 - Book Depreciation
+  - Straight Line
+    - $D = \frac{P-S}{N}$, $BV_n = P-nD$
+  - Declining Balance
+    - $D_n = dP(1-d)^{n-1}$, $BV_n = P(1-d)^n$, $d = \frac{1}{N} or \frac{2}{N}$
+  - SOYD
+    - $S_{years} = \frac{N(N+1)}{2}$, $D_n = \frac{N-n+1}{S_{years}}(P-S)$
+  - UP
+    - $D_n = \frac{Units/year}{TotalUnits}(P-S)$
 - Tax Depreceiation
-  - Overhauls
+  - Overhauls are considered a seperate asset
+
+[comment]: # (moar)
 
 ## Taxation
 
 [comment]: # (Continue with Presentation 27)
+[comment]: # (TODO: Disposal tax effects)
+
+- Disposal Tax Effects
+  - Cost > Salvage > UCC: $G = t(UCC_N - S)$
+  - Cost > UCC > Salvage: Same as above
+  - Salvage > Cost > UCC: $G = t(UCC_N - P) - 0.5t(S-P)$
+  - $NS = S + G$
+  - $NS$: Net Salvage Value, $G$: Disposal Tax Effect, $S$: Salvage Value, $P$: Principal
