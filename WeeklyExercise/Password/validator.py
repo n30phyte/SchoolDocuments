@@ -9,11 +9,6 @@
 import string
 import random
 
-specialCharacters = set("!#$%&'()*+,./:;<=>?@[]^`{|}~")
-lowercaseCharacters = set(string.ascii_lowercase)
-uppercaseCharacters = set(string.ascii_uppercase)
-digitCharacters = set(string.digits)
-
 
 def validate(password):
     """ Analyzes an input password to determine if it is "Secure", "Insecure", or "Invalid" based on the assignment description criteria.
@@ -24,6 +19,10 @@ def validate(password):
     Returns:
         result (string): either "Secure", "Insecure", or "Invalid".
     """
+    special_characters = set("!#$%&'()*+,./:;<=>?@[]^`{|}~")
+    lowercase_characters = set(string.ascii_lowercase)
+    uppercase_characters = set(string.ascii_uppercase)
+    digit_characters = set(string.digits)
 
     invalid_characters = set(" -_")
     # Turn password into set of characters. Length and order doesn't matter for verification method,
@@ -37,10 +36,10 @@ def validate(password):
     # Check for presence of characters by using set intersection. If password is shorter than 8 characters, function
     # would have returned already, so a check is unnecessary here
     if (
-        (password_characters & lowercaseCharacters)
-        and (password_characters & uppercaseCharacters)
-        and (password_characters & digitCharacters)
-        and (password_characters & specialCharacters)
+        (password_characters & lowercase_characters)
+        and (password_characters & uppercase_characters)
+        and (password_characters & digit_characters)
+        and (password_characters & special_characters)
     ):
         return "Secure"
 
@@ -63,10 +62,10 @@ def generate(n):
 
     # Character Set list to help with generating passwords
     charset = [
-        list(specialCharacters),
-        list(lowercaseCharacters),
-        list(uppercaseCharacters),
-        list(digitCharacters),
+        "!#$%&'()*+,./:;<=>?@[]^`{|}~",
+        string.ascii_lowercase,
+        string.ascii_uppercase,
+        string.digits,
     ]
 
     # We need at least one each of the following
@@ -105,5 +104,6 @@ if __name__ == "__main__":
     # when the program is called directly from the terminal
     # using "python3 validator.py". This can be useful for
     # testing your implementations.
-
+    print(generate(8))
+    print(generate(8))
     pass
