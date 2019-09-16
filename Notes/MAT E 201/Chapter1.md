@@ -174,3 +174,90 @@ Ar 1s2 2s2 2p6 [3s2 3p6]
   2 + 6 = 8 which means absolute stability
 
 Electronegativity is the tendency of an atom to gain electrons. More electronegative, less likely to release electrons.
+
+## Bonding
+
+### Mechanisms of Bonding
+
+- Metallic
+- Covalent
+- Ionic
+- van der Waals Bond
+
+#### Metallic Bonding
+
+- Low electronegativity
+- They "donate" their electrons to form a "sea" of electrons
+
+#### Covalent Bonding
+
+- Particles share valence electrons
+- Has to be same type
+
+#### Ionic Bonding
+
+- More than one type of atom is present in material
+- Na donates one e- to cl. Na+ and Cl-
+
+#### van der Waals Bonding
+
+- Weakest bond
+- Types:
+  - London forces
+  - Keesom forces
+    - H bonding in water
+  - Debye forces
+
+### Mixed Bonding
+
+Two or more more types of bonding present in a material
+
+#### Intermetallic compounds
+
+Interaction between 2 metals
+
+- Metallic Bond (Al3V)
+- Ionic Bond (LiAl)
+
+#### Ceramic Compounds
+
+- Ionic
+- Covalent
+
+$\Delta E$ is the difference in electronegativity
+
+As $\Delta E$ increases, bonding gets more ionic.
+
+Fraction Covalent = $e^{-0.25(\Delta E)^2}$
+
+ex:
+Determine the fraction of bonding of Al2O3 that is ionic.
+
+Fraction Covalent = $e^{-0.25(\Delta E)^2}$
+Fraction Ionic = 1 - Fraction Covalent
+
+$\Delta E~=~?$
+
+E(Al) = 1.4
+E(O) = 3.5
+
+Fraction Covalent = $e^{-0.25(3.5-1.4)^2}$
+= 0.3320
+
+Fraction Ionic = 0.668
+
+ex:
+Determine if Silica is covalently bonded.
+
+Fraction Covalent = $e^{[-.025(3.5-1.8)]}$
+= 0.486
+
+### Binding Energy and Interatomic Spacing
+
+#### Binding Energy
+
+Minimum energy required to create or break the bond
+
+#### Interatomic Spacing
+
+Distance between atoms caused by attraction between the atoms
