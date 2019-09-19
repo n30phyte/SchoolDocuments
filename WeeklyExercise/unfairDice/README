@@ -1,0 +1,13 @@
+Name: Michael Kwok
+ID: 1548454
+CMPUT 274, Fall 2019
+
+Weekly Exercise 2: Unfair Dice
+
+Running instructions:
+  1. Fill out the main function with whatever code that uses the generator or validator
+  2. Execute `python3 unfairDice.py` in the command line
+
+Notes and Assumptions:
+  Code is run with at least Python 3.6 to support 'f-strings' https://docs.python.org/3/whatsnew/3.6.html
+  Assuming Python's `random` is platform independent, results should be the same everywhere.

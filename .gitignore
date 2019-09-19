@@ -1,2 +1,5 @@
 *.zip
 
+opentestcenter.sh
+testcenter.ini
+test-cases/
