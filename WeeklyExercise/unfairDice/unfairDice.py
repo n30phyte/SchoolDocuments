@@ -81,14 +81,16 @@ def draw_histogram(m, rolls, width):
         # Generate bar
         bar = ["*"] * bar_height
 
+        # Convert the asterisk list into a string of asterisks
+        bar = ''.join(bar)
+
         # Print out bar
-        # ''.join(bar) converts the asterisk list into a string of asterisks
         # .<{width} Comes in 3 parts.
         # the '<' pushes the bar to the left
         # the '.' specifies the padding character
         # '{width}' specifies the width of the block;
 
-        print(f"{dice}:{''.join(bar):.<{width}}")
+        print(f"{dice}:{bar:.<{width}}")
 
     pass
 
@@ -99,9 +101,9 @@ if __name__ == "__main__":
     # using "python3 unfairDice.py". This can be useful for
     # testing your implementations.
 
-    rolls = biased_rolls([1 / 3, 1 / 3, 1 / 3], 2 ** 32 - 1, 5000000)
-    # draw_histogram(3, rolls, 1000)
+    rolls = biased_rolls([1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10], 2 ** 32 - 1, 5000000)
+    draw_histogram(10, rolls, 80)
 
-    # draw_histogram(3, rolls, 100)
+    draw_histogram(10, rolls, 100)
 
     pass
