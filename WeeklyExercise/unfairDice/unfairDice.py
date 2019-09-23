@@ -34,9 +34,10 @@ def biased_rolls(prob_list, s, n):
 
     random.seed(s)
 
-    for roll in range(n):
+    for _ in range(n):
         value = random.random()
         dieFace = 0
+
         for probability in prob_list:
             if value > 0:
                 value = value - probability
@@ -78,7 +79,7 @@ def draw_histogram(m, rolls, width):
         # Calculate the height of the asterisk bar
         bar_height = round(counts[dice - 1] / unit_size)
         # Generate bar
-        bar = ['*'] * bar_height
+        bar = ["*"] * bar_height
 
         # Print out bar
         # ''.join(bar) converts the asterisk list into a string of asterisks
@@ -99,6 +100,8 @@ if __name__ == "__main__":
     # testing your implementations.
 
     rolls = biased_rolls([1 / 3, 1 / 3, 1 / 3], 2 ** 32 - 1, 5000000)
-    draw_histogram(3, rolls, 1000)
+    # draw_histogram(3, rolls, 1000)
+
+    # draw_histogram(3, rolls, 100)
 
     pass
