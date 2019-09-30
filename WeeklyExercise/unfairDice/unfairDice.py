@@ -72,7 +72,7 @@ def draw_histogram(m, rolls, width):
 
     # Find the largest number of occurrences to scale graph with
     largest_count = max(counts)
-    unit_size = largest_count / width
+    unit_size = largest_count / max(width, 1)
 
     # Go through each face and print out the bar
     for dice in range(1, m + 1):
@@ -89,10 +89,7 @@ def draw_histogram(m, rolls, width):
         # the '<' pushes the bar to the left
         # the '.' specifies the padding character
         # '{width}' specifies the width of the block;
-
         print(f"{dice}:{bar:.<{width}}")
-
-    pass
 
 
 if __name__ == "__main__":
@@ -104,6 +101,4 @@ if __name__ == "__main__":
     rolls = biased_rolls([1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10], 2 ** 32 - 1, 5000000)
     draw_histogram(10, rolls, 80)
 
-    draw_histogram(10, rolls, 100)
-
-    pass
+    draw_histogram(10, rolls, 0)

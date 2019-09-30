@@ -4,11 +4,7 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3aa97a23-b793-4f19-aaa2-9987100ff15d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/WeeklyExercise/freq/README" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WeeklyExercise/freq/freq.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="3aa97a23-b793-4f19-aaa2-9987100ff15d" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +110,7 @@
       <workItem from="1569334609556" duration="666000" />
       <workItem from="1569335284547" duration="3765000" />
       <workItem from="1569364375915" duration="23000" />
-      <workItem from="1569787970115" duration="1423000" />
+      <workItem from="1569787970115" duration="2035000" />
     </task>
     <servers />
   </component>

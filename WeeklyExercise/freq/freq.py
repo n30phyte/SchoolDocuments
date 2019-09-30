@@ -27,8 +27,6 @@ def save_frequency(count_table, input_file):
             # Output the word, the count and the relative frequency of the word.
             text.write(f"{word} {count} {round(count / totalCount, 3)}\n")
 
-    pass
-
 
 # Parse file into dictionary
 def parse_file(input_file):
