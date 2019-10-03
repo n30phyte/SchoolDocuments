@@ -14,7 +14,7 @@ for i in range(n):
 
 m = int(input())
 
-output = [None] * m
+output = ["Small"] * m
 
 for j in range(m):
     x_in, y_in = map(float, input().split())
@@ -23,9 +23,7 @@ for j in range(m):
         distance = math.sqrt((x[circle] - x_in) ** 2 + (y[circle] - y_in) ** 2)
         if distance <= r[circle]:
             output[j] = "Large"
+            break
 
 for word in output:
-    if word == None:
-        print("Small")
-    else:
-        print(word)
+    print(word)
