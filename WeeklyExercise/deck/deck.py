@@ -1,3 +1,11 @@
+# ---------------------------------------------------
+# Name: Michael Kwok
+# ID: 1548454
+# CMPUT 274, Fall 2019
+#
+# Weekly Exercise 4: Deck of Cards
+# ---------------------------------------------------
+
 import argparse
 
 
@@ -20,6 +28,8 @@ class Deck:
 
         # Convert each card to an all caps interanl representation as it gets copied.
         self.__deck = list(map(lambda card: str(card).upper(), cards))
+        # Filter out blank lines.
+        self.__deck = list(filter(None, self.__deck))
 
     def deal(self):
         '''Deals one card from top of deck.
@@ -49,6 +59,11 @@ class Deck:
         messages = ["", "Card {} is not a valid card",
                     "Incomplete deck", "Deck contains duplicate cards"]
 
+        # Check each card to see if they're a valid rank or suit
+        for card in self.__deck:
+            if (card[0] not in self.validRanks) or (card[1] not in self.validSuits):
+                return(False, messages[1].format(card))
+
         # Verify deck is 52 cards
         if len(self.__deck) < 52:
             return (False, messages[2])
@@ -57,12 +72,6 @@ class Deck:
         # Sets remove duplicates. If after deduplication, there are less cards, there are duplicates.
         if (len(set(self.__deck)) != len(self.__deck)):
             return (False, messages[3])
-
-        # Check each card to see if they're a valid rank or suit
-        for card in self.__deck:
-            if (card[0] not in self.validRanks) or (card[1] not in self.validSuits):
-                return(False, messages[1].format(card))
-
         return (True, messages[0])
 
     def __str__(self):
@@ -80,7 +89,7 @@ def compareCards(playerCard, dealerCard):
     Arguments:
         playerCard: string of player's card
         dealerCard: string of dealer's card
-    
+
     Returns:
         The string with the result
     """
