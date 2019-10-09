@@ -5,21 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3aa97a23-b793-4f19-aaa2-9987100ff15d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/webResources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/CMPUT274275.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CMPUT274275.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/launch.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment/Huffman/util.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WeeklyExercise/deck/deck.py" beforeDir="false" afterPath="$PROJECT_DIR$/WeeklyExercise/deck/deck.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WeeklyExercise/deck/shuffledDeck.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assignment/Huffman/huffman.py" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment/Huffman/huffman.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assignment/Huffman/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment/Huffman/util.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="CMPUT274275" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -49,6 +46,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Assignment/Huffman/wwwroot" />
       <recent name="$PROJECT_DIR$/WeeklyExercise/freq" />
       <recent name="$PROJECT_DIR$/WeeklyExercise/unfairDice" />
       <recent name="$PROJECT_DIR$/WeeklyExercise/Password" />
@@ -80,8 +78,8 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Assignment/Huffman/huffman.py" />
-      <option name="PARAMETERS" value="test" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Assignment/Huffman/compress.py" />
+      <option name="PARAMETERS" value="test.html" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -145,7 +143,9 @@
       <workItem from="1570544629589" duration="1843000" />
       <workItem from="1570572665168" duration="31000" />
       <workItem from="1570572830647" duration="12000" />
-      <workItem from="1570572864326" duration="591000" />
+      <workItem from="1570572864326" duration="2891000" />
+      <workItem from="1570645517393" duration="3481000" />
+      <workItem from="1570654807340" duration="5339000" />
     </task>
     <servers />
   </component>
@@ -166,8 +166,8 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/CMPUT274275$compressFile.coverage" NAME="compressFile Coverage Results" MODIFIED="1570488771631" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Assignment/Huffman/wwwroot" />
+    <SUITE FILE_PATH="coverage/CMPUT274275$compressFile.coverage" NAME="compressFile Coverage Results" MODIFIED="1570658206448" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Assignment/Huffman/wwwroot" />
     <SUITE FILE_PATH="coverage/CMPUT274275$validator.coverage" NAME="validator Coverage Results" MODIFIED="1568305022681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/WeeklyExercise/Password" />
-    <SUITE FILE_PATH="coverage/CMPUT274275$huffmanServer.coverage" NAME="huffmanServer Coverage Results" MODIFIED="1570487851749" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Assignment/Huffman/wwwroot" />
+    <SUITE FILE_PATH="coverage/CMPUT274275$huffmanServer.coverage" NAME="huffmanServer Coverage Results" MODIFIED="1570658212874" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Assignment/Huffman/wwwroot" />
   </component>
 </project>

@@ -25,7 +25,7 @@
       "program": "${workspaceFolder}/Assignment/Huffman/compress.py",
       "console": "integratedTerminal",
       "cwd":"${workspaceFolder}/Assignment/Huffman/wwwroot",
-      "args": ["test"]
+      "args": ["test.html"]
 
     }
 
