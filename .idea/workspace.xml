@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3aa97a23-b793-4f19-aaa2-9987100ff15d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Assignment/Huffman/wwwroot/huffman2.bmp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment/Huffman/huffman.py" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment/Huffman/huffman.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assignment/Huffman/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment/Huffman/util.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assignment/Huffman/wwwroot/test.html.huf" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment/Huffman/wwwroot/test.html.huf" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -64,7 +65,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.huffmanServer">
+  <component name="RunManager" selected="Python.compressFile">
     <configuration name="compressFile" type="PythonConfigurationType" factoryName="Python">
       <module name="CMPUT274275" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -79,7 +80,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Assignment/Huffman/compress.py" />
-      <option name="PARAMETERS" value="test.html" />
+      <option name="PARAMETERS" value="huffman2.bmp" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -146,6 +147,8 @@
       <workItem from="1570572864326" duration="2891000" />
       <workItem from="1570645517393" duration="3481000" />
       <workItem from="1570654807340" duration="5339000" />
+      <workItem from="1570718536747" duration="3666000" />
+      <workItem from="1570732250011" duration="3319000" />
     </task>
     <servers />
   </component>
@@ -165,9 +168,16 @@
       </map>
     </option>
   </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="byte" />
+      </configuration>
+    </watches-manager>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/CMPUT274275$compressFile.coverage" NAME="compressFile Coverage Results" MODIFIED="1570658206448" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Assignment/Huffman/wwwroot" />
+    <SUITE FILE_PATH="coverage/CMPUT274275$compressFile.coverage" NAME="compressFile Coverage Results" MODIFIED="1570735357210" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Assignment/Huffman/wwwroot" />
     <SUITE FILE_PATH="coverage/CMPUT274275$validator.coverage" NAME="validator Coverage Results" MODIFIED="1568305022681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/WeeklyExercise/Password" />
-    <SUITE FILE_PATH="coverage/CMPUT274275$huffmanServer.coverage" NAME="huffmanServer Coverage Results" MODIFIED="1570658212874" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Assignment/Huffman/wwwroot" />
+    <SUITE FILE_PATH="coverage/CMPUT274275$huffmanServer.coverage" NAME="huffmanServer Coverage Results" MODIFIED="1570732343602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Assignment/Huffman/wwwroot" />
   </component>
 </project>
