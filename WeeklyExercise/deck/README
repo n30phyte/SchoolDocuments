@@ -1,0 +1,11 @@
+Name: Michael Kwok
+ID: 1548454
+CMPUT 274, Fall 2019
+
+Weekly Exercise 4: Deck of Cards
+
+Running instructions:
+  1. Execute `python3 deck.py <filename>` in the command line
+
+Notes and Assumptions:
+  - Code is run with at least Python 3.6 to support 'f-strings' https://docs.python.org/3/whatsnew/3.6.html
