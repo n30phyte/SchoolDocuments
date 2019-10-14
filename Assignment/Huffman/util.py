@@ -1,3 +1,11 @@
+# ---------------------------------------------------
+# Name: Michael Kwok
+# ID: 1548454
+# CMPUT 274, Fall 2019
+#
+# Assignment 1: Huffman Coding
+# ---------------------------------------------------
+
 import bitio
 import huffman
 import pickle
@@ -32,7 +40,6 @@ def decode_byte(tree, bitreader):
       Next byte of the compressed bit stream.
     """
 
-    # Iteration from recursion
     # Checks if the current part of the tree is a branch. Return value if not.
     while isinstance(tree, huffman.TreeBranch):
         # If bit = 0, go left. if bit = 1, go right.
@@ -80,18 +87,6 @@ def write_tree(tree, tree_stream):
     pickle.dump(tree, tree_stream)
 
 
-def read_byte(bit_stream):
-    """
-    Short function to read the file, just to allow for use of iter(), decreasing clutter
-    :param bit_stream: a BitReader object
-    :return: None when EOF, the byte read otherwise.
-    """
-    try:
-        return bit_stream.readbits(8)
-    except EOFError:
-        return None
-
-
 def compress(tree, uncompressed, compressed):
     """First write the given tree to the stream 'compressed' using the
     write_tree function. Then use the same tree to encode the data
@@ -107,6 +102,17 @@ def compress(tree, uncompressed, compressed):
       compressed: A file stream that will receive the tree description
           and the coded input data.
     """
+
+    def read_byte(bit_stream):
+        """
+        Short function to read the file, just to allow for use of iter(), decreasing clutter
+        :param bit_stream: a BitReader object
+        :return: None when EOF, the byte read otherwise.
+        """
+        try:
+            return bit_stream.readbits(8)
+        except EOFError:
+            return None
 
     write_tree(tree, compressed)
     encoding_table = huffman.make_encoding_table(tree)
@@ -130,5 +136,6 @@ def compress(tree, uncompressed, compressed):
     # Write out bits
     for bit in output:
         out_stream.writebit(bit)
+
     # Flush stream
     out_stream.flush()
