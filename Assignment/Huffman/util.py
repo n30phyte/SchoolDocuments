@@ -1,3 +1,11 @@
+# ---------------------------------------------------
+# Name: Michael Kwok
+# ID: 1548454
+# CMPUT 274, Fall 2019
+#
+# Assignment 1: Huffman Coding
+# ---------------------------------------------------
+
 import bitio
 import huffman
 import pickle
@@ -14,6 +22,7 @@ def read_tree(tree_stream):
     Returns:
       A Huffman tree root constructed according to the given description.
     """
+
     return pickle.load(tree_stream)
 
 
@@ -31,14 +40,13 @@ def decode_byte(tree, bitreader):
       Next byte of the compressed bit stream.
     """
 
+    # Checks if the current part of the tree is a branch. Return value if not.
     while isinstance(tree, huffman.TreeBranch):
-      try:
+        # If bit = 0, go left. if bit = 1, go right.
         if bitreader.readbit():
             tree = tree.getRight()
         else:
             tree = tree.getLeft()
-      except EOFError:
-        return None
 
     return tree.getValue()
 
@@ -56,11 +64,12 @@ def decompress(compressed, uncompressed):
     """
 
     huffman_root = read_tree(compressed)
-    filestream = bitio.BitReader(compressed)
+    file_stream = bitio.BitReader(compressed)
 
     output = bytearray()
 
-    for decoded in iter(lambda: decode_byte(huffman_root, filestream), None):
+    # calls the lambda repeatedly until it returns None
+    for decoded in iter(lambda: decode_byte(huffman_root, file_stream), None):
         output.append(decoded)
 
     uncompressed.write(output)
@@ -85,7 +94,7 @@ def compress(tree, uncompressed, compressed):
     If there are any partially-written bytes remaining at the end,
     write 0 bits to form a complete byte.
 
-    Flush the bitwriter after writing the entire compressed file.
+    Flush the BitWriter after writing the entire compressed file.
 
     Args:
       tree: A Huffman tree.
@@ -94,24 +103,39 @@ def compress(tree, uncompressed, compressed):
           and the coded input data.
     """
 
-    write_tree(tree, compressed)
+    def read_byte(bit_stream):
+        """
+        Short function to read the file, just to allow for use of iter(), decreasing clutter
+        :param bit_stream: a BitReader object
+        :return: None when EOF, the byte read otherwise.
+        """
+        try:
+            return bit_stream.readbits(8)
+        except EOFError:
+            return None
 
+    write_tree(tree, compressed)
     encoding_table = huffman.make_encoding_table(tree)
 
-    instream = bitio.BitReader(uncompressed)
-    outstream = bitio.BitWriter(compressed)
+    # Open a BitReader for uncompressed file
+    in_stream = bitio.BitReader(uncompressed)
 
-    EOF = False
-    while not EOF:
-        try:
-            byte = instream.readbits(8)
-            compressed_byte = encoding_table[byte]
-            for bit in compressed_byte:
-                outstream.writebit(int(bit))
-        except EOFError:
-            EOF = True
-    #
-    # padding_length = (bitsWritten % 8)
-    # outstream.writebits(0, padding_length)
-    #
-    # outstream.flush()
+    output = []
+
+    # Read the uncompressed file until EOF
+    for uncompressed_byte in iter(lambda: read_byte(in_stream), None):
+        compressed_byte = encoding_table[uncompressed_byte]
+        output += list(compressed_byte)
+
+    # Add EOF
+    output += list(encoding_table[None])
+
+    # Open BitWriter for compressed file
+    out_stream = bitio.BitWriter(compressed)
+
+    # Write out bits
+    for bit in output:
+        out_stream.writebit(bit)
+
+    # Flush stream
+    out_stream.flush()
