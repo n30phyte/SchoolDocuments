@@ -1,33 +1,6 @@
 {
   "version": "0.2.0",
   "configurations": [
-    
-    {
-      "name": "Deck",
-      "type": "python",
-      "request": "launch",
-      "program": "${workspaceFolder}/WeeklyExercise/deck/deck.py",
-      "console": "integratedTerminal",
-      "args": ["${workspaceFolder}/WeeklyExercise/deck/dupeDeck1"]
-    },
-    {
-      "name": "HuffmanServer",
-      "type": "python",
-      "request": "launch",
-      "program": "${workspaceFolder}/Assignment/Huffman/webserver.py",
-      "console": "integratedTerminal",
-      "cwd":"${workspaceFolder}/Assignment/Huffman/wwwroot"
-    },
-    {
-      "name": "CompressFiles",
-      "type": "python",
-      "request": "launch",
-      "program": "${workspaceFolder}/Assignment/Huffman/compress.py",
-      "console": "integratedTerminal",
-      "cwd":"${workspaceFolder}/Assignment/Huffman/wwwroot",
-      "args": ["test.html"]
-
-    }
 
   ]
 }
