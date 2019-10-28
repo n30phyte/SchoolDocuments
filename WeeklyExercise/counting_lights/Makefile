@@ -39,7 +39,7 @@ $(HOME)/.arduino_port_0:
 		$(ARDUINO_UA_DIR)/bin/arduino-port-select
 
 $(HOME)/.arduino_port_1:
-		$$(ARDUINO_UA_DIR)/bin/arduino-port-select
+		$(ARDUINO_UA_DIR)/bin/arduino-port-select
 
 ifndef ARD_PORT_0
     ARD_PORT_0    = $(shell [ -e $(HOME)/.arduino_port_0 ] && cat $(HOME)/.arduino_port_0)
