@@ -5,16 +5,30 @@ CMPUT 274, Fall 2019
 Weekly Exercise 5: Counting Lights
 
 Included Files:
-  - 
+- README
+- Makefile
+- counting.cpp
 
 Accessories:
-  - 
+- Arduino Mega 2560
+- 3 Buttons
+- 5 LEDs
+- 5 560 Ohm Resistors
+- Breakout wires
 
 Wiring instructions:
-
+- Arduino Pin 9 <-> Resistor <-> Long LED lead |LED| Short LED lead <-> 360 Ohm Resistor <-> GND
+- Repeat above for pin 10 until 13
+- Arduino Pin 5 <-> |Button| <-> GND
+- Repeat above for pin 6 and 7
 
 Running instructions:
-  1. 
-
+1. Connect the Arduino to the PC using an A-B USB cable. Ensure that the Arduino is using the proper serial port (/dev/ttyACM0 or /dev/ttyACM1)
+2. In the folder with counting.cpp, Makefile and README, execute `make upload && serial-mon`
+3. The button connected to pin 7 is for incrementing
+4. The button connected to pin 6 is for decrementing
+5. the button connected to pin 5 is for loading and storing
+  
 Notes and Assumptions:
-  - 
+- Global constants were used in this project
+- Pin was set to INPUT_PULLUP mode was using built in arduino feature instead of writing HIGH to input pins (Requires Arduino 1.0.1 or above)
