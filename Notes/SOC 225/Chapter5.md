@@ -125,4 +125,56 @@
     - More scruntinized by police
     - More reports, more percieved crime
 
-// END Sept 26 slides
+### Ethno-racial background
+
+- Data on race and crime is limited
+  - Police reports rarely include
+- Opposition on race data collection
+  - Police can't identify race properly
+  - Can be used by racists
+- Pro on race data collection
+  - Verify accuracy of differential treatment
+  - Could be used to test theories that relate race with crime
+  - Racists will be racists
+- Data does exist, suggests police discrimination
+- Overrepresentation present in all Western countries
+- Canada specifically:
+  - Black Canadians out east
+    - 3% of population, 10% of federal inmates
+    - Believed by correctional staff to be part of gang
+    - More likely to:
+      - Experience use of force
+      - Receive more charges while in prison
+      - Denied parole despite lower return rates
+      - Get racially profiled
+    - Differential Treatment Hypothesis
+      - Police often give closer attention to specific groups
+      - Surveillance higher in communities with lower social ability
+      - Race and ethnicity affects police's discretion in wether or not to arrest someone
+        - Police are primary point of contact between people and the cjs
+        - Can do a lot to introduce people into the system
+  - Indigenous Canadians in west
+    - 25% of males and 33% of females federal inmates
+      - They're only 5% of total population
+    - Number of Aboriginal people increased 46% in last 10 years
+      - Prison population only went up 17%
+      - Women increased by 80%
+    - Possible Structural Theories
+      1. Canadians have institutionalized the alienation of indegenous peoples
+      2. Historic trauma makes indegenous peoples feel more helpless against the system
+      3. CJS reflects the norms of the dominant group
+        - Indegenous and Western norms different
+   - Truth and Reconciliation Comissions
+     - Independent body made to proivde former students and anyone affected by Residential Schools a safe space.
+       - It was mandated to gather archives, educate Canadians and improve reconciliation.
+
+### Drug and Alcohol Misuse
+
+- Use of illicit drugs strongly correlates with street crime
+  - 75% of inmates get in due to substance abuse
+  - 50% of inmates struggle with substance addiction
+- Alcohol consumptions correlates with social harms, including violence
+- Supporting an addiction can lead to economically compulsive actions such as crime
+- Psychotic drugs could influence individuals to commit crime
+- Possessoin is a crime
+  
