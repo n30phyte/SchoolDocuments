@@ -5,14 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3aa97a23-b793-4f19-aaa2-9987100ff15d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assignment/Huffman/wwwroot/blanktest.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment/Huffman/README" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment/Huffman/README" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment/Huffman/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment/Huffman/util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment/Huffman/wwwroot/huffman.bmp.huf" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment/Huffman/wwwroot/huffman.bmp.huf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment/Huffman/wwwroot/index.hex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment/Huffman/wwwroot/index.html.huf" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment/Huffman/wwwroot/index.html.huf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment/Huffman/wwwroot/test.html.huf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.clang-format" beforeDir="false" afterPath="$PROJECT_DIR$/.clang-format" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/c_cpp_properties.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/c_cpp_properties.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/launch.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WeeklyExercise/counting_lights/README" beforeDir="false" afterPath="$PROJECT_DIR$/WeeklyExercise/counting_lights/README" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WeeklyExercise/counting_lights/counting.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/WeeklyExercise/counting_lights/counting.cpp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,7 +37,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Assignment/Huffman/wwwroot" />
+    <property name="last_opened_file_path" value="$USER_HOME$/TestCenter-master" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -157,6 +155,7 @@
       <workItem from="1570824719222" duration="3781000" />
       <workItem from="1570908025795" duration="2889000" />
       <workItem from="1570982617248" duration="1918000" />
+      <workItem from="1572536553946" duration="13000" />
     </task>
     <task id="LOCAL-00001" summary="Reduce jank, cleaned up a bit, made compress actually work.">
       <created>1570735598835</created>

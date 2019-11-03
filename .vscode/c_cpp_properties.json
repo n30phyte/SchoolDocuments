@@ -3,7 +3,7 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${fileDirname}/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang++",
@@ -12,7 +12,12 @@
         {
             "name": "Arduino",
             "compilerPath": "/usr/bin/avr-g++",
-            "intelliSenseMode": "gcc-x64",
+            "intelliSenseMode": "gcc-x86",
+            "cppStandard": "c++98",
+            "compilerArgs": [
+                "-std=gnu++98",
+                "-mmcu=atmega2560"
+            ],
             "includePath": [
                 "/usr/share/arduino/hardware/arduino/avr/cores/arduino",
                 "/usr/share/arduino/hardware/arduino/avr/variants/mega",
@@ -24,12 +29,7 @@
                 "/home/n30phyte/arduino-ua/libraries/SD/utility",
                 "/home/n30phyte/arduino-ua/libraries/TouchScreen"
             ],
-            "forcedInclude": [],
-            "cStandard": "c99",
-            "cppStandard": "c++98",
-            "compilerArgs": [
-                "-mmcu=atmega2560"
-            ]
+            "compileCommands": "${workspaceFolder}/WeeklyExercise/serial_counter/compile_commands.json"
         }
     ],
     "version": 4

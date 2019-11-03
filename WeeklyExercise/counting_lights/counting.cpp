@@ -2,7 +2,7 @@
  *  Name: Michael Kwok
  *  ID: 1548454
  *  CMPUT 274, Fall 2019
- *  Weekly Exercise 6
+ *  Weekly Exercise 5
  ********************************/
 
 #include <Arduino.h>
@@ -90,7 +90,7 @@ void load(const char* input) {
 void setup() {
   init();
 
-  Serial.begin(9600);
+  // Serial.begin(9600);
 
   // Set pin modes
   pinMode(STORE_LOAD_PIN, INPUT_PULLUP);

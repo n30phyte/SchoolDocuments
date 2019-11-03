@@ -6,6 +6,5 @@
   "python.linting.pycodestyleEnabled": false,
   "python.autoComplete.extraPaths": [
     "./Assignment/Huffman"
-  ],
-  "C_Cpp.intelliSenseEngineFallback": "Enabled"
+  ]
 }
