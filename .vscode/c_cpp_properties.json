@@ -1,13 +1,16 @@
 {
     "configurations": [
         {
-            "name": "Linux",
+            "name": "Morning Problems",
             "includePath": [
-                "${fileDirname}/**"
             ],
-            "defines": [],
-            "compilerPath": "/usr/bin/clang++",
-            "intelliSenseMode": "clang-x64"
+            "compilerPath": "/usr/bin/g++",
+            "intelliSenseMode": "gcc-x64",
+            "cppStandard": "c++11",
+            "compilerArgs": [
+                "-std=c++11",
+                "-Wall"
+            ]
         },
         {
             "name": "Arduino",
@@ -28,8 +31,7 @@
                 "/home/n30phyte/arduino-ua/libraries/SD",
                 "/home/n30phyte/arduino-ua/libraries/SD/utility",
                 "/home/n30phyte/arduino-ua/libraries/TouchScreen"
-            ],
-            "compileCommands": "${workspaceFolder}/WeeklyExercise/serial_counter/compile_commands.json"
+            ]
         }
     ],
     "version": 4
