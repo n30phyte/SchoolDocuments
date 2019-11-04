@@ -1,11 +1,4 @@
 *.zip
-
-opentestcenter.sh
-testcenter.ini
-test-cases/
-soln/*
-!soln/*.cpp
-!soln/*.py
 # Created by https://www.gitignore.io/api/pycharm
 # Edit at https://www.gitignore.io/?templates=pycharm
 
@@ -245,3 +238,9 @@ dmypy.json
 
 build*
 
+opentestcenter.sh
+testcenter.ini
+test-cases/
+**/soln/*
+!**/soln/*.cpp
+!**/soln/*.py
