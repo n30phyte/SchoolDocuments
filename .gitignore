@@ -3,7 +3,7 @@
 opentestcenter.sh
 testcenter.ini
 test-cases/
-soln/
+soln/*
 !soln/*.cpp
 !soln/*.py
 # Created by https://www.gitignore.io/api/pycharm
