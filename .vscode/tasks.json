@@ -32,7 +32,8 @@
             "command": "${fileDirname}/../opentestcenter.sh",
             "options": {
                 "cwd": "${fileDirname}/../"
-            }
+            },
+            "problemMatcher": []
         }
     ]
 }
