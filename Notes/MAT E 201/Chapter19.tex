@@ -1,0 +1,90 @@
+\documentclass{article}
+
+\usepackage{mathtools}
+\usepackage{tikz}
+\usepackage{siunitx}
+
+\newtheorem{theorem}{Example}
+
+\begin{document}
+\section*{Electronic Materials}
+There are four classes:
+\begin{itemize}
+    \item Superconductors
+          \begin{itemize}
+              \item Type 1
+              \item Type 2
+              \item Ceramic (YBCO)
+          \end{itemize}
+    \item Conductors
+          \begin{itemize}
+              \item Linear
+              \item Nonlinear
+          \end{itemize}
+    \item Semi-Conductors
+          \begin{itemize}
+              \item Elemental
+              \item Compound
+          \end{itemize}
+    \item Dielectrics
+          \begin{itemize}
+              \item Linear
+              \item Nonlinear
+          \end{itemize}
+\end{itemize}
+\subsection*{Electrical Conductivity}
+
+\subsection*{Ohm's Law}
+$V = IR$\\
+$V$ Voltage \si{\volt}\\
+$I$ Current \si{\ampere}\\
+$R$ Resistance \si{\ohm}
+
+\subsection*{Power}
+\begin{equation*}
+    \begin{aligned}
+        P           & = VI = I^2 R (\si{\watt}) \\
+        V           & = IR                      \\
+        R           & = \rho \frac{l}{A}        \\
+        V           & = I\rho \frac{l}{A}       \\
+        \frac{I}{A} & = \frac{V}{l}\sigma       \\
+        \frac{V}{l} & = E \frac{V}{cm}          \\
+        \frac{I}{A} & = J \frac{A}{m^2}         \\
+        \sigma      & = n \cdot q \cdot \mu
+    \end{aligned}
+\end{equation*}
+
+\begin{theorem}
+    A current of 5A is passed through a 2mm-diameter wire, 500m long, made of
+    \begin{itemize}
+        \item Copper
+        \item Germanium
+    \end{itemize}
+    Calculate the power loss for Cu and Ge wires
+    \begin{equation*}
+        \begin{aligned}
+            \sigma(Cu) & = 5.98\cdot 10^5 \rho ^-1 cm^-1    \\
+            \sigma(Ge) & = 2.10\cdot 10^-2 \rho ^-1 cm^-1   \\
+            P=I^2R     & = I^2 \frac{1}{\sigma} \frac{l}{A}
+        \end{aligned}
+    \end{equation*}
+\end{theorem}
+
+\begin{theorem}
+    If all the valence electrons in copper contribute to current flow, calculate:
+    \begin{itemize}
+        \item The mobility of an electronsthe average drift velocity for electrons in a 100cm copper wire when 10v are applied
+    \end{itemize}
+    \begin{equation*}
+        \begin{aligned}
+            \sigma & = n \cdot q \cdot \mu          \\
+            \mu    & = \frac{\sigma}{nq}            \\
+            \sigma & = \num{5.98E5}                 \\
+            q      & = \num{1.6E-19}                \\
+            a_0    & = \SI{3.6151E-8}{\centi\meter} \\
+            \mu &= \SI{44.2}{\centi\meter\squared\per\volt\per\second}
+        \end{aligned}
+    \end{equation*}
+\end{theorem}
+
+\end{document}
