@@ -1,13 +1,86 @@
-\documentclass[landscape, letterpaper, 9pt]{article}
+\documentclass[landscape, letterpaper]{article}
 
 \usepackage[margin=.25in]{geometry}
 \usepackage{fontspec}
+\usepackage{amssymb}
 \usepackage{mathtools}
 \usepackage{multicol}
 
+\renewcommand{\complement}[1]{{#1}^\mathsf{c}}
+
 \begin{document}
-\begin{multicols}{4}
-    \section*{Rules of Inference}
-    
+\begin{multicols}{2}
+    \section*{Sets}
+    \begin{itemize}
+        \item Proper Subset: $A \subseteq B$ \textbf{AND} there is one element in B that is \textbf{not} in A
+        \item Power Set: $\wp(\{x, y\}) = \{\emptyset, \{x\}, \{y\}, \{x, y\}\}$
+    \end{itemize}
+    \subsection*{Identities}
+    \begin{itemize}
+        \item Commutative Law
+              \begin{itemize}
+                  \item $A \cup B = B \cup A $ and $A \cap B = B \cap A$
+              \end{itemize}
+        \item Associative Law
+              \begin{itemize}
+                  \item $(A \cup B) \cup C = A \cup (B \cup C)$ and $(A \cap B) \cap C = A \cap (B \cap C)$
+              \end{itemize}
+        \item Distributive Law
+              \begin{itemize}
+                  \item $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$
+                  \item $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$
+              \end{itemize}
+        \item Identity Law
+              \begin{itemize}
+                  \item $A \cup \varnothing = A$ and $A \cap U$
+              \end{itemize}
+        \item Idempotent Law
+              \begin{itemize}
+                  \item $A \cup A = A$ and $A\cap A = A$
+              \end{itemize}
+        \item Universal Bound Law
+              \begin{itemize}
+                  \item $A \cup U = U$ and $A  \cap \varnothing = \varnothing$
+              \end{itemize}
+        \item DeMorgan's Law
+              \begin{itemize}
+                  \item $\complement{(A \cup B)} = \complement{A} \cap \complement{B}$ and $\complement{(A \cap B)} = \complement{A} \cup \complement{B}$
+              \end{itemize}
+        \item Absorption Law
+              \begin{itemize}
+                  \item $A \cup (A \cap B) = A$ and $A \cap (A \cup B) = A$
+              \end{itemize}
+        \item Set Difference Law
+              \begin{itemize}
+                  \item $A-B = A \cap \complement{B}$
+              \end{itemize}
+    \end{itemize}
+    \section*{Functions}
+    A function $f$ from a set $X$ to a set $Y$ denoted by $f: X \to Y$ where $X$ is the domain and $Y$ is the co-domain.
+    Every element in $X$ relates to some element in $Y$ and each element in $X$ must map to at most one element in $Y$.
+    \subsection*{One-to-One functions}
+    A function is called one-to-one or injective when no two elements in $X$ point to the same element in $Y$.
+    \subsection*{Onto functions}
+    A function is called onto or surjective iff every element in $Y$ has a corresponding $X$.
+    \section*{Relations}
+    A partition of set $A$ is a collection of nonempty, mutually disjoint subsets whose union is $A$, i.e. $A_1 \cup A_2 \cup A_3 \cup \ldots \cup A_i = A$
+    \begin{itemize}
+        \item Reflexive $ \iff \forall x \in A, x R x$
+              \begin{itemize}
+                  \item Each element is related to itself
+              \end{itemize}
+        \item Symmetric $ \iff \forall x, y \in A, x R y \implies y R x$
+              \begin{itemize}
+                  \item Each element related to another is related back by that element.
+              \end{itemize}
+        \item Transitive $\iff \forall x, y, z \in A, (x R y \land y R z)\implies x R z$
+              \begin{itemize}
+                  \item $A = B = C \therefore A=C$
+              \end{itemize}
+        \item Partition-induced relation $\iff \forall x, y \in A, x R y \iff (x, y) \in single~partition~A_i$
+        \item Equivalence Relation: When a relation is relation is reflexive, symmetric and transitive.
+    \end{itemize}
+
+
 \end{multicols}
 \end{document}
