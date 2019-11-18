@@ -62,16 +62,20 @@
     A function is called one-to-one or injective when no two elements in $X$ point to the same element in $Y$.
     \subsection*{Onto functions}
     A function is called onto or surjective iff every element in $Y$ has a corresponding $X$.
+    \subsection*{Inverse functions}
+    %TODO Add inverse fns.
     \section*{Relations}
     A partition of set $A$ is a collection of nonempty, mutually disjoint subsets whose union is $A$, i.e. $A_1 \cup A_2 \cup A_3 \cup \ldots \cup A_i = A$
     \begin{itemize}
         \item Reflexive $ \iff \forall x \in A, x R x$
               \begin{itemize}
+                  \item $x=x$
                   \item Each element is related to itself
               \end{itemize}
         \item Symmetric $ \iff \forall x, y \in A, x R y \implies y R x$
               \begin{itemize}
-                  \item Each element related to another is related back by that element.
+                  \item $|x-y| = |y-x|$
+                  \item Each element related to another is related back to that element.
               \end{itemize}
         \item Transitive $\iff \forall x, y, z \in A, (x R y \land y R z)\implies x R z$
               \begin{itemize}
@@ -80,6 +84,10 @@
         \item Partition-induced relation $\iff \forall x, y \in A, x R y \iff (x, y) \in single~partition~A_i$
         \item Equivalence Relation: When a relation is relation is reflexive, symmetric and transitive.
     \end{itemize}
+    \subsection*{Equivalence Classes}
+    The subset of all elements that are related to $a$.
+
+    Suppose $A$ is a set and $R$ is an equivalence relation on $A$. For each element $a$ in $A$, the \textbf{equivalence class of $a$}, $[a]$ or \textbf{class of $a$} is the set of all elements $x$ in $A$ such that $x$ is related to $a$ by $R$. $$[a] = \{x \in A~|~x~R~a\}$$
 
 
 \end{multicols}
