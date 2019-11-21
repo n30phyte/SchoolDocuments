@@ -1,6 +1,4 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558 
-    // for the documentation about the tasks.json format
     "version": "2.0.0",
     "tasks": [
         {
@@ -15,9 +13,6 @@
                 "-std=c++11",
                 "-Wall"
             ],
-            "options": {
-                "cwd": "/usr/bin"
-            },
             "problemMatcher": [
                 "$gcc"
             ],
@@ -34,6 +29,40 @@
                 "cwd": "${fileDirname}/../"
             },
             "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "Weekly Assignment Compile",
+            "command": "/usr/bin/clang++",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "-std=c++11",
+                "-Wall"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "clang++ build active file",
+            "command": "/usr/bin/clang++",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "/usr/bin"
+            }
         }
     ]
 }
