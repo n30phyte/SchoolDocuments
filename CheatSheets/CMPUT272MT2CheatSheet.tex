@@ -10,10 +10,41 @@
 
 \begin{document}
 \begin{multicols}{2}
+    \section*{Induction}
+    \textbf{Let} $P(n)$ be the property to be proven, let $a$ be fixed integer.
+
+    Suppose the following:
+    \begin{enumerate}
+        \item \textbf{Basis:} $P(a)$ is true.
+        \item \textbf{Induction:} For all integers $k\geq n$, if $P(k)$ is true then $P(k+1)$ is true.
+        \item Hence for all integers $n\geq a, P(n)$ is true.
+    \end{enumerate}
+    \subsection*{Strong Induction}
+    \textbf{Let} $P(n)$ be the property to be proven, let $a$ and $b$ be fixed integers where $a\leq b$.
+
+    Suppose the following:
+    \begin{enumerate}
+        \item \textbf{Basis:} $P(a), P(a+1), \ldots P(b)$ are true.
+        \item \textbf{Induction:} For all integers $k\geq b$, if $P(i)$ is true for all integers from $a$ to $k$ then $P(k+1)$ is true.
+        \item Hence for all integers $n\geq a, P(n)$ is true.
+    \end{enumerate}
+    \section*{Number Theory}
+    \begin{itemize}
+        \item \textbf{Even} $n$ is even $\iff \exists k, n = 2k$.
+        \item \textbf{Odd} $n$ is odd $\iff \exists k, n = 2k+1$.
+        \item \textbf{Prime} $n$ is prime $\iff \forall r, s$, if $n = rs$ then $r=1$ and $s = n$ or vice versa.
+        \item \textbf{Composite} $n$ is composite $\iff \exists r, s$, if $n = rs$ and $1 < r < s$ and $1 < s < n$.
+        \item \textbf{Rational} $r$ is rational $\iff \exists a, b$ such that $r = \frac{a}{b}$ and $b \neq 0$.
+        \item \textbf{Divisible} $d|n \iff \exists k$ such that $n=dk$.
+    \end{itemize}
     \section*{Sets}
+    Can be proven by using Induction, Algebra or Element method.
+
+    Element Method: Usually with equality or subset relations: prove that an element in LHS is an element in RHS.
     \begin{itemize}
         \item Proper Subset: $A \subseteq B$ \textbf{AND} there is one element in B that is \textbf{not} in A
-        \item Power Set: $\wp(\{x, y\}) = \{\emptyset, \{x\}, \{y\}, \{x, y\}\}$
+        \item Power Set: $\wp(\{x, y, z\}) = \{\emptyset, \{x\}, \{y\}, \{z\},\\
+                  \{x, y\},\{x, z\}, \{y, z\}, \{x, y, z\}$
     \end{itemize}
     \subsection*{Identities}
     \begin{itemize}
@@ -61,9 +92,10 @@
     \subsection*{One-to-One functions}
     A function is called one-to-one or injective when no two elements in $X$ point to the same element in $Y$.
     \subsection*{Onto functions}
-    A function is called onto or surjective iff every element in $Y$ has a corresponding $X$.
+    A function is called onto or surjective iff every element in $Y$ has at least one corresponding element in $X$.
     \subsection*{Inverse functions}
-    %TODO Add inverse fns.
+    $F^{-1}(y) = x\text{ where }F(x) = y$.
+    $F(x)$ has to be both one-to-one and onto (bijective).
     \section*{Relations}
     A partition of set $A$ is a collection of nonempty, mutually disjoint subsets whose union is $A$, i.e. $A_1 \cup A_2 \cup A_3 \cup \ldots \cup A_i = A$
     \begin{itemize}
@@ -81,14 +113,65 @@
               \begin{itemize}
                   \item $A = B = C \therefore A=C$
               \end{itemize}
-        \item Partition-induced relation $\iff \forall x, y \in A, x R y \iff (x, y) \in single~partition~A_i$
+        \item Partition-induced relation $\iff \forall x, y \in A, x R y \iff (x, y) \in \text{single partition }A_i$
         \item Equivalence Relation: When a relation is relation is reflexive, symmetric and transitive.
+        \item Identity Relation: $I_A = \{(x, y) \in A \times A~|~x=y\}$
     \end{itemize}
     \subsection*{Equivalence Classes}
     The subset of all elements that are related to $a$.
 
     Suppose $A$ is a set and $R$ is an equivalence relation on $A$. For each element $a$ in $A$, the \textbf{equivalence class of $a$}, $[a]$ or \textbf{class of $a$} is the set of all elements $x$ in $A$ such that $x$ is related to $a$ by $R$. $$[a] = \{x \in A~|~x~R~a\}$$
+    \section*{Partial Order Relations}
+    A relation that is reflexive, antisymmetric and transitive.
+    \subsection*{Antisymmetry}
+    A relation is antisymmetric if $$x R y \land y R x,~x = y$$
+    A relation is \textbf{not} antisymmetric if $$x R y \land y R x\text{ but }x \neq y$$
+    \section*{Examples}
+    \newtheorem{example}{Example}
+    \subsection*{Strong Induction}
+    \begin{example}
+        \begin{equation*}
+            \begin{aligned}
+                f(n) = \begin{cases}
+                    1                   & \text{if }n=1      \\
+                    3                   & \text{if }n=2      \\
+                    f(n-1) + 2f(n-2) +3 & \text{if } n\geq 3
+                \end{cases}
+            \end{aligned}
+        \end{equation*}
+        Using mathematical induction, prove that for all $n \geq 3: f(n) \geq 2^n$
 
+        Answer:
+        \begin{equation*}
+            \begin{aligned}
+                f(k+1) =f(k)+ 2f(k-1)+3              \\
+                \text{Use fact that $f(n) \geq 2^n$} \\
+                f(k+1) \geq 2^k+2\cdot 2^{k-1} +3    \\
+                \text{and } f(k+1) \geq 2^k + 2^k +3 = 2^{k+1} + 3 \geq 2^{k+1}
+            \end{aligned}
+        \end{equation*}
+    \end{example}
+    \begin{example}
+        What is the smallest value of k such that any integer postage of k, or
+        more, cents can be formed by using only 3-cent and 8-cent stamps?
+
+        Use mathematical induction to prove that all integer postages of k, or more, cents can be
+        obtained.
+        \begin{equation*}
+            \begin{aligned}
+                \textbf{Basis: } P(n):                             & n = 3a + 8b       \\
+                \textbf{Induction: } P(n+1):                       & n+1 = 3a' + 8b'   \\
+                \textbf{Case 1: } \text{if } b \geq 1, n = 3a + 8b & \text{, so}       \\
+                n+1 = 3a+1+8b                                      & = 8(b-1) + 9 + 3a \\
+                n+1                                                & = 8(b-1) +3(a+3)  \\
+                \textbf{Hence }a' = a+3      \text{ and }          & b' = b - 1        \\
+                \textbf{Case 2: } \text{if } b = 0, n = 3a         &                   \\
+                \text{Since }n \geq 14,~a \geq 5                                       \\
+                n+1 = 1 + 15 + 3(l-5)                              & = 16+ 3(l-5)      \\
+                \textbf{Hence }a' = l-5      \text{ and }          & b' = 2            \\
+            \end{aligned}
+        \end{equation*}
+    \end{example}
 
 \end{multicols}
 \end{document}
