@@ -1,0 +1,32 @@
+#+OPTIONS: tex: t
+
+* Counting and Probability
+
+** Definitions:
+- *Random Process* A process where set of possible outcomes must occur, but not sure which one will.
+- *Sample Space* a set of all possible outcomes.
+- *Event*  a subset of sample space.
+   
+** Examples:
+- 6 Sided die example: Sample space is $\{1, 2, 3, 4, 5, 6\}$. Possibility of
+   getting 1 or 3 is the subset $\{1, 3\}$
+- # of elements in a list: for $m <= n$, there are n-m +1 integers (inclusive)
+   in between m and n
+- How many 3 digit integers (100-999)?
+  - 900 because 999-100 + 1
+- How many 3 digits are multiples of 5?
+  - 900/5 = 180
+- What's the probability that a randomly chosen 3 digit int is a multiple of 5?
+  - 180/900
+** Permutations
+- Permutation of a set of objects is an ordering of them in a row.
+- How many ways can the letters in 'James' be arranged in a row? 5!
+- # of permutations around a circle: (n-1)!
+- # of necklaces that can be made with n beads: $\frac{(n-1)!}{2}$
+- r-permutations: An ordered selection of r elements taken from a set of size n
+  (rPn).
+** Difference Rule
+- For two sets A and B, if B subset A, then |A-B| = |A|-|B|
+- For integers in 1-1000
+  - How many multiples of 5? 200
+    - How many multiples of 3? 333
