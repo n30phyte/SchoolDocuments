@@ -20,8 +20,9 @@
       "name": "Arduino",
       "compilerPath": "/usr/bin/avr-g++",
       "intelliSenseMode": "gcc-x86",
-      "cppStandard": "c++98",
-      "compilerArgs": ["-std=gnu++98", "-mmcu=atmega2560"],
+      "cppStandard": "c++11",
+      "compilerArgs": ["-std=gnu++11", "-mmcu=atmega2560"],
+      "defines": ["ARDUINO=160"],
       "includePath": [
         "/usr/share/arduino/hardware/arduino/avr/cores/arduino",
         "/usr/share/arduino/hardware/arduino/avr/variants/mega",

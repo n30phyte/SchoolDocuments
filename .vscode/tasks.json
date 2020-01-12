@@ -31,7 +31,7 @@
     {
       "type": "shell",
       "label": "Weekly Assignment Compile",
-      "command": "/usr/bin/clang++",
+      "command": "/usr/bin/g++",
       "args": [
         "-g",
         "${file}",
