@@ -67,6 +67,12 @@ void setup()
     Serial.flush();
 }
 
+struct Point {
+    int16_t x;
+    int16_t y;
+    char name[8];
+};
+
 /*
  * Main function of the program.
  */
@@ -76,6 +82,12 @@ int main()
     Serial.println("Ready for input.");
 
     uint8_t total = 0;
+
+    Serial.println(sizeof(Point));
+    char* names[] = { "Zac", "A very long string", "Omid", "Paul", "Ron" };
+
+    Serial.println((long)&names, DEC);
+    Serial.println((long)&(names[3]), DEC);
 
     // Busy loop
     while (true) {

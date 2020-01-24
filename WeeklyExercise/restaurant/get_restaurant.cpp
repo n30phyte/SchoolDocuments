@@ -1,8 +1,8 @@
 /**********************************
  *  Name: Michael Kwok
  *  ID: 1548454
- *  CMPUT 274, Fall 2019
- *  Weekly Exercise 5
+ *  CMPUT 275, Winter 2020
+ *  Weekly Exercise 2
  ********************************/
 
 #include <Arduino.h>
