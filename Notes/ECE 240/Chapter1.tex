@@ -1,0 +1,34 @@
+\documentclass[Main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{1}{Introduction and time-domain signal representation}
+
+\section{Signals}
+\subsection{Definitions}
+\begin{definitions}
+\begin{itemize}
+    \item Signal: Function of an independent variable, usually time $t$.
+    \begin{itemize}
+        \item This course will only be about 1D signals, e.g.\ $f(t) = A \cos(\omega t + \theta )$, $t \in \R$.
+        \item 2D signals are things like black and white images, i.e.\ $f(x,y)=$ intensity of pixel at $(x, y)$.
+    \end{itemize}
+    \item Continuous \textbf{Time} Signals: A signal that has a domain $t \in \R$, e.g.\ $f(t)= e^{-t}, t \leq 0$.
+    \item Discrete \textbf{Time} Signals: A signal that has a domain $t \in \Z$.
+    \item Digital Signals: A discrete signal that has been quantized further in $f(t)$.
+    \item Periodic Signals: A signal is periodic when $f(t) \equiv f(t+T)$, where T is as small as possible to satisfy the equation.
+    \item Causal Signals:
+    \begin{itemize}
+        \item Causal: $f(t) = 0, \forall t < 0$
+        \item Anticausal: $f(t) = 0, \forall t \geq 0$
+        \item Otherwise, noncausal.
+    \end{itemize}
+\end{itemize}
+\end{definitions}
+\subsection{Even and Odd signals}
+\begin{itemize}
+    \item Even: $f(t) = f(-t)$
+    \item Odd: $f(t) = -f(t)$
+\end{itemize}
+
+\end{document}
