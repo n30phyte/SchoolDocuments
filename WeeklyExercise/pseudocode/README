@@ -1,0 +1,20 @@
+Name: Michael Kwok
+ID: 1548454
+CMPUT 275, Winter 2020
+
+Weekly Exercise 3: Pseudocode to Code
+
+Included Files:
+- README
+- flipflop.cpp
+- textmatch.cpp
+- Makfile
+
+Running instructions:
+1. `make` could be used to build both assignments, `make flipflop` can be used to make just flipflop and `make textmatch` for just textmatch.
+2. Run the program with either `./flipflop` or `./textmatch`.
+3. Type in the required information for each.
+4. `make clean` will delete all non-source files.
+
+Notes and Assumptions:
+- Compiler is C++ 11 compliant.
