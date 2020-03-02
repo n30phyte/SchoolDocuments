@@ -5,7 +5,7 @@
       "name": "Weekly Exercise",
       "type": "cppdbg",
       "request": "launch",
-      "preLaunchTask": "Weekly Assignment Compile",
+      "preLaunchTask": "g++ build active file",
       "program": "${fileDirname}/${fileBasenameNoExtension}",
       "stopAtEntry": false,
       "cwd": "${fileDirname}",
@@ -19,23 +19,5 @@
         }
       ]
     },
-    {
-      "name": "Morning Problem",
-      "type": "cppdbg",
-      "request": "launch",
-      "preLaunchTask": "Morning Problem Compile",
-      "program": "${fileDirname}/${fileBasenameNoExtension}",
-      "stopAtEntry": false,
-      "cwd": "${fileDirname}",
-      "externalConsole": false,
-      "MIMode": "gdb",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ]
-    }
   ]
 }

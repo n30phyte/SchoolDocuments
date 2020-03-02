@@ -3,7 +3,7 @@
   "tasks": [
     {
       "type": "shell",
-      "label": "Morning Problem Compile",
+      "label": "g++ build active file",
       "command": "/usr/bin/g++",
       "args": [
         "-g",
@@ -13,7 +13,9 @@
         "-std=c++11",
         "-Wall"
       ],
-      "problemMatcher": ["$gcc"],
+      "problemMatcher": [
+        "$gcc"
+      ],
       "group": {
         "kind": "build",
         "isDefault": true
@@ -30,24 +32,6 @@
     },
     {
       "type": "shell",
-      "label": "Weekly Assignment Compile",
-      "command": "/usr/bin/g++",
-      "args": [
-        "-g",
-        "${file}",
-        "-o",
-        "${fileDirname}/${fileBasenameNoExtension}",
-        "-std=c++11",
-        "-Wall"
-      ],
-      "problemMatcher": ["$gcc"],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
-    },
-    {
-      "type": "shell",
       "label": "clang++ build active file",
       "command": "/usr/bin/clang++",
       "args": [
@@ -55,7 +39,8 @@
         "${file}",
         "-o",
         "${fileDirname}/${fileBasenameNoExtension}",
-        "-std=c++11"
+        "-std=c++11",
+        "-Wall"
       ],
       "options": {
         "cwd": "/usr/bin"

@@ -1,40 +1,53 @@
 {
-  "configurations": [
-    {
-      "name": "Morning Problems",
-      "includePath": [],
-      "compilerPath": "/usr/bin/g++",
-      "intelliSenseMode": "gcc-x64",
-      "cppStandard": "c++11",
-      "compilerArgs": ["-std=c++11", "-Wall"]
-    },
-    {
-      "name": "Weekly Exercise",
-      "includePath": [],
-      "compilerPath": "/usr/bin/clang++",
-      "intelliSenseMode": "clang-x64",
-      "cppStandard": "c++11",
-      "compilerArgs": ["-std=c++11", "-Wall", "-Wpedantic"]
-    },
-    {
-      "name": "Arduino",
-      "compilerPath": "/usr/bin/avr-g++",
-      "intelliSenseMode": "gcc-x86",
-      "cppStandard": "c++11",
-      "compilerArgs": ["-std=gnu++11", "-mmcu=atmega2560"],
-      "defines": ["ARDUINO=160"],
-      "includePath": [
-        "/usr/share/arduino/hardware/arduino/avr/cores/arduino",
-        "/usr/share/arduino/hardware/arduino/avr/variants/mega",
-        "/usr/share/arduino/hardware/arduino/avr/libraries/SPI/src",
-        "/home/n30phyte/arduino-ua/libraries/Adafruit_GFX",
-        "/home/n30phyte/arduino-ua/libraries/MCUFRIEND_kbv",
-        "/home/n30phyte/arduino-ua/libraries/MCUFRIEND_kbv/utility",
-        "/home/n30phyte/arduino-ua/libraries/SD",
-        "/home/n30phyte/arduino-ua/libraries/SD/utility",
-        "/home/n30phyte/arduino-ua/libraries/TouchScreen"
-      ]
-    }
-  ],
-  "version": 4
+    "configurations": [
+        {
+            "name": "Morning Problems",
+            "includePath": [],
+            "compilerPath": "/usr/bin/g++",
+            "intelliSenseMode": "gcc-x64",
+            "cppStandard": "c++11",
+            "compilerArgs": [
+                "-std=c++11",
+                "-Wall"
+            ],
+            "compileCommands": "${workspaceFolder}/WeeklyExercise/exercise4/compile_commands.json"
+        },
+        {
+            "name": "Weekly Exercise",
+            "includePath": [],
+            "compilerPath": "/usr/bin/clang++",
+            "intelliSenseMode": "clang-x64",
+            "cppStandard": "c++11",
+            "compilerArgs": [
+                "-std=c++11",
+                "-Wall",
+                "-Wpedantic"
+            ]
+        },
+        {
+            "name": "Arduino",
+            "compilerPath": "/usr/bin/avr-g++",
+            "intelliSenseMode": "gcc-x86",
+            "cppStandard": "c++11",
+            "compilerArgs": [
+                "-std=gnu++11",
+                "-mmcu=atmega2560"
+            ],
+            "defines": [
+                "ARDUINO=160"
+            ],
+            "includePath": [
+                "/usr/share/arduino/hardware/arduino/avr/cores/arduino",
+                "/usr/share/arduino/hardware/arduino/avr/variants/mega",
+                "/usr/share/arduino/hardware/arduino/avr/libraries/SPI/src",
+                "/home/n30phyte/arduino-ua/libraries/Adafruit_GFX",
+                "/home/n30phyte/arduino-ua/libraries/MCUFRIEND_kbv",
+                "/home/n30phyte/arduino-ua/libraries/MCUFRIEND_kbv/utility",
+                "/home/n30phyte/arduino-ua/libraries/SD",
+                "/home/n30phyte/arduino-ua/libraries/SD/utility",
+                "/home/n30phyte/arduino-ua/libraries/TouchScreen"
+            ]
+        }
+    ],
+    "version": 4
 }
