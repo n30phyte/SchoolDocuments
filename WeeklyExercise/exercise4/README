@@ -1,0 +1,23 @@
+Name: Michael Kwok
+ID: 1548454
+CMPUT 275, Winter 2020
+
+Weekly Exercise 4: Dynamic Hashing
+
+Included Files:
+- README
+- Makefile
+- exercise4.cpp
+- hash_table.h
+- linked_list.h
+
+Running Instructions:
+1. Run `make` to build the program
+2. Run program by calling `./exercise4`
+3. Insert items with `I <number>`, remove with `R <number>`, search with `Q <number>`, check size with `S`
+   and stop execution with `STOP`
+4. Run `make clean` to clean up executable and object file
+
+Notes and Assumptions:
+1. Code is based off the provided files from eClass
+2. Compiler is C++ 11 compliant
