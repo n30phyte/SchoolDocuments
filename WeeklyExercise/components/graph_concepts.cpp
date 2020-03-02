@@ -3,29 +3,9 @@
 #include <iostream>
 #include <queue>
 #include <unordered_set>
+#include <string>
 
 #include "digraph.h"
-
-void breadth_first_search(const Digraph &graph, const int startVertex, unordered_set<int> &visited) {
-    queue<int> q;
-
-    q.push(startVertex);
-
-    while (!q.empty()) {
-        int vertex = q.front();
-        q.pop();
-
-        // Go through each neighbor
-        for (auto it = graph.neighbours(vertex); it != graph.endIterator(vertex); it++) {
-            if (visited.find(*it) == visited.end()) {
-                // Add to visited list
-                visited.insert(*it);
-                // add to queue of nodes to search next.
-                q.push(*it);
-            }
-        }
-    }
-}
 
 int count_components(Digraph *g) {
     vector<int> nodes = g->vertices();
@@ -36,7 +16,26 @@ int count_components(Digraph *g) {
     for (auto node : nodes) {
         if (visited.find(node) == visited.end()) {
             // Not visited yet
-            breadth_first_search(*g, node, visited);
+            // Do BFS
+            queue<int> q;
+
+            q.push(node);
+
+            while (!q.empty()) {
+                int vertex = q.front();
+                q.pop();
+
+                // Go through each neighbor
+                for (auto it = g->neighbours(vertex); it != g->endIterator(vertex); it++) {
+                    if (visited.find(*it) == visited.end()) {
+                        // Add to visited list
+                        visited.insert(*it);
+                        // add to queue of nodes to search next.
+                        q.push(*it);
+                    }
+                }
+            }
+
             components++;
         }
     }
@@ -60,12 +59,13 @@ Digraph *read_city_graph_undirected(char filename[]) {
         } else {
             auto first_comma = line.find(',', 2);
             auto first_vertex = std::stoi(line.substr(2, first_comma - 2));
-            auto second_comma = line.find(',', first_comma);
-            auto second_vertex = std::stoi(line.substr(first_comma + 1, second_comma - 2));
+            auto second_comma = line.find(',', first_comma+1);
+            auto second_vertex = std::stoi(line.substr(first_comma + 1, second_comma - first_comma - 1));
 
             graph->addEdge(first_vertex, second_vertex);
             graph->addEdge(second_vertex, first_vertex);
         }
+
     }
 
     return graph;
