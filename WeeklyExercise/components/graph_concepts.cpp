@@ -1,3 +1,4 @@
+// A template for the Graph Concepts Exercise in C++.
 #include <algorithm>
 #include <fstream>
 #include <iostream>
@@ -101,9 +102,9 @@ Digraph *read_city_graph_undirected(char filename[]) {
 }
 
 int main(int argc, char *argv[]) {
-    int x, y, z, a;
-    x = (y = 3, (z = ++y + 2) + 5);
-    a = 249, 500;
-    a = (x++, 500);
-    x;
+  int x, y, z, a;
+  x = (y = 3, (z = ++y + 2) + 5);
+  a = 249, 500;
+  a = (x++, 500);
+  x;
 }
