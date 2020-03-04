@@ -1,0 +1,23 @@
+Name: Michael Kwok
+ID: 1548454
+CMPUT 275, Winter 2020
+
+Weekly Exercise 5: Graph Concepts
+
+Included Files:
+- README
+- Makefile
+- graph_concepts.cpp
+- digraph.h
+- digraph.cpp
+- edmonton-roads-2.0.1.txt
+
+Running Instructions:
+1. Run `make` to build the program
+2. Run program by calling `./graph_concepts <file>` where `<file>` is a CSV
+4. Run `make clean` to clean up executable and object file
+
+Notes and Assumptions:
+1. Digraph is the file provided from eclass
+2. count_components() uses a BFS algorithm similar to the one provided
+3. Compiler is C++ 11 compliant
