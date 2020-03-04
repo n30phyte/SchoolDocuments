@@ -1,79 +1,90 @@
+// A template for the Graph Concepts Exercise in C++.
+#include <queue>
+#include <string>
+#include <unordered_set>
 #include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <queue>
-#include <unordered_set>
-#include <string>
+using namespace std;
 
 #include "digraph.h"
 
+void breadthFirst(Digraph *g, int thisnode, unordered_set<int> &seen) {
+  //queue of nodes
+  queue<int> list;
+
+  //adds first node
+  list.push(thisnode);
+
+  //start search
+  while (list.empty() == false) {
+    //puts vertex at front of the list
+    auto node = list.front();
+    //removes latest element added to stack
+    list.pop();
+
+    for (auto i = g->neighbours(node); i != g->endIterator(node); i++) {
+      //if next node cannot be found in seen
+      if (seen.end() == seen.find(*i)) {
+        //push element in list
+        list.push(*i);
+        //insert element in seen
+        seen.insert(*i);
+      }
+    }
+  }
+
+}
+
 int count_components(Digraph *g) {
-    vector<int> nodes = g->vertices();
-    unordered_set<int> visited;
+  auto count = 0;
+  //seen nodes
+  unordered_set<int> seen;
+  //list of nodes
+  vector<int> nodes = g->vertices();
 
-    unsigned int components = 0;
-
-    for (auto node : nodes) {
-        if (visited.find(node) == visited.end()) {
-            // Not visited yet
-            // Do BFS
-            queue<int> q;
-
-            q.push(node);
-
-            while (!q.empty()) {
-                int vertex = q.front();
-                q.pop();
-
-                // Go through each neighbor
-                for (auto it = g->neighbours(vertex); it != g->endIterator(vertex); it++) {
-                    if (visited.find(*it) == visited.end()) {
-                        // Add to visited list
-                        visited.insert(*it);
-                        // add to queue of nodes to search next.
-                        q.push(*it);
-                    }
-                }
-            }
-
-            components++;
-        }
+  //for element thisnode in nodes
+  for (auto thisnode : nodes) {
+    //if not found in seen
+    if (seen.end() == seen.find(thisnode)) {
+      breadthFirst(g, thisnode, seen);
+      count++;
     }
-
-    return components;
+  }
+  return count;
 }
 
-Digraph *read_city_graph_undirected(char filename[]) {
-    auto graph = new Digraph();
 
-    std::ifstream file(filename);
-    std::string line;
-    // repeat while not EOF
-    while (std::getline(file, line)) {
-        if (line[0] == 'V') {
-            // Vertex
-            auto next_comma = line.find(',', 2);
-            auto ID = std::stoi(line.substr(2, next_comma - 2));
+Digraph* read_city_graph_undirected(char filename[]) {
+  //new graph
+  auto newGraph = new Digraph();
+  ifstream file(filename);
+  string str;
 
-            graph->addVertex(ID);
-        } else {
-            auto first_comma = line.find(',', 2);
-            auto first_vertex = std::stoi(line.substr(2, first_comma - 2));
-            auto second_comma = line.find(',', first_comma+1);
-            auto second_vertex = std::stoi(line.substr(first_comma + 1, second_comma - first_comma - 1));
-
-            graph->addEdge(first_vertex, second_vertex);
-            graph->addEdge(second_vertex, first_vertex);
-        }
-
+  while(getline(file, str)) {
+    if (str[0] == 'E') {
+      auto comma1 = str.find(',', 2);
+      auto node1 = stoi(str.substr(2, comma1 - 2));
+      auto comma2 = str.find(',', comma1 + 1);
+      auto node2 = stoi(str.substr(comma1 + 1, comma2 - comma1 -1));
+      newGraph->addEdge(node1, node2);
+      newGraph->addEdge(node2, node1);
+    }
+    if (str[0] == 'V') {
+      auto comma = str.find(',', 2);
+      auto ID = stoi(str.substr(2, comma -2));
+      newGraph->addVertex(ID);
     }
 
-    return graph;
+  }
+
+return newGraph;
 }
+
 
 int main(int argc, char *argv[]) {
-    auto graph = read_city_graph_undirected(argv[1]);
-    std::cout << count_components(graph) << std::endl;
-
-    return 0;
+  auto newGraph = read_city_graph_undirected(argv[1]);
+  cout << count_components(newGraph) << endl;
+  delete newGraph;
+  return 0;
 }
