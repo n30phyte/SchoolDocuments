@@ -1,0 +1,24 @@
+Name: Michael Kwok
+ID: 1548454
+CMPUT 275, Winter 2020
+
+Weekly Exercise 6: STL Concepts
+
+Included Files:
+- README
+- Makefile
+- student_hash.cpp
+- student_record.cpp
+- complex_postfix.cpp
+- complex.cpp
+- student_record.hpp
+- complex.hpp
+
+Running Instructions:
+1. Run `make` to build the program
+2. Run calculator by calling `./calc`
+3. Run student database by calling `./student`
+4. Run `make clean` to clean up executable and object file
+
+Notes and Assumptions:
+1. Compiler is C++ 11 compliant

@@ -1,27 +1,34 @@
+/*********************************
+ *  Name: Michael Kwok
+ *  ID: 1548454
+ *  CMPUT 275, Winter 2020
+ *  Weekly Exercise 6
+ ********************************/
+
 #include <iostream>
-#include <utility>
 #include <stack>
 
-int main() {
+#include "complex.hpp"
 
-    std::stack<std::pair<long long, long long>> OperationStack;
+int main() {
+    // Stack to store following operations
+    std::stack<Complex> OperationStack;
     std::string input;
 
     bool done = false;
 
-    while(!done) {
+    while (!done) {
         std::cin >> input;
 
         if (input == "V") {
             long long real;
-            long long complex;
+            long long imaginary;
 
             std::cin >> real;
-            std::cin >> complex;
+            std::cin >> imaginary;
 
-            OperationStack.push(std::make_pair(real, complex));
+            OperationStack.push(Complex(real, imaginary));
         } else if (input == "B") {
-
             auto right = OperationStack.top();
             OperationStack.pop();
 
@@ -31,12 +38,11 @@ int main() {
             std::cin >> input;
 
             if (input == "+") {
-                OperationStack.push(std::make_pair(left.first + right.first, left.second + right.second));
+                OperationStack.push(left + right);
             } else if (input == "-") {
-                OperationStack.push(std::make_pair(left.first - right.first, left.second - right.second));
+                OperationStack.push(left - right);
             } else if (input == "*") {
-                OperationStack.push(std::make_pair((left.first * right.first) - (left.second * right.second),
-                                                   (left.first * right.second) + (left.second * right.first)));
+                OperationStack.push(left * right);
             }
         } else if (input == "U") {
             auto target = OperationStack.top();
@@ -45,18 +51,20 @@ int main() {
             std::cin >> input;
 
             if (input == "-") {
-                OperationStack.push(std::make_pair(-target.first, -target.second));
+                OperationStack.push(-target);
             } else if (input == "c") {
-                OperationStack.push(std::make_pair(target.first, -target.second));
+                OperationStack.push(target.Conjugate());
             }
+
         } else if (input == "S") {
-            auto output = OperationStack.top();
-            std::cout << output.first << " " << output.second << std::endl;
+            std::cout << OperationStack.top() << std::endl;
             done = true;
+
         } else {
             std::cout << "Error: Incorrect input." << std::endl;
             std::cin.sync();
         }
     }
+
     return 0;
 }
