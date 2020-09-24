@@ -1,0 +1,167 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage[margin=1.9cm]{geometry}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+
+\pgfplotsset{compat=1.16}
+
+\begin{document}
+\section*{Part 1 Series RC}
+\subsection*{1.}
+\begin{tikzpicture}
+    \begin{axis}[
+        title = {Voltage vs Time},
+        xlabel = Time (\si{\micro\second}),
+        ylabel = Voltage (\si{\volt}),
+        xmin = 0, 
+        xmax = 85,
+        ymin = 0,
+        ymax = 11,
+        axis lines=left,
+        grid = both,
+        height = 6cm,
+        width = 17cm,
+        legend pos=south west
+    ]
+
+    \addplot table [x=t, y=Output, col sep=comma, mark=none] {Part1.csv};
+    \addlegendentry{Output Voltage}
+    \addplot table [x=t, y=Input, col sep=comma, mark=none] {Part1.csv};
+    \addlegendentry{Input Voltage}
+    \addplot [mark=none, black, domain=0:45.65] {3.59};
+    \draw (45.65,0) -- (45.65, 3.59);
+    \addplot [mark=*] coordinates {(45.65, 3.59)};
+\end{axis}
+\end{tikzpicture}
+\subsection*{2.}
+The time constant $\tau$ appears at $V = \frac{V_0}{e} = \frac{10}{e} = \SI{3.59}{\volt}$
+
+At $\SI{3.59}{\volt}$, $\tau = \SI{45.65}{\micro\second}$
+\subsection*{3a.}
+$$\frac{|47-45.65|}{47} \times 100 \% = 2.88\%$$
+\subsection*{3b.}
+$$\frac{|47-45.21|}{47} \times 100 \% = 3.83\%$$
+\subsection*{3c.}
+$$\frac{|47-43.1|}{47} \times 100 \% = 8.51\%$$
+\subsection*{4.}
+Using KVL:
+$$V_c = V_o - V_r$$
+where:
+\begin{gather*}
+    V_r = V_o e^{\frac{t}{\tau}}, \tau = \SI{43}{\micro\second}\\
+V_c = V_o - V_o e^{\frac{t}{\tau}} = V_o (1-e^{\frac{t}{\tau}})
+\end{gather*}
+
+Comparison:
+
+Recorded $V_c = \SI{1.84}{\volt}$
+Calculated $V_c = 10(1-e^{-\frac{10}{43}}) = \SI{2.07}{\volt}$
+\section*{Part 2 Series RL}
+\subsection*{5.}
+\begin{tikzpicture}
+    \begin{axis}[
+        title = {Current vs Time},
+        xlabel = Time (\si{\micro\second}),
+        ylabel = Current (\si{\ampere}),
+        xmin = 0, 
+        xmax = 80,
+        ymin = 0,
+        ymax = 0.08,
+        axis lines=left,
+        grid = both,
+        height = 7cm,
+        width = 17cm,
+        legend pos=south east
+    ]
+    \addplot table [x=t, y=Theoretical, col sep=comma, mark=none] {Part2.csv};
+    \addlegendentry{Theoretical Current}
+    \addplot table [x=t, y=Calculated, col sep=comma, mark=none] {Part2.csv};
+    \addlegendentry{Actual Current}
+    \end{axis}
+\end{tikzpicture}
+
+\subsection*{6.}
+\begin{gather*}
+\tau_{RL} = \SI{14.6}{\micro\second} = \frac{L}{R}\\
+L = \SI{14.6}{\micro\second} * \SI{150}{\ohm} = \SI{2.19}{\milli\henry}
+\end{gather*}
+
+Comparison between calculated and labelled:
+
+$$\frac{|2.5-2.19|}{2.5} \times 100 \% = 12.4\%$$
+\section*{Part 3 Series RLC}
+\subsection*{7.}
+Apply Ohm's law to voltages
+\begin{center}
+    \begin{tabular}{|c|c|}
+        \hline
+        {Peak Current (\si{\ampere})} & {Time (\si{\second})} \\ \hline
+        0.015&7.2\\  \hline
+        -0.0086&22.8\\\hline
+        0.0054&38.8\\\hline
+        -0.003&54.8\\\hline
+        0.00168&70.8\\\hline
+        -0.00104&86.8\\\hline
+    \end{tabular}
+\end{center}
+Example calculation:
+
+$$\text{Voltage peak at } t = \SI{7.2}{\micro\second} \text{ is } \SI{1.5}{\volt} \text{ which is } \frac{\SI{1.5}{\volt}}{\SI{100}{\ohm}} = \SI{0.015}{\ampere}$$
+\subsection*{8.}
+\begin{tikzpicture}
+    \begin{axis}[
+        title = {$\ln|i|$ vs Time},
+        xlabel = Time (\si{\micro\second}),
+        ylabel = $\ln|i|$,
+        xmin = 0, 
+        xmax = 80,
+        ymin = -8,
+        ymax = -2,
+        grid = both,
+        height = 5.5cm,
+        width = 17cm
+    ]
+    \addplot table [green, x=t, y=i, col sep=comma, mark=none] {Part3.csv};
+    \addlegendentry{Calculated}
+    \addplot [mark=none, black, domain=0:80, opacity=0.5] {-0.033747*x - 3.96};
+    \addlegendentry{Linear Regression}
+
+\end{axis}
+\end{tikzpicture}
+
+The slope, through linear regression, was calculated to be $\alpha = 33747 = \frac{R}{2L}$
+$$L=\frac{R}{2\alpha} = \frac{\SI{150}{\ohm}}{2\times33747} = \SI{2.22}{\milli\henry}$$
+
+\subsection*{9.}
+\begin{gather*}
+\ln\left(\frac{V_o}{\omega_D L}\right) = - 3.96\\
+\frac{V_o}{\omega_D L} = e^{-3.96}\\
+L=\frac{V_o}{\omega_D L} e^{-3.96} = \frac{\SI{10}{\volt}}{2\pi} (\SI{31.65}{\kilo\hertz}) e^{-3.96} = \SI{2.64}{\milli\henry}
+\end{gather*}
+
+\subsection*{10.}
+\begin{gather*}
+f = \frac{\omega}{2\pi}
+\end{gather*}
+Where the damped frequency is given by $\omega_D = \sqrt{\omega_o^2-\alpha ^2}$
+
+Since $\omega_o^2 \gg \alpha ^2$, the damped frequency yields a result such that $\omega_D \simeq \sqrt{\omega_o^2} = \omega_o$
+
+Example:
+\begin{gather*}
+\omega_o = 2\pi f_o = 2\pi \SI{31.8}{\kilo\hertz} = \SI{199805.29}{\radian\per\second}\\
+\omega_o^2 = 3.9922\times 10^{10} \gg \alpha^2 = 1.14\times 10^9\\
+\omega_D = \sqrt{\omega_o ^2 - \alpha^2} = \SI{196934.75}{\radian\per\second} \simeq \omega_o
+\end{gather*}
+
+\subsection*{11.}
+\begin{gather*}
+31.8\times10^3 = \frac{1}{2\pi \sqrt{L \cdot 10\times10^{-9}}}\\
+L = \SI{0.00250}{\henry} = \SI{2.50}{\milli\henry} 
+\end{gather*}
+
+
+\end{document}

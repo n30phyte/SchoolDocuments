@@ -1,0 +1,57 @@
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{siunitx}
+\usepackage[fleqn]{mathtools}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{datetime}
+\usepackage{microtype}
+\usepackage[l2tabu, orthodox]{nag}
+
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\title{MATH 225 Assignment 4}
+\author{Michael Kwok}
+\date{2020-08-01}
+\begin{document}
+\maketitle
+\subsection*{a}
+Yes. Each eigenvalue has an algebraic multiplicity of 1.
+
+By using the definition $1 \leq d_{\lambda} \leq m_{\lambda}$:
+
+Since each eigenvalue has $m_{\lambda} = 1, \text{by definition, } d_{\lambda} = 1$.
+
+This shows that each eigenvalue has an eigenspace with basis of size 1, implying the matrix is diagonalizable.
+
+\subsection*{b}
+No. Invertible matrices cannot have a 0 as an eigenvalue by the Invertible Matrix Theorem.
+
+\subsection*{c}
+The list of eigenvalues is: $\{ 4,4,1,1,0\}$.
+Proof:
+
+Let $v_1, v_2, \ldots v_i$ be eigenvectors of A.
+
+Each $v_i$ related to an eigenvalue $\lambda$ from the list.
+\begin{align*}
+    A v_i &= \lambda_i v_i\\
+    A^2 v_i &= AA v_i\\
+    &= A \lambda_i v_i\\
+    &= \lambda_i A v_i\\
+    &= \lambda^2_i v_i
+\end{align*}
+
+\subsection*{d}
+
+Yes it is diagonalizable.
+\begin{align*}
+    A^2 &= AA\\
+    &= PDP^{-1}PDP^{-1}\\
+    &= P DD P^{-1}\\
+    &= P D^2 P^{-1}
+\end{align*}
+\end{document}

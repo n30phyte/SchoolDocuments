@@ -1,0 +1,218 @@
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{siunitx}
+\usepackage[fleqn]{mathtools}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+
+\title{MATH 225 Assignment 1}
+\author{Michael Kwok}
+\begin{document}
+\maketitle
+\subsection*{1}
+Let $\mathbf{u} \in V$
+
+Suppose there exists $w_1, w_2 \in V$ such that $\mathbf{u} \oplus \mathbf{w_1} = \Tilde{\mathbf{z}}$ and $\mathbf{u} \oplus \mathbf{w_2} = \Tilde{\mathbf{z}}$.
+
+1. $\mathbf{u}\oplus \mathbf{w_1} = \Tilde{\mathbf{z}}$
+
+2. $\mathbf{u}\oplus \mathbf{w_2} = \Tilde{\mathbf{z}}$
+
+3. $\mathbf{w_1} = - \mathbf{u}$ Statement 1 by axiom 5
+
+4. $\mathbf{w_2} = - \mathbf{u}$ Statement 2 by axiom 5
+
+$\therefore \mathbf{w_1} = \mathbf{w_2}$ Statement 3 and 4
+\newpage
+\subsection*{2a}
+Axiom 1:
+
+$\Tilde{\mathbf{z}} = (0, 0)$
+
+$(x, y) = (0, 0)$
+
+$0^2 + 0^2 \leq 1$
+
+\noindent
+Axiom 2:
+
+Counter example
+
+Let $\mathbf{u} = \left(0.5, 0.5\right)$
+
+Let $\mathbf{v} = \left(0.5, 0.4\right)$
+
+$\mathbf{u} + \mathbf{v} = (1, 0.9)$
+
+$1^2 + 0.9^2 = 1.81 > 1$
+
+$(1, 0.9) \not\in H$
+
+It does not fulfil this axiom
+
+
+$\therefore$ It is not a subspace.
+
+\subsection*{2b}
+Axiom 1:
+
+From $\mathscr{P}_{n=0}, \Tilde{\mathbf{z}} = 0$
+
+When $n = 0 \text{ and } a_0 = 0$, $0 \in H$
+
+$\therefore \Tilde{\mathbf{z}} \in H$
+
+\noindent
+Axiom 2:
+
+let $\mathbf{u} = a_0 + a_1x + \cdots + a_nx^n$
+
+let $\mathbf{v} = b_0 + b_1x + \cdots + b_nx^n$
+\begin{align*}
+\mathbf{u} + \mathbf{v} &= (a_0 + a_1x + \cdots + a_nx^n) + (b_0 + b_1x + \cdots + b_nx^n)\\
+&= (a_0 + b_0) + (a_1 + b_1)x + \cdots + (a_n + b_n)x^n
+\end{align*}
+\begin{align*}
+\left(a_0 - a_1 + ... + (-1)^n a_n\right) = 0\\
+\left(b_0 - b_1 + ... + (-1)^n b_n\right) = 0\\
+\end{align*}
+\noindent
+Axiom 3:
+\begin{align*}
+\text{Let } c\mathbf{u} &= c\left(a_0 + a_1x + \cdots + a_n x^n\right)\\
+&= ca_0 + ca_1x \cdots + ca_nx^n
+\end{align*}
+\begin{align*}
+\left[ca_0 - ca_1 + \cdots +  c(-1)^na^n\right] &= 0\\
+c\left[a_0 - a_1 + \cdots + (-1)^n a^n\right]&=0\\
+\end{align*}
+$\therefore$ It is a subspace
+
+\subsection*{2c}
+Use SV2 to show $W$ is a valid subspace.
+
+Let $k_1, k_2 \in \mathbb{R}$
+
+Let $\mathbf{u} = \begin{bmatrix}
+a_1 + 2b_1 & b_1 + c_1\\
+b_1 - c_1 & a_1 + 4c_1
+\end{bmatrix}$
+
+Let $\mathbf{v} = \begin{bmatrix}
+a_2 + 2b_2 & b_2 + c_2\\
+b_2 - c_2 & a_2 + 4c_2
+\end{bmatrix}$
+
+Show that $k_1 \mathbf{u} + k_2 \mathbf{v} \in W$
+\begin{align*}
+k_1 \mathbf{u} + k_2 \mathbf{v} &=
+\begin{bmatrix}
+k_1a_1 + 2 k_1 b_1 + k_2 a_2 + 2 k_2 b_2 & k_1 b_1 + k_1 c_1 + k_2 b_2 + k_2 c_2\\
+k_1 b_1 - k_1 c_1 + k_2 b_2 - k_2 c_2 & k_1 a_1 + 4 k_1 c_1 + k_2 a_2 + 4 k_2 c_2
+\end{bmatrix}\\
+&= \begin{bmatrix}
+(k_1 a_1 + k_2 a_2) + 2 (k_1 b_1 + k_2 b_2) & (k_1 b_1 + k_2 b_2) + (k_1 c_1  + k_2 c_2)\\
+(k_1 b_1 + k_2 b_2) - (k_1 c_1 + k_2 c_2) & (k_1 a_1 + k_2 a_2) + 4 (k_1 c_1  + k_2 c_2)
+\end{bmatrix}
+\end{align*}
+$a= k_1 a_1 + k_2 a_2,\text{ }b=k_1 b_2 + k_2 b_2,\text{ }c=k_1 c_1 + k_2 c_2$
+
+$a, b, c \in \mathbb{R}$
+
+$k_1 \mathbf{u} + k_2 \mathbf{v} \in W$
+
+$\therefore W$ is a subspace of $M_{2,2}$
+\newpage
+\subsection*{3a}
+\noindent
+Let $\mathcal{B} = \left\{
+\begin{bmatrix}
+1 & 0\\
+0 & 0
+\end{bmatrix}, 
+\begin{bmatrix}
+0 & 1\\
+1 & 0
+\end{bmatrix},
+\begin{bmatrix}
+0 & 0\\
+0 & 1
+\end{bmatrix}\right\}$
+
+\noindent
+B1:
+
+$a \begin{bmatrix}
+1 & 0\\
+0 & 0
+\end{bmatrix} + 
+b \begin{bmatrix}
+0 & 1\\
+1 & 0
+\end{bmatrix} +
+c \begin{bmatrix}
+0 & 0\\
+0 & 1
+\end{bmatrix} = 
+\begin{bmatrix}
+0 & 0\\
+0 & 0
+\end{bmatrix} \iff a, b, c = 0$
+
+
+$\therefore \mathcal{B}$ is linearly independent.
+
+\noindent
+B2:
+
+$S_{2,2} = \left\{
+\begin{bmatrix}
+a & b\\
+b & c
+\end{bmatrix}: a, b, c \in \mathbb{R}
+\right\}$
+
+$a \begin{bmatrix}
+1 & 0\\
+0 & 0
+\end{bmatrix} + 
+b \begin{bmatrix}
+0 & 1\\
+1 & 0
+\end{bmatrix} +
+c \begin{bmatrix}
+0 & 0\\
+0 & 1
+\end{bmatrix} = 
+\begin{bmatrix}
+a & b\\
+b & c
+\end{bmatrix}$
+
+$\therefore \mathcal{B} \text{ spans } V$
+
+
+\subsection*{3b}
+
+Let $\mathcal{B} = \left\{1\right\}$
+
+\noindent
+B1:
+
+$a \cdot 1 = 0 \iff a = 0$
+
+\noindent
+B2:
+
+Let $b \in \left( \mathbb{R}_{>0}, \times,\wedge \right)$
+\begin{align*}
+    a \cdot 1 &= b\\
+    a &= b
+\end{align*}
+
+For any value $b \in \left( \mathbb{R}_{>0}, \times,\wedge \right)$, the basis could be used to form a solution.
+
+
+\end{document}

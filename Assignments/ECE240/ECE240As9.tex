@@ -1,0 +1,148 @@
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{multicol}
+
+\title{ECE 240 Assignment 9}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\begin{multicols}{2}
+\section*{1}
+\subsection*{i}
+$$F(s) = \frac{s+2}{s(s+1)^2}$$
+\begin{align*}
+    \frac{s+2}{s(s+1)^2} &= \frac{A}{s}+\frac{B}{s+1} + \frac{C}{(s+1)^2}\\
+    s+2 &= A(s+1)^2 + Bs(s+1) + Cs\\
+    \text{Let } s &= 0:\\
+    A &= 2\\
+    \text{Let } s &= -1:\\
+    1 &= A(0) -B(0) -C\\
+    C &= -1\\
+    s+2 &= 2(s+1)^2 + B(s^2 + s) - s\\
+    2s + 2 &= 2(s+1)^2 + B(s^2 + s)\\
+    2 &= 2(s+1) + Bs\\
+    -2s &= Bs\\
+    B &= -2\\
+    F(s) &= \frac{2}{s} - \frac{2}{s+1} - \frac{1}{(s+1)^2}
+\end{align*}
+\begin{align*}
+\mathcal{L}^{-1}\{F(s)\} &= f(t)\\
+&= 2\delta(t) - 2 e^{-t}u(t)-te^{-t}u(t)
+\end{align*}
+\subsection*{ii}
+let $x = e^{-s}$
+\begin{align*}
+    F(s) = \frac{x+x^2+1}{s^2+3s+2} &= \frac{x+x^2+1}{(s+1)(s+2)}\\
+    \frac{x+x^2+1}{(s+1)(s+2)} &= \frac{A}{s+1} + \frac{B}{s+2}\\
+    x^2+x+1 &= A(s+2) + B (s+1)\\
+    \text{let } s &= -1\\
+    A(-1+2) &= e^2 + e + 1\\
+    \text{let } s &= -2\\
+    B(-2+1) &= e^4 + e^2 + 1\\
+    F(s) &= \frac{e^2+e+1}{s+1} - \frac{e^4+e^2+1}{s+2}\\
+    f(t) &= e^{-t}u(t)(e^2+e+e)\\
+     &- e^{-2}u(t)(e^4+e^2+1)
+\end{align*}
+\section*{2}
+\begin{align*}
+&s^2 Y(s) - s y(0^-) - y'(0^-) + 6 sY(s) - 6y(0^-)+25Y(s)\\
+&= sF(s) - f(0^-) + 2F(s)\\
+\end{align*}
+\[
+(s^2+6s+25)Y(s) = \overbrace{s+7}^{\text{Zero input}} + \overbrace{sF(s) - f(0^-) + sF(s)}^{\text{Zero state}}
+\]
+\begin{align*}
+    F(s) &= \frac{25}{s}\\
+    f(0) &= 0
+\end{align*}
+\begin{align*}
+    Y(s) &= \frac{s+7}{s^2+6s+25} + \frac{25+ \frac{50}{s}}{s^2+6s+25}\\
+    &= \frac{(s+3)+4}{(s+3)^2+4^2} + \frac{2}{s} + \frac{13-2s}{s^2+6s+25}\\
+    &= \frac{s+3}{(s+3)^2+4^2} + \frac{4}{(s+3)^2+4^2} + \frac{2}{s}\\
+    &-2 \frac{s+3}{(s+3)^2+4^2} + \frac{19}{4}\frac{4}{(s+3)^2+4^2}\\
+    y(t) &= \overbrace{\left[\left( cos(4t) + sin(4t) \right) e^{-3t} + 2\right]u(t)}^{\text{Zero Input}}\\
+    &\overbrace{\left[- 2e^{-3t}cos(4t) + \frac{19}{4}e^{-3t}sin(4t)\right]u(t)}^{\text{Zero State}}
+\end{align*}
+\section*{3}
+\begin{align*}
+&s^3 Y(s) + 6s^2 Y(s) -11 sY(s) + 6 Y(s) =\\
+&3s^2 F(s) + 7sF(s) +5F(s)
+\end{align*}
+\begin{align*}
+    (s^3 + 6s^2 -11 s + 6) Y(s) &= (3s^2 + 7s +5) F(s)\\
+    \frac{Y(s)}{F(s)} &= \boxed{\frac{3s^2 + 7s +5}{s^3 + 6s^2 -11 s + 6}}
+\end{align*}
+\section*{4}
+\subsection*{a}
+\begin{align*}
+    F(s) &= \frac{1}{s+3}\\
+    Y(s) &= \frac{s+5}{(s+2)(s+3)^2}\\
+    &= \frac{A}{s+2} + \frac{B}{s+3} + \frac{C}{(s+3)^2}
+\end{align*}
+    
+\begin{align*}
+    s+5 = A(s+3)^2 &+ B(s+2)(s+3) + C(s+2)\\
+    \text{let } s &= -2,\\
+    A &= 3\\
+    \text{let } s &= -3,\\
+    2 &= C(-3+2)\\
+    C &= -2\\
+    s+5 &= 3(s+3)^2 + B(s+2)(s+3) + -2(s+2)\\
+    -3s^2-15s-18 &= B(s^2+5s+6)\\
+    B &+ -3\\
+\end{align*}
+
+\begin{align*}
+    Y(s) &= \frac{3}{s+2} - \frac{3}{s+3} - \frac{2}{(s+2)^2}\\
+    y(t) &= 3 e^{-2t} u(t) - 3 e^{-3t} u(t) - 2t e^{-3t}u(t)\\
+    &= \left[ 3e^{-2t} e^{-3t} (3+2t) \right] u(t)
+\end{align*}
+\subsection*{b}
+\begin{align*}
+    H(s) &= \frac{s+5}{s^2+5s+6}\\
+    (s^2 +5s +6) Y(s) &= (s+5) F(s)\\
+    y''(t) + 5 y'(t) + 6y(t) &= f'(t) + 5 f(t)
+\end{align*}
+\section*{5}
+\subsection*{a}
+\begin{align*}
+    H_1(s) &= \frac{s+1}{s^2+8s+12}\\
+    &= \frac{s+1}{(s+2)(s+6)}\\
+\end{align*}
+Poles at $s_1 = -2, s_2 = -6$
+
+System is BIBO Stable.
+\subsection*{b}
+$$
+H_2(s) = \frac{s+5}{s(s+1)(s+2)}
+$$
+Poles at $s_1 = 0, s_2 = -1, s_3 = -2$
+
+System is BIBO Unstable.
+\subsection*{c}
+Poles at $s_1 = 0, s_2 = \sqrt{2}, s_3 = -\sqrt{2}$
+
+System is BIBO Unstable.
+\subsection*{d}
+Poles at $s_1 = -1, s_2 = 5, s_3 = 1$
+
+System is BIBO Unstable.
+\section*{6}
+\subsection*{a}
+$$\mathcal{L}\{H(s)\} = e^{-2t}u(t)$$
+\subsection*{b}
+$s = \sigma + j\omega$
+
+Fourier transform is identical to Laplace at $\sigma = 0$, basically a special case of the Laplace transform.
+
+\begin{align*}
+    H(j\omega) &= \frac{1}{j\omega + 2}\\
+    \mathcal{F}\{H(j\omega)\} &= e^{-2t} u(t)\\
+\end{align*}
+\end{multicols}
+\end{document}

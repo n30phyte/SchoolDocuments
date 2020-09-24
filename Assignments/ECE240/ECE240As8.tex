@@ -1,0 +1,80 @@
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{multicol}
+
+\title{ECE 240 Assignment 8}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\begin{multicols}{2}
+\section*{1}
+\begin{align*}
+F(s) &= \int_{0^-}^\infty f(t)e^{-st}dt\\
+&= \int_{0^-}^\infty \left(e^{2t} -2e^{-t}\right)e^{-st} u(t)dt\\
+&= \int_{0}^\infty e^{-(s-2)t}dt - 2\int_{0}^\infty e^{-(1+s)t}dt\\
+&= \left[\frac{1}{s-2}e^{-(s-2)t}\right]^\infty_0 + \left[ \frac{1}{1+s}e^{-(s+1)t}\right]^\infty_0
+\end{align*}
+
+The first expression is only convergent when $s-2 > 0$. Since $s = \sigma + j\omega$, the region of convergence will be calculated by the following:
+ 
+\begin{align*}
+    \sigma -2 &> 0\\
+    \sigma &> 2
+\end{align*}
+
+So assuming $\sigma > 2$,
+
+\begin{align*}
+    F(s) &= \frac{1}{s-2} \lim_{t \to \infty} \left( e^{-(s-2)t} -1 \right)\\
+    &+ \frac{2}{s+1} \lim_{t \to \infty} \left( e^{-(s+1)t} -1 \right)\\
+    &= \boxed{\frac{1}{s-2} - \frac{2}{s+1}}
+\end{align*}
+\section*{2}
+\begin{align*}
+    f(t) &= \int_0^1 te^{-t}dt + \int_1^\infty e^{-t}dt\\
+    &= e^{-1}\left(\frac{1}{2} - 0\right) + \lim_{t\to\infty}\left(-e^{-t} + e^{-1}\right)\\
+    &= \frac{1}{2} e^{-1} + e^{-1}\\
+    &= \boxed{\frac{3}{2}e^{-1}}
+\end{align*}
+\section*{3}
+\subsection*{a}
+\begin{align*}
+    f_1(t) &= \sin\left[\omega_0(t-\tau)\right]u(t-\tau)\\
+    F_1(s) &= \boxed{\frac{\omega_0}{s^2 + \omega_0^2} e^{-s\tau}}
+\end{align*}
+\subsection*{b}
+\begin{align*}
+    f_1(t) &= \sin\left[\omega_0(t-\tau)+\omega_0\tau\right]u(t-\tau)\\
+    &= \sin\left[\omega_0(t-\tau)\right]\cos(\omega_0\tau)u(t-\tau)\\
+    &+ \cos\left[\omega_0(t-\tau)\right]\sin(\omega_0\tau)u(t-\tau)\\
+    F_1(s) &= \cos(\omega_0\tau)\frac{\omega_0}{s^2 + \omega_0^2} e^{-s\tau}\\
+    &+ \boxed{\sin(\omega_0\tau)\frac{s}{s^2 + \omega_0^2} e^{-s\tau} }
+\end{align*}
+\section*{4}
+\begin{align*}
+    g(t) &= f(t) + f(t-T_0) + f(t-2T_0) + \ldots\\
+    G(s) &= F(s) + F(s)e^{-sT_0} + F(s)e^{-s2T_0} + \ldots\\
+\end{align*}
+Let $x = e^{-sT_0}$
+\begin{align*}
+    G(s) &= F(s)\left(1+x+x^2+x^3+\ldots\right)\\
+    &= \frac{F(s)}{1+x}\\
+    &= \boxed{\frac{F(s)}{1+e^{-sT_0}}}
+\end{align*}
+\section*{5}
+\begin{align*}
+    f(t) &= t\left[ u(t) - u(t-2) \right] + \left( -2t+6 \right)\left[ u(t-2) - u(t-3) \right]\\
+    f(0^{-}) &= 0\\
+    f'(t)&= u(t)-u(t-2)-2u(t-2)+2u(t-3)\\
+    &+6\delta(t-2)-6\delta(t-3)\\
+    \mathcal{L}\{ f'(t)\} &= sF(s)-f(0^-)\\
+    sF(s) &= \frac{1}{s} - \frac{1}{s} e^{-2s} - \frac{2}{s} e^{-2s} + \frac{2}{s} e^{-3s} +6e^{-2s} -6e^{-3s}\\
+    F(s) &= \boxed{\frac{1}{s^2}-\frac{3}{s^2}e^{-2s}+\frac{2}{s^2}e^{-3s} + \frac{6}{s}e^{-2s} - \frac{6}{s}e^{-3s}}
+\end{align*}
+\end{multicols}
+\end{document}
