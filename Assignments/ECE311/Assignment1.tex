@@ -1,0 +1,136 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+
+\title{ECE 311 Assignment 1}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\begin{multicols}{2}
+    \subsection*{1a}
+    \[
+        1 {\left(1+0.6\right)}^{10} = 109.95 \times
+    \]
+    \subsection*{1b}
+    \begin{align*}
+        {\left(1+0.6\right)}^{n} & = 4           \\
+        n \log_{1.6}1.6          & = \log_{1.6}4 \\
+        n                        & = 2.95
+    \end{align*}
+    Around 3 years
+    \subsection*{2}
+    \begin{align*}
+        A & = \sqrt[4]{2.5 \times 1.4 \times 2.8 \times 0.9} = 1.723 \\
+        B & = \sqrt[4]{3.1 \times 1.2 \times 1.5 \times 0.6} = 1.35
+    \end{align*}
+    Processor A is 1.276\times{} faster
+    \subsection*{3}
+    \begin{align*}
+        \text{let } DPower_B & = \frac{1}{2} = 0.5                                 \\
+        DPower_A             & = \frac{1}{2} \cdot 0.8 \cdot {(0.85)}^2 \cdot 0.85 \\
+                             & = 0.24565
+    \end{align*}
+    Dynamic Power gets halved.
+    \subsection*{4a}
+    \(\frac{10^9}{100} = 10^7 \si{\hour}\)
+    \subsection*{4b}
+    Availability = \( \frac{MTTF}{MBTF} = \frac{10^7}{10^7+1} = 99.99999\% \)
+    \subsection*{4c}
+    \( \frac{1}{\frac{1}{10^7}\times1000} = 10000\si{\hour} \)
+    \subsection*{5a}
+    \begin{itemize}
+        \item T\@: Total time
+        \item p: Fraction that can be improved
+        \item \(\frac{p}{s}\): New fraction after enhanced
+    \end{itemize}
+    \begin{align*}
+        T       & = \left( 1-p \right) T + p T \\
+        (1-p) T & = \frac{p}{s} T              \\
+        1-p     & = \frac{p}{10}               \\
+        10-10p  & = p                          \\
+        10      & = 11p                        \\
+        p       & = \frac{10}{11}
+    \end{align*}
+    \(\text{Speedup: }\frac{1}{\left( 1 - \frac{10}{11} \right) + \frac{1}{11}} = 5.5\)
+    \subsection*{5b}
+    \[
+        \frac{10}{11} \times 100 \% = 90.91 \%
+    \]
+    \subsection*{6a}
+    \begin{align*}
+        p               & = 20\%                           \\
+        s               & = 2                              \\
+        \text{Speedup } & =\frac{1}{1-0.2 + \frac{0.2}{2}} \\
+                        & = 1.11\times
+    \end{align*}
+    \subsection*{6b}
+    \[
+        \frac{1}{\frac{0.7}{1} + \frac{0.1}{\frac{2}{3}} + \frac{0.2}{2}}= 1.05\times
+    \]
+    \subsection*{6c}
+    \begin{gather*}
+        0.7 + 0.15 + 0.1 = 0.95\\
+        \frac{0.1}{0.95} = 0.1 \approx 10.5\% \text{ FP Calculations} \\
+        \frac{0.15}{0.95} = 0.15789 \approx 15.8\% \text{ Cache access}
+    \end{gather*}
+    \subsection*{7a}
+    Largest possible number in binary:
+    \begin{verbatim}
+        S|Exp    |Mantissa
+        0|1111110|11111111
+    \end{verbatim}
+    Convert to floating point:
+    \begin{gather*}
+        1.11111111 \times 2^{63}\\
+        \left( 1 + \frac{1}{2} + \frac{1}{4}+ \frac{1}{8}+ \frac{1}{16}+ \frac{1}{32}+ \frac{1}{64}+ \frac{1}{128}+ \frac{1}{256} \right)\\
+        = 511 \times2^{55}
+    \end{gather*}
+    \subsection*{7b}
+    Largest possible odd number in binary:
+    \begin{verbatim}
+        S|Exp    |Mantissa
+        0|1000111|11111111
+    \end{verbatim}
+    Convert to floating point:
+    \begin{gather*}
+        1.11111111 \times 2^{71-63}\\
+        = {(111111111)}_2 = {(511\times2^{0})}_{10}
+    \end{gather*}
+    \subsection*{7c}
+    \[
+        7_{10} \approx = {(111)}_2
+    \]
+    6 bits for decimals. LSB will be able to represent \(\frac{1}{64}\)
+
+    \begin{gather*}
+        0.1 \approx \frac{1}{16} + \frac{1}{32}
+    \end{gather*}
+    \subsection*{7d}
+    \begin{verbatim}
+    S|Exp    |Mantissa
+    1|0000000|11000000
+    \end{verbatim}
+    \begin{gather*}
+        -1 \times (2^{-1} + 2^{-2}) \times 2^{1-63}\\
+        = -1.5 \times2^{-63}
+    \end{gather*}
+    \subsection*{8}
+    c, e, b, d, a
+    \subsection*{9}
+    \begin{enumerate}[label= (\alph*)]
+        \item \( 10.0 \)
+        \item \( 10.1 \)
+        \item \( 11.0 \)
+        \item \( 11.0 \)
+    \end{enumerate}
+
+\end{multicols}
+\end{document}

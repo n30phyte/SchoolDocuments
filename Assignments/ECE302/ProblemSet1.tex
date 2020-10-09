@@ -1,0 +1,205 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{pgfplots}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage[RPvoltages, american, betterproportions, siunitx]{circuitikz}
+
+\pgfplotsset{compat=1.16}
+
+\title{ECE 302 Problem Set 1}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\begin{multicols}{2}
+    \subsection*{1a}
+    \begin{align*}
+        r_D & = \frac{n V_T}{I_D}                                  \\
+            & = \frac{1 \cdot 25\si{\milli\volt}}{0.1\si{\ampere}} \\
+            & = 0.25 \si{\ohm}
+    \end{align*}
+    \subsection*{1b}
+    \begin{align*}
+        \frac{0.1}{10} & = \underline{0.01\si{\ampere}} \\
+    \end{align*}
+    \begin{align*}
+        r_D & = \frac{n V_T}{I_D}                                   \\
+            & = \frac{1 \cdot 25\si{\milli\volt}}{0.01\si{\ampere}} \\
+            & = \underline{2.5 \si{\ohm}}
+    \end{align*}
+    \subsection*{1c}
+    \[
+        {\left( \frac{1}{2.5} \cdot 10 \right)}^{-1} = 0.25 \si{\ohm}
+    \]
+    \subsection*{1d}
+    \[
+        0.25 + 0.2 = 0.45\si{\ohm} \text{ in series}
+    \]
+    \[
+        {\left( \frac{1}{2.7} \cdot 10 \right)}^{-1} = 0.27 \si{\ohm} \text{ in parallel}
+    \]
+    Parallel is preferable
+    \subsection*{2a}
+
+    Redraw circuit as dc:
+    \begin{center}
+        \begin{circuitikz}[american,]
+            \draw(0,2) to[empty diode, -] (0,0) node[ground] (GND){};
+            \draw(0,2) to[short, -] (1,2);
+            \draw(1,0) node[ground] (GND){} to[american current source, -] (1,2);
+        \end{circuitikz}
+    \end{center}
+    \vfill\null{}
+
+    \columnbreak{}
+    Redraw circuit as ac:
+    \begin{center}
+        \begin{circuitikz}[american,]
+            \draw(0,0) node[ground] (GND){} to[american voltage source, -] (0,2);
+            \draw(0,2) to[resistor] (2,2);
+            \draw(2,2) to[empty diode, -] (2,0) node[ground] (GND){};
+            \draw(2,2) to (3,2) node[ocirc]{};
+        \end{circuitikz}
+    \end{center}
+    \vfill\null{}
+
+    \begin{align*}
+        \frac{v_o}{v_s} & = \frac{{\frac{n V_T}{I}}}{R_S \cdot \frac{n V_T}{I}} \\
+                        & = \frac{nV_T}{IR_S+nV_T}
+    \end{align*}
+    \subsection*{2b}
+    \begin{align*}
+        v_o(t) & = \frac{2 \cdot 25\times 10^{-3}}{I\cdot 1000 + 2 \cdot 25\times 10^{-3}} \left(10 \cos \omega t \right) \\
+               & = \frac{\frac{1}{20}}{1000I + \frac{1}{20}} \cdot 10 \cos \omega t                                       \\
+               & = \frac{10}{20000I + 1} \cos\omega t
+    \end{align*}
+    \begin{itemize}
+        \item I = \SI{1}{\micro\ampere}, \(9.8 \cos\omega t\)
+        \item I = \SI{0.1}{\milli\ampere}, \(3.3 \cos\omega t\)
+        \item I = \SI{1}{\milli\ampere}, \(0.48 \cos\omega t\)
+    \end{itemize}
+    \subsection*{2c}
+    \begin{align*}
+        \frac{1}{20000I + 1} & = \frac{1}{2}                       \\
+        20000I + 1           & = 2                                 \\
+        I                    & = \frac{1}{20000}                   \\
+                             & = \underline{50 \si{\micro\ampere}}
+    \end{align*}
+    \subsection*{2d}
+    \begin{align*}
+        \text{let } v_o(t)            & = v_d(t)                        \\
+        v_o(t)                        & \leq 0.1 \cdot n V_T            \\
+        \frac{nV_T}{IR_S+nV_T} v_s(t) & \leq 0.1 \cdot n V_T            \\
+        v_s(t)                        & \leq \underline{0.01\si{\volt}}
+    \end{align*}
+    \subsection*{3a}
+    Redraw as dc to find combined \(r_D\):
+    \begin{center}
+        \begin{circuitikz}[american,]
+            \draw(0,0) node[ground] (GND){} to[american current source] (0,2);
+            \draw(0,2) to[short,-] (1,2);
+            \draw(1,2) to[short,-] (1,1);
+            \draw(1,2) to[short,-] (1,3);
+            \draw(1,3) to[empty diode] (2,3) to[empty diode] (3,3);
+            \draw(1,1) to[empty diode] (2,1) to[empty diode] (3,1);
+            \draw(3,3) to[short,-] (3,2);
+            \draw(3,1) to[short,-] (3,2);
+            \draw(3,2) to[short,-] (4,2);
+            \draw(4,2) to[american current source] node[ground] (GND){} (4,0);
+        \end{circuitikz}
+    \end{center}
+    \[r_{D1} = r_{D2} =r_{D3} =r_{D4}\]
+    \begin{align*}
+        {\left({\left( \frac{V_T}{0.5 I} \cdot 2 \right)}^{-1} \cdot 2 \right)}^{-1} &                  \\
+        {\left({\left( \frac{4V_T}{I}\right)}^{-1} \cdot 2 \right)}^{-1}             & = \frac{2V_T}{I}
+    \end{align*}
+    \begin{align*}
+        \frac{v_o}{v_i} & = \frac{R}{R+\frac{2 V_T}{I}} \\
+                        & =\frac{RI}{RI+2 V_T}
+    \end{align*}
+    \subsection*{3b}
+    \begin{itemize}
+        \item I = \SI{1}{\micro\ampere}, \(\frac{10000 \times 10^{-6}}{10000 \times10^{-6} + 2\cdot 25\times10^{-3}}\)
+        \item I = \SI{10}{\micro\ampere}, \(\frac{10000 \cdot 10 \times 10^{-6}}{10000 \cdot 10\times10^{-6} + 2\cdot 25\times10^{-3}}\)
+        \item I = \SI{100}{\micro\ampere}, \(\frac{10000 \cdot 100 \times 10^{-6}}{10000 \cdot 100 \times10^{-6} + 2\cdot 25\times10^{-3}}\)
+    \end{itemize}
+    \subsection*{3c}
+    \[
+        \frac{n V_T}{v_d} \geq 10
+    \]
+    \begin{align*}
+        v_i - v_o & = 2 v_d               \\
+        -v_o      & = 2v_d - v_i          \\
+        v_d       & \leq 2.6\times10^{-3}
+    \end{align*}
+    \begin{align*}
+        v_o \left( IR + 2V_T \right)    & = IR V_T \\
+        v_o IR + v_o 2 V_T              & = IRV_T  \\
+        IR(-2v_d) + (v_i - 2 v_d) 2 V_T & = 0
+    \end{align*}
+    \begin{align*}
+        -20000Iv_d + (0.01 - 2 v_d) 0.05      & = 0 \\
+        -20000Iv_d + 5\times10^{-4} - 0.1 v_d & = 0
+    \end{align*}
+    \[
+        \frac{5\times 10^{-4}}{20000I + 0.1} = v_d
+    \]
+    \begin{align*}
+        5\times 10^{-4} & \leq \left( 2.5\times10^{-3} \right)\left( 20000I + 0.1 \right) \\
+        5\times10^{-4}  & = I                                                             \\
+        I               & \geq \underline{5 \si{\micro\ampere}}
+    \end{align*}
+    \subsection*{4}
+    Redraw circuit as dc:
+    \begin{center}
+        \begin{circuitikz}[american,]
+            \draw(0,0) node[ground] (GND){} to[american current source, -] (0,2);
+            \draw(0,2) to[short, -] (1,2);
+            \draw(1,2) to[empty diode, -] (1,0) node[ground] (GND){};
+        \end{circuitikz}
+    \end{center}
+
+    Redraw circuit as ac:
+    \begin{center}
+        \begin{circuitikz}[american,]
+            \draw(0,0) node[ground] (GND){} to[american voltage source, -] (0,2);
+            \draw(1,2) to[empty diode, -] (0,2);
+            \draw(1,2) to[capacitor] (2,2) to (3,2) node[ocirc]{};
+            \draw(2,2) to[resistor] (2,0) node[ground] (GND){};
+        \end{circuitikz}
+    \end{center}
+    Do phasor analysis ala 203:
+
+    \begin{align*}
+        s      & = j \omega                       \\
+        \omega & = 2\pi f                         \\
+               & = 2\pi \cdot 100\si{\kilo\hertz}
+    \end{align*}
+    \begin{align*}
+        \frac{\tilde{V_O}}{\tilde{V_I}} & = \frac{R}{R + r_D + \frac{1}{sC}}                                                                             \\
+                                        & = \frac{RsC}{1 + (R + r_D) sC}                                                                                 \\
+                                        & \text{Rationalize complex fraction:}                                                                           \\
+                                        & = \frac{RsC - RsC(R+r_D)sC}{1-{(R + r_D)}^2 +s^2 C^2}                                                          \\
+                                        & = \frac{RsC + R(R+r_D)\omega^2C^2}{1+{(R + r_D)}^2 +\omega^2 C^2}                                              \\
+                                        & = \frac{R(R+r_D)\omega^2C^2}{1+{(R + r_D)}^2 +\omega^2 C^2}+ \frac{R\omega C}{1+{(R + r_D)}^2 +\omega^2 C^2} j
+    \end{align*}
+    Find phase angle:
+    \begin{align*}
+        \tan^{-1} \left(\frac{R\omega C}{R(R+r_D)\omega^2C^2}\right) & = \tan^{-1} \left(\frac{1}{(R+r_D)\omega C}\right) \\
+                                                                     & = \ang{45}                                         \\
+        (R+r_D)\omega C                                              & =1                                                 \\
+        \frac{1-R\omega C}{\omega C}                                 & = r_D
+    \end{align*}
+    \begin{align*}
+        109.154 & = \frac{2.5\times 10^{-3}}{I}     \\
+        I       & = 2.29\times 10^{-4} \si{\ampere} \\
+                & = 229 \si{\micro\ampere}
+    \end{align*}
+\end{multicols}
+\end{document}

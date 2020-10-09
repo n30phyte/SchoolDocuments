@@ -6,7 +6,10 @@
       "name": "latexmk",
       "tools": ["latexmk"]
     },
-    { "name": "notes", "tools": ["latexmk notes"] }
+    {
+      "name": "spellcheck",
+      "tools": ["spellcheck"]
+    }
   ],
   "latex-workshop.latex.rootFile.useSubFile": false,
   "latex-workshop.latex.outDir": "%DIR%/obj/",
@@ -15,36 +18,21 @@
       "name": "latexmk",
       "command": "latexmk",
       "args": [
+        "-shell-escape",
         "-synctex=1",
         "-lualatex",
-        "-interaction=nonstopmode",
         "-file-line-error",
+        "-interaction=nonstopmode",
+        "-halt-on-error",
         "-outdir=%OUTDIR%",
         "%DOC%"
       ],
       "env": {}
     },
     {
-      "name": "latexmk notes",
-      "command": "latexmk",
-      "args": ["-synctex=1", "-pdflua", "-outdir=%OUTDIR%", "%DOC%"],
-      "env": {}
-    },
-    {
-      "name": "pdflatex",
-      "command": "pdflatex",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "%DOC%"
-      ],
-      "env": {}
-    },
-    {
-      "name": "bibtex",
-      "command": "bibtex",
-      "args": ["%DOCFILE%"],
+      "name": "spellcheck",
+      "command": "aspell",
+      "args": ["--lang=en", " --mode=tex ", "check", "%DOC%"],
       "env": {}
     }
   ]

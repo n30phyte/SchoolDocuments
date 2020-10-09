@@ -1,0 +1,135 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{pgfplots}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage[RPvoltages, american, betterproportions, siunitx]{circuitikz}
+
+\pgfplotsset{compat=1.16}
+
+\title{ECE 302 Problem Set 2}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\begin{multicols}{2}
+    \subsection*{1a}
+    \begin{align*}
+        q             & = 1.6 \times 10^{-19}\si{\coulomb}                                    \\
+        D_p           & = 12 \si{\centi\metre\per\second}                                     \\
+        p_{n0}        & = \frac{n_i^2}{N_D} = 22500                                           \\
+        \frac{dp}{dx} & = \frac{1000 p_{n0} - p_{n0}}{5\si{\micro\metre}}                     \\
+                      & = -4.4955\times 10^{10}                                               \\
+        J_p           & = - q D_p \frac{dp}{dx}                                               \\
+                      & = \underline{8.63\times 10^{-8} \si{\ampere\per\centi\metre\squared}}
+    \end{align*}
+    \subsection*{1b}
+    \begin{align*}
+        \frac{J_n}{J_p} & = \frac{- q D_p \frac{n_i^2}{N_A}\left(\frac{e^{V_D/V_T} - 1}{W_p}\right)}{- q D_p \frac{n_i^2}{N_D}\left(\frac{e^{V_D/V_T} - 1}{W_n}\right)} = \frac{D_n N_D W_n}{D_p N_A W_p} = 56.67 \\
+        I_D             & = A\left(J_n + J_p\right)                                                                                                                                                               \\
+        I_n             & = 56.67 I_p                                                                                                                                                                             \\
+        I_p             & = \frac{1\times 10^{-3}}{56.67} = 1.73\times 10^{-5} \approx \underline{17\si{\micro\ampere}}                                                                                           \\
+        I_n             & = 9.83\times 10^{-4} \approx \underline{983 \si{\micro\ampere}}
+    \end{align*}
+    \subsection*{2a}
+    \begin{align*}
+        J_p         & = 0                                                \\
+                    & = q p \mu_p \varepsilon - q D_p \frac{dp}{dx}      \\
+        \varepsilon & = \frac{D_p}{\mu_p} \frac{1}{p_{p0}} \frac{dp}{dx} \\
+                    & = V_T \frac{1}{N_0e^{-x/L}} \frac{N_0e^{-x/L}}{-L} \\
+                    & = -\frac{V_T}{L}
+    \end{align*}
+    \subsection*{2b}
+    \begin{align*}
+        \int_0^w -\varepsilon dx & = \left.-\varepsilon x\right|^w_0       \\
+                                 & = -\varepsilon w - 0                    \\
+                                 & = \frac{ V_T}{L} \cdot L                \\
+                                 & = V_T = \underline{25 \si{\milli\volt}}
+    \end{align*}
+    \subsection*{3a}
+    \begin{align*}
+        V_o & = 25 \ln \left[ \frac{10^{16}\cdot 10^{15}}{{\left( 1.5\times 10^{10} \right)}^2} \right] \\
+            & = 612.9 \si{\milli\volt}                                                                  \\
+            & = \underline{0.61 \si{\volt}}
+    \end{align*}
+    \subsection*{3b}
+    \begin{align*}
+        w_{dep} & = \sqrt{\frac{2\epsilon_s}{q}\left({\frac{1}{10^{10}}+\frac{1}{N_D}}\right)\left(2+0.61\right)} \\
+                & = 1.928\times10^{-4}\si{\centi\metre}                                                           \\
+                & \approx 1.93 \si{\micro\metre}
+    \end{align*}
+    \begin{align*}
+        x_n                        & = \frac{N_A}{N_D}x_p                          \\
+                                   & = 10 x_p                                      \\
+        11x_p                      & = 1.93 \si{\micro\metre}                      \\
+        x_p                        & = 0.175 \si{\micro\metre}                     \\
+        x_n                        & = 1.75 \si{\micro\metre}                      \\
+        V_n                        & = 1.75\cdot 400 = 700 \si{\micro\metre\cubed} \\
+        N_D                        & = 10^3 \si{\per\micro\metre\cubed}            \\
+        \text{Magnitude of Charge} & = N_D \cdot V_n \cdot q                       \\
+                                   & = 1.12\times 10 ^{-13} \si{\coulomb}          \\
+                                   & = 0.112 \si{\pico\coulomb}
+    \end{align*}
+    \pagebreak
+    \subsection*{4a}
+    \begin{align*}
+        \frac{d J_p}{dx} & = -qR                      \\
+                         & = -q \frac{\Delta p}{\tau}
+    \end{align*}
+    \begin{align*}
+        \frac{dJ_p}{dx}            & = -q D_p \frac{d^2 p}{d x^2}  \\
+        -q D_p \frac{d^2p}{dx^2}   & = -q \frac{\Delta p(x)}{\tau} \\
+        \tau D_p \frac{d^2p}{dx^2} & = \Delta p(x)                 \\
+        \frac{d^2 p(x)}{dx^2}      & = \frac{\Delta p(x)}{L_p^2}
+    \end{align*}
+    \begin{align*}
+        \frac{d^2}{dx^2}\left( p(x) \right) & = \frac{d^2}{dx^2}\left( \Delta p(x) + p_{n0} \right) \\
+        \frac{d^2 p(x)}{dx^2}               & = \frac{d^2\Delta p(x)}{dx^2}
+    \end{align*}
+    \[\boxed{\frac{d^2\Delta p(x)}{dx^2} = \frac{\Delta p(x)}{L_p^2}}\]
+    \subsection*{4b}
+    Solve for \(k\):
+    \begin{align*}
+        k^2 C e^{kx} & = \frac{C e^{kx}}{L_p^2} \\
+        k^2          & = \frac{1}{L_p^2}        \\
+        k            & = \pm\frac{1}{L_p}
+    \end{align*}
+    Get solution:
+    \begin{align*}
+        \Delta p(x) & = C_1 e^{x/L_p} + C_2 e^{-x/L_p}          \\
+        p(x)        & = C_1 e^{x/L_p} + C_2 e^{-x/L_p} + p_{n0} \\
+    \end{align*}
+
+    \subsection*{4c}
+    Solve for \(k\):
+
+    For
+    \(p(x=\infty) = C_1 e^{\infty} + p_{n0} = p_{n0}\)
+    to be true,
+    \(C_1 = 0\)
+
+    Solve for \(C_2\):
+    \begin{align*}
+        p(0)         & = C_2 + p_{n0}                                     \\
+        C_2 + p_{n0} & = p_{n0} e^{V_A/V_T}                               \\
+        C_2          & = \left( e^{V_A/V_T} - 1 \right) P_{n0}            \\
+                     & = \frac{n_i^2}{N_D} \left( e^{V_A/V_T} - 1 \right)
+    \end{align*}
+    \subsection*{4d}
+    \begin{align*}
+        J_p & = - q D_p \frac{d}{dx}\left( \frac{n_i^2}{N_D} \left( e^{V_A/V_T} - 1 \right) e^{-x/L_p} + p_{n0} \right) \\
+            & = q D_p \frac{n_i^2}{N_D L_p}  \left( e^{V_A/V_T} - 1 \right) e^{-x/L_p}
+    \end{align*}
+    \subsection*{4e}
+    \[\frac{10^4}{{\left(10^4\right)}^2} \left( q D_p \frac{n_i^2}{N_D\sqrt{D_p \tau}} \right)\left( e^{V_A/V_T} -1 \right)  = 0.2\times 10^{-3}\]
+    \begin{align*}
+        \frac{V_A}{V_T} & = 26.257567            \\
+        V_A             & = 656 \si{\milli\volt}
+    \end{align*}
+\end{multicols}
+\end{document}
