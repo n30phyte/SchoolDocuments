@@ -111,13 +111,24 @@ figure;
 imshow(img), colorbar;
 
 % Part c
-img09 = imresize(img, 0.9, 'nearest');
-img07 = imresize(img, 0.7, 'nearest');
-img05 = imresize(img, 0.5, 'nearest');
+img09aa = imresize(img, 0.9, 'nearest', 'antialiasing', 1);
+img09noaa = imresize(img, 0.9, 'nearest', 'antialiasing', 0);
+
+img07aa = imresize(img, 0.7, 'nearest', 'antialiasing', 1);
+img07noaa = imresize(img, 0.7, 'nearest', 'antialiasing', 0);
+
+img05aa = imresize(img, 0.5, 'nearest', 'antialiasing', 1);
+img05noaa = imresize(img, 0.5, 'nearest', 'antialiasing', 0);
 
 figure;
-imshow(img09);
+imshow(img09aa);
 figure;
-imshow(img07);
+imshow(img09noaa);
 figure;
-imshow(img05);
+imshow(img07aa);
+figure;
+imshow(img07noaa);
+figure;
+imshow(img05aa);
+figure;
+imshow(img05noaa);

@@ -198,25 +198,40 @@ y3 = x3(T1 .* n1);
 \end{figure}
 \begin{figure}
     \centering
-    \begin{subfigure}[b]{0.8\linewidth}
+    \begin{subfigure}[b]{0.4\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{barb09.png}
-        \caption{barbaraLarge.jpg downscaled by 0.9}
+        \includegraphics[width=\linewidth]{barb09aa.png}
+        \caption{barbaraLarge.jpg downscaled by 0.9 with antialiasing}
     \end{subfigure}
     \begin{subfigure}[b]{0.4\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{barb07.png}
-        \caption{barbaraLarge.jpg downscaled by 0.7}
+        \includegraphics[width=\linewidth]{barb09noaa.png}
+        \caption{barbaraLarge.jpg downscaled by 0.9 without antialiasing}
     \end{subfigure}
     \begin{subfigure}[b]{0.4\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{barb05.png}
-        \caption{barbaraLarge.jpg downscaled by 0.5}
+        \includegraphics[width=\linewidth]{barb07aa.png}
+        \caption{barbaraLarge.jpg downscaled by 0.7 with antialiasing}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.4\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{barb07noaa.png}
+        \caption{barbaraLarge.jpg downscaled by 0.7 without antialiasing}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.4\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{barb05aa.png}
+        \caption{barbaraLarge.jpg downscaled by 0.5 with antialiasing}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.4\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{barb05noaa.png}
+        \caption{barbaraLarge.jpg downscaled by 0.5 without antialiasing}
     \end{subfigure}
     \caption{All scaled figures}
 \end{figure}
 
-The floor behind the person stays unchanged despite all the downscaling, due to it being mostly ``random noise'' and not ordered lines. The tablecloth, pants and headscarf all have lines that due to the compression algorithm was aliased into different lines. The direction of the lines seem to be change in every image. Sharp edges such as the table leg's line down also lose defintion as the image size is reduced. The frequency of which the image is sampled (``resolution'') is reduced as the image scale gets smaller, which explains all the above.
+The floor behind the person stays unchanged despite all the downscaling, due to it being mostly ``random noise'' and not ordered lines. The tablecloth, pants and headscarf all have lines that due to the compression algorithm was aliased into different lines. The direction of the lines seem to be change in every image. Sharp edges such as the table leg's line down also lose defintion as the image size is reduced. The frequency of which the image is sampled (``resolution'') is reduced as the image scale gets smaller, which explains all the above. The antialiased versions of every picture is smoother than the non-antialiasing versions, which could be due to application of a low pass filter, reducing the high frequency pixel data.
 
 
 Downscaled images on next page.
@@ -227,9 +242,14 @@ Downscaled images on next page.
 img = imread('barbaraLarge.jpg');
 
 % Part c
-img09 = imresize(img, 0.9, 'nearest');
-img07 = imresize(img, 0.7, 'nearest');
-img05 = imresize(img, 0.5, 'nearest');
+img09aa = imresize(img, 0.9, 'nearest', 'antialiasing', 1);
+img09noaa = imresize(img, 0.9, 'nearest', 'antialiasing', 0);
+
+img07aa = imresize(img, 0.7, 'nearest', 'antialiasing', 1);
+img07noaa = imresize(img, 0.7, 'nearest', 'antialiasing', 0);
+
+img05aa = imresize(img, 0.5, 'nearest', 'antialiasing', 1);
+img05noaa = imresize(img, 0.5, 'nearest', 'antialiasing', 0);
 \end{minted}
 \pagebreak
 \appendix
