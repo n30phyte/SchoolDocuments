@@ -1,0 +1,239 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{pgfplots}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage[RPvoltages, american, betterproportions, siunitx]{circuitikz}
+
+\pgfplotsset{compat=1.16}
+
+\title{ECE 302 Problem Set 3}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\begin{multicols}{2}
+    \section*{1}
+    \subsection*{a}
+    \begin{align*}
+        V_B     & = 5- R_B I_B \\
+        V_E     & = 1000 I_E   \\
+        V_C     & = 5-1000 I_C \\
+        V_B-V_E & = 0.7
+    \end{align*}
+    \begin{align*}
+        5- 100\si{\kilo\ohm} I_B & = V_B \\
+        5- 1\si{\kilo\ohm} I_C   & = V_C
+    \end{align*}
+    \begin{align*}
+        I_E & = \frac{5 - 100\si{\kilo\ohm} I_B  - 0.7}{1\si{\kilo\ohm}} \\
+        I_C & = 0.99 I_E
+    \end{align*}
+    \begin{align*}
+        I_B      & =I_E - I_C                                                  \\
+                 & = 0.01 \frac{4.3 - 100\si{\kilo\ohm} I_B }{1\si{\kilo\ohm}} \\
+        2000 I_B & = 0.043                                                     \\
+        I_B      & = 2.15\times 10^{-5}
+    \end{align*}
+
+    Calculate Voltages:
+
+    \begin{align*}
+        V_B & = 5- R_B I_B                                      \\
+            & = 5- 100 \si{\kilo\ohm} \cdot 2.15 \times 10^{-5} \\
+            & = \boxed{2.85 \si{\volt}}
+    \end{align*}
+    \begin{align*}
+        V_E & = V_B - 0.7              \\
+            & = \boxed{2.15\si{\volt}}
+    \end{align*}
+    \begin{align*}
+        V_C & = 5 - 1000 \cdot 100 I_B            \\
+            & = 5 - 1000 \cdot 2.15\times 10^{-3} \\
+            & = \boxed{2.85 \si{\volt}}
+    \end{align*}
+
+    Check self-consistency:
+
+    \begin{align*}
+        V_{BC} & = 2.85- 2.85                    \\
+               & = 0 \si{\volt} < 0.4 \si{\volt}
+    \end{align*}
+
+    \subsection*{b}
+    \begin{align*}
+        5- 10\si{\kilo\ohm}  I_B & = V_B \\
+        5- 1\si{\kilo\ohm} I_C   & = V_C
+    \end{align*}
+    \begin{align*}
+        I_E & = \frac{4.3 - 10\si{\kilo\ohm}I_B }{1\si{\kilo\ohm}}      \\
+        V_C & = 0.2 + V_E                                               \\
+            & = 4.5 - 10\si{\kilo\ohm} I_B                              \\
+        I_C & = \frac{5 - 4.5 + 10\si{\kilo\ohm} I_B }{1\si{\kilo\ohm}}
+    \end{align*}
+    \begin{align*}
+        I_B & = I_E - I_C                                                                                                \\
+            & = \frac{4.3 - 10\si{\kilo\ohm}I_B }{1\si{\kilo\ohm}} - \frac{0.5 + 10\si{\kilo\ohm} I_B }{1\si{\kilo\ohm}} \\
+            & = \frac{3.8}{21\si{\kilo\ohm}}                                                                             \\
+            & = 0.181\si{\milli\ampere}
+    \end{align*}
+
+    Calculate Voltages:
+
+    \begin{align*}
+        V_B & = 5 - R_B I_B                                     \\
+            & = 5 - 10 \si{\kilo\ohm} * 0.181\si{\milli\ampere} \\
+            & = \boxed{3.19 \si{\volt}}
+    \end{align*}
+    \begin{align*}
+        V_E & = V_B - 0.7              \\
+            & = \boxed{2.49\si{\volt}}
+    \end{align*}
+    \begin{align*}
+        V_C & = 4.5 - 10\si{\kilo\ohm} \cdot I_B \\
+            & = \boxed{2.69 \si{\volt}}
+    \end{align*}
+
+    Check self-consistency:
+
+    \begin{align*}
+        \beta_{forced} & = \frac{2.31}{0.181} \\
+                       & = 12.8 < 100
+    \end{align*}
+    \begin{align*}
+    \end{align*}
+
+    \section*{2}
+    \begin{align*}
+        V_E & = 5-3.3\si{\kilo\ohm} I_E      \\
+            & = V_B + 0.7                    \\
+        V_B & = 1.2 + 51 \si{\kilo \ohm} I_B
+    \end{align*}
+    \begin{align*}
+        5-3.3\si{\kilo\ohm} \left(\beta_F + 1\right) I_B & = 1.9 + 51 \si{\kilo\ohm} I_B \\
+        -384300 I_B                                      & = -3.1                        \\
+        I_B                                              & = 8.067 \times 10^{-6}        \\
+        V_B                                              & \boxed{= 1.61}                \\
+        V_E                                              & \boxed{= 2.31}
+    \end{align*}
+    \[
+        V_C -5.1 \si{\kilo\ohm} I_C = -5
+    \]
+    \begin{align*}
+        I_C & = \beta_F I_B                    \\
+            & = 100 \cdot 8.067 \times 10^{-6} \\
+            & = 8.067 \times 10^{-4}
+    \end{align*}
+    \[
+        V_C = \boxed{-0.88 \si{\volt}}
+    \]
+
+    \section*{3}
+    \begin{align*}
+        V_{Eq} & = \frac{15}{22+47} \times 22 = 4.7826 \si{\volt}                          \\
+        R_{Eq} & = {\left(\frac{1}{22}+\frac{1}{47} \right)}^{-1} = 14.9855 \si{\kilo\ohm} \\
+    \end{align*}
+    \begin{align*}
+        V_E & = I_E \cdot 1 \si{\kilo\ohm} \\
+        V_B & = 0.7 + V_E
+    \end{align*}
+
+    \begin{align*}
+        I_E \cdot 1 \si{\kilo\ohm} & = 4.0826 - 14.9855 \si{\kilo\ohm} I_B                           \\
+        I_E                        & = \frac{4.0826 - 14.9855 \si{\kilo\ohm} I_B }{1 \si{\kilo\ohm}}
+    \end{align*}
+    \begin{align*}
+        31 \si{\kilo\ohm} I_B      & =  4.0826 - 14.9855 \si{\kilo\ohm} I_B \\
+        45.9855 \si{\kilo\ohm} I_B & = 4.085                                \\
+        I_B                        & = 0.08878 \si{\milli\ampere}           \\
+        I_E                        & = 2.752 \si{\milli\ampere}
+    \end{align*}
+
+    Calculate Voltages:
+
+    \begin{align*}
+        V_E & = \boxed{2.75 \si{\volt}} \\
+        V_B & = \boxed{3.45 \si{\volt}} \\
+        V_C & = \boxed{11 \si{\volt}}
+    \end{align*}
+
+    Check self-consistency:
+
+    \begin{align*}
+        V_{BC} & = 3.45 - 11                                 \\
+               & = \boxed{-7.55 \si{\volt} < 0.4 \si{\volt}}
+    \end{align*}
+
+    \section*{4}
+    \subsection*{a}
+    \begin{align*}
+        \beta_{forced} & \equiv \beta_F \\
+                       & \equiv 100
+    \end{align*}
+    \begin{align*}
+        100     & = \frac{I_C}{I_B} \\
+        100 I_B & = I_C             \\
+        5-I_C   & = V_C             \\
+        V_E     & = I_E
+    \end{align*}
+    \begin{align*}
+        5 - 0.99 I_E & = 0.2 +I_E                 \\
+        -1.99 I_E    & = -4.8                     \\
+        I_E          & = 2.412 \si{\milli\ampere} \\
+        V_E          & = 2.41 \si{\volt}          \\
+        V_B          & = \boxed{3.11 \si{\volt}}
+    \end{align*}
+    \subsection*{b}
+    \begin{align*}
+        5 -  0.5 I_E & = 0.2 + I_E               \\
+        -1.5 I_E     & = -4.8                    \\
+        I_E          & = 3.2 \si{\milli\ampere}  \\
+        V_E          & = 3.2 \si{\volt}          \\
+        V_B          & = \boxed{3.90 \si{\volt}}
+    \end{align*}
+\end{multicols}
+
+\pagebreak
+\section*{5}
+\begin{align*}
+    V_B          & = -10 \si{\volt} - 10 \si{\kilo\ohm} I_I \\
+    I_I + I_{B2} & = I_{B_1}
+\end{align*}
+
+Since \(Q_1\) cutoff, \(I_{B1} = 0\), \(I_{E1} = 0\), \(I_{C1} = 0\)
+
+\begin{align*}
+    I_I                              & = -I_{B2}      \\
+    V_{C2}                           & = -5           \\
+    V_{E2C2}                         & = 0.2          \\
+    V_{E2} = \boxed{-4.8 \si{\volt}} & = V_{E1} = V_E
+\end{align*}
+
+Q1 check:
+
+\begin{align*}
+    V_{B1} & = -5.5               \\
+    V_{E1} & = -4.8               \\
+    V_{C1} & =  5                 \\
+    V_{BE} & = \boxed{-0.7 < 0.5}
+\end{align*}
+
+Q2 check:
+
+\begin{align*}
+    V_{C2B2}    & = 0.5  \\
+    -5 - V_{B2} & = 0.5  \\
+    -V_{B2}     & = 5.5  \\
+                & = -5.5
+\end{align*}
+
+\begin{align*}
+    4.8-0.45          & = 4.43               \\
+    \frac{4.43}{0.45} & = \boxed{9.84 < 100}
+\end{align*}
+\end{document}

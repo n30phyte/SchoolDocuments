@@ -1,0 +1,117 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+
+\title{ECE 311 Assignment 3}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\begin{multicols}{2}
+    \section*{1}
+    The order of functions is b, c, then d with highest to lowest spatial locality.
+
+    This is because in b, when p[i] gets accessed in order, then vel[j] gets accessed in order, before moving on to acc[j].
+
+    In c, when p[i] gets accessed in order, vel[j] and acc[j] are interleaved.
+
+    In d, each access is a new index i, which is very likely a cache miss.
+
+    \section*{2}
+    \begin{enumerate}
+        \item \(C: 2048, S: 256\)
+        \item \(B: 4, E: 4\)
+        \item \(s: 64, t: 25\)
+        \item \(B: 32, b: 5\)
+    \end{enumerate}
+
+    \section*{3}
+    \subsection*{a}
+    \begin{verbatim}
+        |TTTT|TTTT|SSBB|
+    \end{verbatim}
+    \subsection*{b}
+    \begin{itemize}
+        \item Miss, Unknown
+        \item Hit
+        \item Hit, C0
+    \end{itemize}
+
+    \section*{4}
+    \begin{center}
+        \begin{tabular}{ c c c }
+            Op & Write Allocate & Remark                  \\
+            1  & Miss           & 100 loaded to cache     \\
+            2  & Miss           & 200 loaded to cache     \\
+            3  & Miss           & 300 loaded to cache     \\
+            4  & Hit            & 100 is cached from Op 1 \\
+            5  & Hit            & 200 is cached from Op 2 \\
+            6  & Hit            & 300 is cached from Op 3 \\
+        \end{tabular}
+    \end{center}
+
+    \begin{center}
+        \begin{tabular}{ c c c }
+            Op & No-write Allocate & Remark                   \\
+            1  & Miss              & Nothing loaded to cache  \\
+            2  & Miss              & Nothing loaded to cache  \\
+            3  & Miss              & 300 loaded to cache      \\
+            4  & Miss              & Nothing loaded to cached \\
+            5  & Miss              & 200 loaded to cache      \\
+            6  & Hit               & 300 is cached from Op 3  \\
+        \end{tabular}
+    \end{center}
+
+    Write allocate has 3 misses and 3 hits, while no write allocate has 5 misses and 1 hit.
+
+    \section*{5}
+    \begin{center}
+        \begin{tabular}{ c c c c c c }
+            Cache size   & 16    & 32   & 64    & 128   & 256   \\
+            Miss rate    & 3.2\% & 3\%  & 2.6\% & 2.3\% & 1.9\% \\
+            Miss penalty & 84    & 88   & 96    & 112   & 144   \\
+            Average time & 3.688 & 3.64 & 3.496 & 3.576 & 3.736
+        \end{tabular}
+    \end{center}
+    The 64 bit cache has the smallest average memory access time.
+    \section*{6}
+    \subsection*{a}
+    \begin{center}
+        \begin{tabular}{ c c c }
+                   & L1 cache & L2 cache \\
+            Global & 6\%      & 3\%      \\
+            Local  & 6\%      & 50\%     \\
+        \end{tabular}
+    \end{center}
+    \subsection*{b}
+    \begin{align*}
+        \text{Avg access time} & = 1 + 0.06 \times \left( 8 +  0.5 \times 120 \right) \\
+                               & = 5.08
+    \end{align*}
+    \subsection*{c}
+    \begin{align*}
+        \text{Avg access time} & = 1 + 0.06 \times \left( 120 \right) \\
+                               & = 8.2
+    \end{align*}
+
+    \section*{7}
+    \[
+        \frac{2^{32}}{2^{13}} = 2^{19} \text{ entries}
+    \]
+    \section*{8}
+    \begin{center}
+        \begin{tabular}{ c c c c c }
+            P      & VPN & VPO & PPN & PPO \\
+            32 KiB & 49  & 15  & 25  & 15  \\
+            64 KiB & 48  & 16  & 24  & 16  \\
+        \end{tabular}
+    \end{center}
+\end{multicols}
+\end{document}

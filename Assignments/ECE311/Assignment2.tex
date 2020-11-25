@@ -1,0 +1,76 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+
+\title{ECE 311 Assignment 2}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\begin{multicols}{2}
+    \subsection*{1a}
+    \[
+        2~surfaces/platter \times 4~platters = 8~surfaces
+    \]
+    \subsection*{1b}
+    \[
+        1~track/surface * 8~surfaces = 8~tracks
+    \]
+    \subsection*{2}
+    \( 8~platters = 16~surfaces\)
+    \begin{align*}
+        800 \times 8000 + 400 \times 10000 & = 10400000~sectors/surface    \\
+        10400000 \times 16 \times 512      & = 8.51968\times 10^{10}~Bytes \\
+                                           & = 85.2~GB
+    \end{align*}
+    \subsection*{3}
+    \(T_{avg} = 5\si{\milli\second} + \frac{\frac{1}{2000}\times 60}{2} = 7.5 \si{\milli\second}\)
+    \subsection*{4a}
+    Queue time, seek time and rotational latency are assumed to be 0 as the head is already on the file.
+
+    Transfer time:
+    \begin{align*}
+         & \frac{1}{12000} \times \frac{1}{1000}\times 60 \times \frac{2\times 2^{20}}{512} \\
+         & = 20.48\si{\milli\second}
+    \end{align*}
+    \subsection*{4b}
+    \begin{align*}
+          & \left( 6\times 10^{-3} + \frac{30}{12000}\times\frac{1}{1000}\times 60 \right) \times \frac{2\times 2^{20}}{512} \\
+        = & 34.8\si{\second}                                                                                                 \\
+        = & 34836 \si{\milli\second}
+    \end{align*}
+    \subsection*{5a}
+    \[
+        \frac{10^{15}}{170\times10^6} \times \frac{1}{60}\times \frac{1}{60} \times \frac{1}{24} \times \frac{1}{365} = 0.187 \text{ years}
+    \]
+    \subsection*{5b}
+    \[
+        \frac{10^{15}}{14\times10^6} \times \frac{1}{60}\times \frac{1}{60} \times \frac{1}{24} \times \frac{1}{365} = 0.187 \text{ years}
+    \]
+    \subsection*{5c}
+    \[
+        \frac{10^{15}}{2\times 10^{10}} \times \frac{1}{365} = 137 \text{ years}
+    \]
+    \subsection*{6}
+    $0001~1010 \oplus 0000~1001 \oplus 0001~0010 \oplus 1010~1011 = 1010~1010 = AA $
+    \subsection*{7a}
+    Yes it is possible in this situation:
+
+    $B_1$:
+    $1010~1011 \oplus 1001~0001 \oplus 0001~1010 = 0010~0000 = 20 $
+
+    $B_2$:
+    $1010~1011 \oplus 1001~0001 \oplus 0011~0010 = 0000~1000 = 08 $
+
+    \subsection*{7b}
+    There is not enough information to restore $B_2$ or $B_3$. Both XOR operations have 2 unknowns, which is not mathematically solveable.
+
+\end{multicols}
+\end{document}
