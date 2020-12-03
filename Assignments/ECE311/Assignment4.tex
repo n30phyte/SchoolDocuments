@@ -1,0 +1,161 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{float}
+
+\title{ECE 311 Assignment 4}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\begin{multicols*}{2}
+    \section*{1}
+    \subsection*{a}
+    \begin{table}[H]
+        \begin{tabular}{  c  c  c  }
+            \toprule
+            Start Address & Element & Pad Bytes \\
+            \midrule
+            0\times00     & a       & pad 2     \\
+            0\times04     & b       &           \\
+            0\times08     & c       & pad 7     \\
+            0\times10     & d       &           \\
+            0\times18     & e       & pad 6     \\
+            0\times20     & f       &           \\
+            0\times28     & g       & pad 7     \\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+
+    \subsection*{b}
+    Total size:
+    \verb|0x28 + 0x1 + 0x7 = 0x30 = 48 bytes|
+
+    \subsection*{c}
+    \begin{table}[H]
+        \begin{tabular}{  c  c  c  }
+            \toprule
+            Start Address & Element & Pad Bytes \\
+            \midrule
+            0\times00     & c       &           \\
+            0\times01     & g       & pad 2     \\
+            0\times04     & b       &           \\
+            0\times08     & a       &           \\
+            0\times0A     & e       & pad 4     \\
+            0\times10     & d       &           \\
+            0\times18     & f       &           \\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+
+    Size:
+    \verb|0x18 + 0x8 = 0x20 = 32 bytes|
+
+    \section*{2}
+    \subsection*{a}
+    Cycle time = slowest stage + overhead
+    \[
+        2\si{\nano\second} + 0.1 \si{\nano\second} = 2.1 \si{\nano\second}
+    \]
+    \subsection*{b}
+
+    Ideal CPI:~1
+
+    Average CPI with stalls:\(1 + (0.25 \cdot 1 ) = 1.25\)
+
+    \subsection*{c}
+    \[
+        \frac{7.1}{2.1 \cdot 1.25} = 2.70\times
+    \]
+
+    \subsection*{d}
+    \[
+        \frac{7.1}{0.1} = 71\times
+    \]
+
+    \section*{3}
+    \[(1+0.3\cdot 1) = 1.3 \text{ CPI}\]
+    \[\frac{1}{1.3} \text{ IPC} \times 1.08 \text{ CPt} = 0.83 \text{ IPt}\]
+    The CPU without hazards is \(1.17\times\) faster
+
+    \section*{4}
+    Stall penalty:
+    \[
+        2\times 5\% + 3 \times 7\% + 3\times 12\% = 0.67 \text{ CPI penalty}
+    \]
+
+    Branch taken penalty:
+    \[
+        2\times 5\% + 3 \times 7\% + 2\times 12\% = 0.55 \text{ CPI penalty}
+    \]
+
+    Branch untaken penalty:
+    \[
+        2\times 5\% + 0 \times 7\% + 3\times 12\% = 0.46 \text{ CPI penalty}
+    \]
+
+    \section*{5}
+    Without scheduling:
+    \begin{verbatim}
+        L.D    F2, 0(R1)       1
+        stall                  2
+        stall                  3
+        MUL.D  F4, F2, F0      4
+        L.D    F6, 0(R2)       5
+        stall                  6
+        stall                  7
+        stall                  8
+        stall                  9
+        stall                  10
+        ADD.D  F6, F4, F6      11
+        stall                  12
+        stall                  13
+        stall                  14
+        stall                  15
+        S.D    F6, 0(R2)       16
+        DADDIU R1, R1, #8      17
+        DADDIU R2, R2, #8      18
+        stall                  19
+        DSLTU  R3, R1, R4      20
+        stall                  21
+        stall                  22
+        BNEZ   R3, foo         23
+    \end{verbatim}
+    Scheduled:
+    \begin{verbatim}
+        L.D    F2, 0(R1)       1
+        L.D    F6, 0(R2)       2
+        stall                  3
+        MUL.D  F4, F2, F0      4
+        DADDIU R1, R1, #8      5
+        DADDIU R2, R2, #8      6
+        stall                  7
+        DSLTU  R3, R1, R4      8
+        stall                  9
+        stall                  10
+        ADD.D  F6, F4, F6      11
+        stall                  12
+        stall                  13
+        stall                  14
+        stall                  15
+        S.D    F6, -8(R2)      16
+        BNEZ   R3, foo         17
+    \end{verbatim}
+    \section*{6}
+    \begin{align*}
+        2^0 \times 2 \times 8\text{K} = 16 \text{K bits}
+    \end{align*}
+    \begin{align*}
+        2^3 \times 2 \times \text{entries} & = 16 \text{K bits} \\
+        \text{entries}                     & = 1\text{K}
+    \end{align*}
+\end{multicols*}
+\end{document}

@@ -1,0 +1,228 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{pgfplots}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage[RPvoltages, american, betterproportions, siunitx]{circuitikz}
+
+\pgfplotsset{compat=1.16}
+
+\title{ECE 302 Problem Set 5}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\begin{multicols}{2}
+    \section*{1}
+    \subsection*{a}
+    \begin{align*}
+        1000                          & = \frac{1}{k'_n \left(\frac{W}{L}\right)\left(1.5-1\right)} \\
+        k'_n \left(\frac{W}{L}\right) & = \frac{1}{500}
+    \end{align*}
+    \begin{align*}
+        200      & = \frac{1}{\frac{1}{500}\left(v_{GS} - 1\right)} \\
+        v_{GS}-1 & = 2.5 \si{\volt}                                 \\
+        v_{GS}   & = 3.5 \si{\volt}
+    \end{align*}
+    \subsection*{b}
+    \begin{align*}
+        0.2 \si{\milli\ampere} = \frac{1}{2} \cdot -0.1 \si{\milli\ampere\per\volt\squared} {\left(v_{GS} - 1\right)}^2 \\
+        v_{GS} - 1 & = 2                                                                                                \\
+        v_{GS}     & = 3
+    \end{align*}
+    \begin{align*}
+        v_{DS} & > v_{GS} - V_t \\
+        v_{DS} & > 2
+    \end{align*}
+    \section*{2}
+    \subsection*{a}
+    \begin{align*}
+        60\si{\micro\ampere}  & = k'_n \left(\frac{W}{L}\right) \left[\left(2-V_t\right)0.1 - \frac{1}{2}{(0.1)}^2\right] \\
+        160\si{\micro\ampere} & = k'_n \left(\frac{W}{L}\right) \left[\left(4-V_t\right)0.1 - \frac{1}{2}{(0.1)}^2\right]
+    \end{align*}
+    \[
+        \frac{60\si{\micro\ampere}}{\left[\left(2-V_t\right)0.1 - \frac{1}{2}{(0.1)}^2\right]}  = \frac{160\si{\micro\ampere}}{\left[\left(4-V_t\right)0.1 - \frac{1}{2}{(0.1)}^2\right] }
+    \]
+    \begin{align*}
+        2.36\times 10^{-5} - 6\times 10^{-6} V_t & = 3.12\times 10^{-5} - 1.6\times 10^{-5} V_t \\
+        1\times10^{-5} V_t                       & = 7.5\times 10^{-6}                          \\
+        V_t                                      & = 0.75\si{\volt}
+    \end{align*}
+    \subsection*{b}
+    \begin{align*}
+        k'_n \left(\frac{W}{L}\right) & = \frac{6\times 10^{-5} \si{\ampere}}{\left( 0.125 - \frac{1}{2}{\left( 0.2 \right)}^2 \right)} \\
+        \frac{W}{L}                   & = 10
+    \end{align*}
+    \subsection*{c}
+    \begin{align*}
+        k'_n \left(\frac{W}{L}\right) & = 5 \times 10^{-4} \\
+        v_{GS}                        & > 0.75\si{\volt}   \\
+        v_{GS} - V_t                  & = 3 - 0.75         \\
+                                      & = 2.25\si{\volt}
+    \end{align*}
+    Still triode
+    \begin{align*}
+        i_D & = 5\times 10^{-4} \left[ \left(2.25\right)0.15 - \frac{1}{2} {\left(0.15\right)}^2 \right] \\
+            & =1.63125\times10^{-4}                                                                      \\
+            & \approx 1.63\si{\micro\ampere}
+    \end{align*}
+    \subsection*{d}
+    Pinch-off boundary: \(v_{DS} = v_{GS} - V_t\)
+    \[
+        v_{DS} = 3-0.75 = 2.25
+    \]
+    \begin{align*}
+        i_D & = \frac{1}{2} 5\times 10^{-4} {\left(2.25\right)}^2 \\
+            & = 1.27\si{\milli\ampere}
+    \end{align*}
+    \section*{3}
+    \begin{align*}
+        \frac{5-3.5}{R} & = 1.20\times ^{-6}   \\
+        R               & = 12.5\si{\kilo\ohm} \\
+    \end{align*}
+    \[
+        v_{GD} = 0 \text{ For all diodes}
+    \]
+    \begin{align*}
+        v_{GS2} & =v_{DS2} = 2\si{\volt}   \\
+        v_{GS1} & =v_{DS1} = 1.5\si{\volt}
+    \end{align*}
+
+    Both diodes at saturation
+
+    \begin{align*}
+        120\times 10^{-6} & = \frac{1}{2}
+        \cdot 120\times 10^{-6} \frac{W_2}{1\si{\micro\meter}}{(2-1)}^2                                    \\
+        W_2               & = 2\si{\micro\meter}                                                           \\
+        120\times 10^{-6} & = \frac{1}{2}\cdot 120\times 10^{-6} \frac{W_1}{1\si{\micro\meter}}{(1.5-1)}^2 \\
+        W_1               & = 8\si{\micro\meter}                                                           \\
+    \end{align*}
+    \section*{4}
+    \subsection*{a}
+    \begin{align*}
+        v_{GS} & = - v_{S}                                   \\
+        i_{D}  & = \frac{v_{S} + 5}{100}                     \\
+        i_{D}  & = \frac{1}{2} 0.4 {\left(-v_S - 1\right)}^2 \\
+               & = 0.2 v_S^2 + 0.4 v_S + 0.2
+    \end{align*}
+    \begin{align*}
+        v_S + 5 & = 20 v_S^2 + 40 v_S + 20 \\
+        0       & = 20 v_S^2 + 39 v_S + 25 \\
+        v_S     & = -0.527, -1.42
+    \end{align*}
+    Since \(v_{GS} > V_t\), \(-0.527\) can be ignored.
+    \[
+        v_S = -1.42
+    \]
+    \begin{align*}
+        i_D & = \frac{-1.42 + 5}{100}     \\
+            & = 0.0358 \si{\milli\ampere} \\
+            & = 35.8 \si{\micro\ampere}
+    \end{align*}
+    \subsection*{b}
+    Assume saturation
+    \begin{align*}
+        I_D & = \frac{1}{2} \cdot 20\times 10^{-6} \cdot 3 {\left( -V_o + 2\right)}^2 \\
+        I_D & = \frac{1}{2} \cdot 20\times 10^{-6} \cdot 3 {\left( V_o - 1\right)}^2
+    \end{align*}
+    \begin{align*}
+        {\left( -V_o + 2\right)}^2 & = {\left( V_o - 1\right)}^2 \\
+        V_o^2 - 4V_o + 4           & = V_o^2 - 2 V_o + 1         \\
+        -2V_o                      & = -3                        \\
+        V_o                        & = 1.5\si{\volt}
+    \end{align*}
+    \[
+        I_o = 7.5\si{\micro\ampere}
+    \]
+    \section*{5}
+    \subsection*{a}
+    \begin{align*}
+        \frac{3.5}{R} & = 115\times 10^{-6} \\
+        R             & = 30.4\si{\kilo}
+    \end{align*}
+    \begin{align*}
+        v_S    & = 5                    \\
+        v_D    & = v_G = 3.5 \si{\volt} \\
+        v_{SG} & = 1.5\si{\volt}
+    \end{align*}
+    Get oprating mode:
+    \[
+        v_{SG} - |V_t| = 0.8
+    \]
+    saturation
+
+    \begin{align*}
+        115\si{\micro\ampere} & = \frac{1}{2} 60\times 10^{-6} \frac{W}{0.8} {\left(1.5-0.7\right)}^2 \\
+        W                     & = 4.79\si{\micro\meter}
+    \end{align*}
+    \subsection*{a}
+    \begin{align*}
+        v_{S2}          & = 10\si{\volt} \\
+        v_{G2} = v_{D2} & = V_A
+    \end{align*}
+    Assume saturation:
+    \begin{align*}
+        2   & = \frac{1}{2} {\left( 10 - V_A - 2 \right)}^2 \\
+            & = 8 - V_A                                     \\
+        V_A & = 6
+    \end{align*}
+    Verify:
+    \begin{align*}
+        v_{SG} & = 4 > 2                 \\
+        v_{SD} & = 4 \geq v_{SG} + |V_t|
+    \end{align*}
+
+    \begin{align*}
+        v_{S1} & = 6 \si{\volt} \\
+        v_{G1} & = v_{D1} = V_B
+    \end{align*}
+    Assume saturation:
+    \begin{align*}
+        2   & = \frac{1}{2} {\left( 6 - V_B - 2 \right)}^2 \\
+            & = 4 - V_B                                    \\
+        V_B & = 2
+    \end{align*}
+    Verify:
+    \begin{align*}
+        v_{SG} & = 4 > 2                 \\
+        v_{SD} & = 4 \geq v_{SG} + |V_t|
+    \end{align*}
+    \section*{6}
+    \begin{align*}
+        v_{S2}            & = 3                   \\
+        v_{G2} = v_{D2} = & v_{G1} = v_{D1} = V_o
+    \end{align*}
+    Assume saturation for both MOSFET:\@
+    \begin{align*}
+        I_O & = \frac{1}{2} \frac{20}{2.5} \frac{75}{10} {\left(3 - V_O - 1\right)}^2 \\
+        I_O & = \frac{ 20}{2} \frac{30}{10} {\left(V_O - 1\right)}^2
+    \end{align*}
+    \begin{align*}
+        {(-V_O + 2)}^2    & = {(V_O - 1)}^2   \\
+        V_O^2 - 4 V_O + 4 & = V_O^2 -2V_O + 1 \\
+        -2V_O             & = 1- 4            \\
+        V_O               & = \frac{1.5}{2}
+    \end{align*}
+    \begin{align*}
+        I_O & = 30 (1.5 - 1)           \\
+            & = 7.5 \si{\micro\ampere}
+    \end{align*}
+    Verify p-channel:
+    \begin{align*}
+        v_{SG}         & = 1.5 > 1      \\
+        v_{SG} - |V_t| & = 0.5          \\
+        v_{SD}         & = 1.5 \geq 0.5
+    \end{align*}
+    Verify n-channel:
+    \begin{align*}
+        v_{GS}       & = 1.5 > 1      \\
+        v_{DS} - V_t & = 0.5          \\
+        v_{DS}       & = 1.5 \geq 0.5
+    \end{align*}
+\end{multicols}
+\end{document}
