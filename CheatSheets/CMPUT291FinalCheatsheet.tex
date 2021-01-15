@@ -1,0 +1,317 @@
+\documentclass[landscape, letterpaper]{extarticle}
+
+\usepackage[margin=.25in]{geometry}
+\usepackage{fontspec}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{scrextend}
+\usepackage{microtype}
+\usepackage{bm}
+\usepackage[super]{nth}
+
+\renewcommand{\complement}[1]{{#1}^\mathsf{c}}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\begin{document}
+\begin{multicols}{3}
+    \section*{ER Model}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item \textbf{Entity:} A distinguishable object, e.g.\ person, thing, object.
+        \item \textbf{Relationship:} Represents the fact that certain entities are related to each other.
+        \item \textbf{Set:} A set of items with the same type
+        \item \textbf{Attribute:} Property of an entity or relationship.
+        \item \textbf{Key:} Minimal set of attributes that uniquely identifies entity in set.
+        \item \textbf{Role:} Labels added when an entity serves multiple functions in the relationship set.
+    \end{itemize}
+    \subsection*{Diagram}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item \textbf{Plain line:} Many to many
+        \item \textbf{Bold line:} At least one
+        \item \textbf{Arrow:} At most one
+        \item \textbf{Bold arrow:} Exactly one
+        \item \textbf{Bold arrow one way:} Many to one
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item \boxed{Employees} -- WorksIn \bm{\rightarrow} \boxed{Departments}
+                  \item Each employee can be part of at most one department
+              \end{itemize}
+        \item \textbf{Bold arrow two way:} One to one
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item \boxed{Employees} \bm{\leftarrow} Manages \bm{\rightarrow} \boxed{Departments}
+                  \item Only one manager per department
+              \end{itemize}
+    \end{itemize}
+    \section*{Relational Algebra}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item \textbf{Select: } \( \sigma_{condition}(relation) \)
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item Operators: \( <, \leq, \geq, >, =, \neq \)
+                  \item Condition: attribute operator constant OR attribute operator attribute
+              \end{itemize}
+        \item \textbf{Project: } \( \pi_{attribute~list}(relation) \)
+        \item \textbf{Union:} \( A \cup B \)
+        \item \textbf{Intersect:} \( A \cap B \)
+        \item \textbf{Difference:} \( A - B\)
+        \item \textbf{Cartesian Product:} \( A \times B \)
+        \item \textbf{Rename:} \( \rho_{(p, q, \ldots, z)}relation\)
+        \item \textbf{Join:} \( R \bowtie_{condition} S\)
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item Equivalent to \(\sigma_{condition} (R \times S)\)
+              \end{itemize}
+        \item \textbf{Equijoin:} \( R \bowtie_{r = s} S\)
+        \item \textbf{Natural join:} \(R \bowtie S \)
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item Equijoin but with implicit condition
+              \end{itemize}
+        \item \textbf{Division:} \(R \div S\)
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item Tuples in R that match all tuples in S
+                  \item Derived: \(\pi_n (R) - \pi_n({({\pi_n(R) \times S}) -R})\)
+              \end{itemize}
+    \end{itemize}
+    For set operations (Union, Intersect, Difference), the two relations need to be union compatible i.e.\ same column headers
+    \section*{SQL}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item \verb|CREATE TABLE name(prop type, constraint);|
+        \item \verb|DROP TABLE name;|
+        \item \verb|ALTER TABLE name action;|
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item \verb|ADD/MODIFY (prop type/constraint)|
+              \end{itemize}
+        \item \verb|INSERT INTO name(properties) VALUES(vals);|
+        \item \verb|UPDATE name SET prop=val WHERE condition;|
+        \item \verb|DELETE FROM name WHERE condition;|
+        \item \verb|CREATE VIEW AS SELECT ...;|
+    \end{itemize}
+
+    \section*{Disk}
+    \textbf{Key:} Improve performance by reducing seek/rotation delays
+
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Arrange files sequentially on disk.
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item Exploit spatial locality.
+              \end{itemize}
+        \item Read/Write in bigger chunks/pages.
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item Large page size: related data stored close by might get loaded, avoiding another page transfer
+                  \item Small page size: Reduce transfer time, reduce required buffer in main memory
+                  \item Typically: 4096 bytes
+              \end{itemize}
+        \item Buffering reads and writes.
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item Cache requests so that you don't have to go to disk
+                  \item When cache full, throw away least recently used
+                  \item Keep track of clean/dirty so if clean no need to write back.
+              \end{itemize}
+    \end{itemize}
+    \section*{Organization}
+    \subsection*{Heap File}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Rows get appended to end of file as inserted (unordered)
+        \item Deleted rows create gaps (Need compaction)
+    \end{itemize}
+    Performance:
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Assume File has F pages
+        \item Average search: \(F/2\) if exists, \(F\) otherwise
+        \item Average delete: \(F/2 + 1\) if exists, \(F\) otherwise
+    \end{itemize}
+    \subsection*{Sorted File}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Rows get inserted based on specific row and everything to shift
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item Can leave empty space around (fill factor)
+                  \item Can use overflow pages (chains)
+              \end{itemize}
+        \item Deleted rows cause everything to get shifted
+    \end{itemize}
+    Performance:
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Assume File has F pages
+        \item Average search: \(\log_2 F\) can do binary search
+        \item Average insert and delete: \(search + F\) Need to shift rest of file
+    \end{itemize}
+    \subsection*{Index File}
+    Allows to locate rows without having to scan entire table using a search key (not candidate key, only used for search and may not be unique).
+
+    Different structures:
+
+    Integrated Structure:
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Top contains mechanism for locating index entries.
+        \item Bottom contains index entries with full records.
+    \end{itemize}
+
+    Secondary Index with Storage structure:
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Separate file contains mechanism for locating index entries and index entries with pointers to storage.
+        \item Storage contains records.
+    \end{itemize}
+
+    Index types:
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Clustered: Data rows are same order as index.
+        \item Unclustered: Opposite of above.
+        \item Both can be either integrated or split.
+        \item Dense: Index for ever record.
+        \item Sparse: Index only for some records.
+        \item Can be mixed in with the above.
+    \end{itemize}
+
+    \section*{Tree Structured Index}
+    Can be used to do either an equality search or range search.
+
+    Can be stored in binary tree, every operation will be O(height of tree), or we can use B+ tree instead and store multiple things per node. Complexity will be O(height) but height will be \(\log_{m}(Entries)\) instead of \(\log_{2}(Entries)\)
+
+    \subsection*{ISAM}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Static tree, doesn't get updated when insert/delete
+        \item Each node is a page
+        \item When leaf pages full and you need more space, you add a new overflow page into the chain.
+        \item Useful when not many updates
+    \end{itemize}
+
+    \subsection*{B+ Tree}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Dynamically updates whenever new data is added/removed
+        \item Each node still a page.
+        \item Search/Insert/Delete guaranteed to be \(\log_{F}(N)\)
+        \item Leaf pages form a sequence set (from left to right, they are in order)
+        \item Minimum 50\% occupancy, except for the root
+        \item When split leaf, key is \textbf{copied} up. When split non-leaf, value is \textbf{moved} up.
+        \item On deletion, if below minimum occupancy, rebalance
+              \begin{itemize}
+                  \item Try to redistribute by taking node with same parent
+                  \item If fails, merge
+                  \item If merge, delete node
+                  \item Propagate
+              \end{itemize}
+    \end{itemize}
+
+    \subsection*{Hashing}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Hash keys into page address
+        \item \(H(K): K \rightarrow A\)
+        \item Possible hashing functions:
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item Let last digit of key to be page location
+                  \item Folding: Replace text with ASCII code, combine into 4 digits then add, modulus to fit into address space
+                  \item Midsquare: Square key and take middle
+                  \item Radix transformation: Change radix then modulus
+                  \item Same as folding, but with multiplication by index.
+              \end{itemize}
+        \item \textbf{Key Space:} Set of all possible values for keys
+        \item \textbf{Address Space:} Set of all possible values for page address
+        \item Address space is usually smaller than key space
+        \item Address space must be able to store all records
+        \item \textbf{Randomization:} Records should be spread randomly
+        \item \textbf{Collision:} Two different keys may have same address
+        \item Modulo prime number to increase likelihood of using all spaces
+        \item Range and partial key search cannot be done
+        \item Equality search is constant time
+    \end{itemize}
+    \subsection*{Collision}
+    Static Methods:
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Linear Probing
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item Go down <step> addresses if collision
+                  \item Wastes space as rows get deleted
+              \end{itemize}
+        \item Double Hashing
+        \item Separate overflow
+    \end{itemize}
+    Dynamic Methods:
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Extendable Hashing
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item use first k bits of hash, increasing k as collisions happen.
+              \end{itemize}
+        \item Linear Hashing
+    \end{itemize}
+    \subsection*{In SQL}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Unclustered
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item \verb|CREATE INDEX idx ON table(prop)|
+                  \item Can add \verb|UNIQUE|
+              \end{itemize}
+        \item Clustered: create table with \verb|WITHOUT ROWID|
+    \end{itemize}
+    \section*{Normal Forms}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Functional Dependency \( X \rightarrow Y\)
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item \( X \rightarrow YZ \equiv (X \rightarrow Y \text{ and } X \rightarrow Z\))
+              \end{itemize}
+        \item Armstrong's Axioms
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item \textbf{Reflexivity:} \(X \rightarrow X \text{ or }XY \rightarrow X\)
+                  \item \textbf{Augmentation:} \( X \rightarrow Y: XZ \rightarrow YZ\)
+                  \item \textbf{Transitivity:} \( X\rightarrow Y, Y \rightarrow Z: X \rightarrow Z\)
+              \end{itemize}
+        \item Given a set \(F\) of FDs, the closure of \(F\), \(F^+\) is all the FDs implied from F.
+        \item \(X^+\) is the set of all attributes that can be determined by \(X\)
+        \item \textbf{Superkey:} Set of attributes that identify row.
+        \item \textbf{Candidate Key:} Minimal superkey
+        \item \textbf{Key:} Minimal and Unique
+        \item \textbf{Unique:} If two tuples have same values, the rest of the attributes must always be the same.
+        \item \textbf{Minimal:} Cannot eliminate any attribute without becoming not a key.
+        \item \textbf{\nth{3} Normal Form:} All attributes are functionally dependent on solely the primary key.
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item \(X \rightarrow A\)
+                  \item \(X\) is super key of \(R\) or
+                  \item \(Y\) is part of a key
+              \end{itemize}
+        \item \textbf{Boyce-Codd Normal Form:} Stricter 3NF
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item \(X \rightarrow A\)
+                  \item \(X\) is super key of \(R\)
+              \end{itemize}
+        \item \textbf{Lossless join BCNF:} Not always able to preserve, keep minimal cover
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item \(X \rightarrow A\) in \(R(Z)\) that violates BCNF
+                  \item Split into \(R1\left( X^+ \cap Z \right)\) and
+                  \item \(R2\left( \left(Z - X^+\right) \cup X \right)\)
+              \end{itemize}
+        \item \textbf{Lossless join 3NF:} Start with lossless BCNF decomposition
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item \(X \rightarrow A\) in \(R(Z)\) that isn't preserved, create relation with \(XA\)
+              \end{itemize}
+    \end{itemize}
+    \section*{Database Tuning}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item \textbf{Denormalize:} Avoid join but add redundancy
+        \item \textbf{Performance Bottleneck:} Heavily used tables, deep index, wide rows
+        \item \textbf{Parititioning:} Horizontal: Split rows; Vertical: Split columns + replicate keys
+        \item \textbf{Clustered Index:} When point queries with large results, range queries, order-by
+        \item \textbf{Unclustered Index:} When point queries with small results, nested loop joins
+    \end{itemize}
+
+    \section*{Examples}
+    \newtheorem{example}{Example}
+    \subsection*{Relational Algebra}
+    \begin{example}
+        SQL Division
+        Define the following tables:
+
+        R = (n, x), S = (x)
+
+        SQL query:
+        \begin{verbatim}
+CREATE TABLE R(n INTEGER, x TEXT);
+
+CREATE TABLE S(x TEXT);
+
+SELECT n FROM R
+EXCEPT
+SELECT n FROM
+     (SELECT R.n, S.x FROM R, S
+     EXCEPT
+     SELECT * FROM R);
+        \end{verbatim}
+    \end{example}
+\end{multicols}
+\end{document}

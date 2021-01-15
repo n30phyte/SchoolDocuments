@@ -6,7 +6,7 @@
 
 1. Study Permit
 2. PGWP
-3. At least 1 year of work experience in NOC 0, a or B,
+3. At least 1 year of work experience in NOC 0, A or B,
 4. Language test
 5. Express Entry
 
@@ -97,7 +97,6 @@ Job Bank (GC) helps you find job
     - If true, I can apply for work permit
   - International Mobility Program
     - PGWP is under this, no LMIA
-
 
 ## Working in Canada after Graduation
 

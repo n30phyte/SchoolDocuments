@@ -1,0 +1,154 @@
+\documentclass{article}
+
+\usepackage[margin=.25in, letterpaper]{geometry}
+
+\usepackage{siunitx}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{scrextend}
+\usepackage{microtype}
+\usepackage{mathrsfs}
+\usepackage{booktabs}
+
+\theoremstyle{remark}
+\newtheorem{example}{Example}[section]
+\newtheorem*{solution}{Solution}
+
+\begin{document}
+
+\section{Probability}
+\begin{align*}
+    P[A|B] & = \frac{P[B|A] P[A]}{P[B]} \\
+           & = \frac{P[A \cap B]}{P[B]}
+\end{align*}
+
+\begin{align*}
+    P[A \cap B]                      & =P[A] P[B|A]  \\
+                                     & = P[B] P[A|B] \\
+    \text{(A and B are independent)} & = P[A] P[B]
+\end{align*}
+
+\[
+    P[A \cup B] = P[A] + P[B] - P[A \cap B]
+\]
+
+\[
+    P[A \cup B \cup C] = P[A] + P[B] + P[C] - P[A \cap B] - P[B \cap C] - P[A \cap C] + P[A \cap B \cap C]
+\]
+
+\begin{align*}
+    P[A] & = P[A \cap B_1] + P[A \cap B_2] + \cdots + P[A\cap B_n]       \\
+         & = P[A|B_1] P[B_1]+ P[A|B_2] P[B_2] + \cdots + P[A|B_n] P[B_n]
+\end{align*}
+
+\[
+    P[A^C | B] = 1 - P[A|B]
+\]
+
+\(k\) samples, \(n\) objects
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{ c c }
+        \toprule
+        Action                         & Equation                                      \\
+        \midrule
+        With replacement               & \(nk\)                                        \\
+        Without Replacement            & \(\frac{n!}{(n-k)!} = nPk = {(n)}_k\)         \\
+        Without Replacement, unordered & \(\frac{n!}{(n-k)!k!} = nCk = {n \choose k}\) \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Random Values}
+
+\begin{multicols*}{2}
+    \subsection{PMF CDF PDF}
+
+    PMF (Discrete):\@
+    \begin{itemize}
+        \item \(P_X(x) = P[X = x]\)
+        \item \(P_X(x) \geq 0, \forall x\)
+        \item \(\sum_{x\in S_X} P_X(x) = 1\)
+        \item \(P[B] = \sum_{x\in B} P_X(x)\)
+    \end{itemize}
+
+    CDF (Discrete):\@
+    \begin{itemize}
+        \item \(F_X(a) = P[X \leq a]\)
+        \item \(F_X(-\infty) = 0,  F_X(\infty) = 1\)
+        \item \(a_i \geq a_j \rightarrow F_X(a_i) \geq F_X(a_j)\)
+        \item \(\lim_{\epsilon \rightarrow 0} F_X(a_i) - F_X(a_i - \epsilon) = P_X(a_i)\)
+    \end{itemize}
+
+    CDF (Continuous):\@
+    \begin{itemize}
+        \item \(F_X(x) = P[X \leq x]\)
+        \item \(F_X(-\infty) = 0,  F_X(\infty) = 1\)
+        \item \(x_1 < x_2 \rightarrow F_X(x_1) \leq F_X(x_2)\)
+        \item \(P_[x_1 < X \leq x_2] = F_X(x_2) - F_X(x_1)\)
+        \item \(P[X\leq x_1] = P[X < x_1]\)
+    \end{itemize}
+
+    PDF (Continuous):\@
+    \begin{itemize}
+        \item \(f_X(x) = \frac{d}{dx} F_X(x)\)
+        \item \(f_X(x) \geq 0\)
+        \item \(F_X(x) = \int_{-\infty}^x f_X(u) du\)
+        \item \(\int_{-\infty}^{\infty} f_X(x) = 1\)
+        \item \(P[x_1 < X \leq x_2] = \int_{x_1}^{x_2} f_X(x)dx\)
+    \end{itemize}
+
+    \subsection{Expected Value and Variance}
+    \(E[X]\)
+    \begin{itemize}
+        \item \(E[X] = \sum_{x\in S_X} xP_X(x) = \mu_X\)
+        \item \(E[g(X)] = \sum_{x\in S_X} g(x) P_X(x) \)
+        \item \(E[aX + b] = a E[X] + b\)
+    \end{itemize}
+    \(Var[X]\)
+    \begin{itemize}
+        \item \(Var[X] = \sigma^2_X = E[{(X-\mu_X)}^2] = E[X^2] - {(E[X])}^2\)
+        \item \(Var[aX+b] = a^2 Var[X]\)
+    \end{itemize}
+\end{multicols*}
+
+Discrete RV:\@
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{ c c c c c }
+        \toprule
+        Name                & Use                                  & PMF \(P_X(i)\)                      & E[X]        & Var[X]                      \\
+        \midrule
+        Bernoulli\((p)\)    & Two Outcomes                         & \((p, x=1),(1-p, x=0)\)             & \(p\)       & \(p(1-p)\)                  \\
+        Geometric\((p)\)    & Bernoulli until first success        & \({(1-p)}^{i-1}p\)                  & \(1/p\)     & \((1-p)/p^2\)               \\
+        Binomial\((n, p)\)  & Successes in sequence of N Bernoulli & \((nCi) p^i {(1-p)}^{n-i}\)         & \(np\)      & \(np(1-p)\)                 \\
+        Pascal\((k,p)\)     & Trials until n success               & \((i - 1 C k-1) p^k {(1-p)}^{i-k}\) & \(k/p\)     & \(k(1-p)/p^2\)              \\
+        Poisson\((\alpha)\) & Events in time                       & \( (\alpha ^i e^{-\alpha})/i! \)    & \(\alpha \) & \(\alpha \)                 \\
+        Uniform\((l,k)\)    & Always same                          & \(1/(k-l + 1)\)                     & \((k+l)/2\) & \(\frac{(k-l)(k-1+2)}{12}\) \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Continuous RV:\@
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{ c c c c c }
+        \toprule
+        Name                        & PDF \(f_X(x)\)                                                        & CDF  \(F_X(x)\)      & E[X]                  & Var[X]                   \\
+        \midrule
+        Uniform\((a,b)\)            & \(1/(b-a)\)                                                           & \(\frac{x-a}{b-a}\)  & \((b+a)/2\)           & \(\frac{{(b-a)}^2}{12}\) \\
+        Exponential\((\lambda)\)    & \(\lambda e^{-\lambda x}\)                                            & \(1-e^{-\lambda a}\) & \(\frac{1}{\lambda}\) & \(\frac{1}{\lambda^2}\)  \\
+        Gaussian\((\mu, \sigma^2)\) & \(\frac{1}{\sqrt{2\pi \sigma^2}}e^{-\frac{{(x-\mu )}^2}{2\sigma^2}}\) & \(\phi(a)\)          & \(\mu \)              & \(\sigma ^2\)            \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Normalization:
+\[
+    Z = \frac{X-\mu}{\sigma}
+\]
+\end{document}

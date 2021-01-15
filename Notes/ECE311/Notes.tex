@@ -1,0 +1,263 @@
+\documentclass{article}
+
+\usepackage[letterpaper]{geometry}
+
+
+\usepackage{siunitx}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{scrextend}
+\usepackage{microtype}
+\usepackage{mathrsfs}
+\usepackage{booktabs}
+
+\theoremstyle{remark}
+\newtheorem{example}{Example}[section]
+\newtheorem*{solution}{Solution}
+
+\begin{document}
+
+\section{Fundamentals in Quantitative Design}
+\subsection{Power and Energy}
+When energy gets consumed due to transistor switching, it's called \textbf{dynamic energy}, defined as the following:
+\[
+    E_{dynamic} = \frac{1}{2} C V^2
+\]
+where \(C\) is the capacitive load, \(V\) is the voltage.
+
+There is also \textbf{dynamic power}, defined as follows:
+\[
+    P_{dynamic} = \frac{1}{2} C V^2 f
+\]
+where \(f\) is frequency.
+
+When power is consumed due to transistor leakage current, it's called \textbf{static power}, which has the following equation:
+\[
+    P_{static} = CV
+\]
+
+In general, power usage by a processor is the combination of dynamic and static power. When no calculation is being done, it's purely static power, which cannot be removed without disabling the circuit by \textbf{power gating}.
+
+\subsection{Dependability}
+Generally, there are two ways dependability can be measured:
+
+\begin{itemize}
+    \item \textbf{Module reliability:} Measure of how long a module runs before failure, hence it's usually named the Mean Time To Failure (MTTF). The inverse is the rate of failure, defined by failures per billion of hours (FIT).
+          \begin{itemize}
+              \item Interruptions are measured as Mean Time to Repair (MTTR)
+              \item Combined together, it forms the Mean Time Between Failure \[MTBF = MTTR + MTTF\]
+          \end{itemize}
+    \item \textbf{Module availability:} Measure of how available the module is, defined by the following formula: \[
+              \frac{MTTF}{MTTF+MTTR}
+          \]
+\end{itemize}
+
+\begin{example}
+    Assume a disk subsystem with the following components and MTTF:\@
+
+    \centering
+    \begin{tabular}{ c c c }
+        \toprule
+        Count & Component    & MTTF                \\
+        \midrule
+        10    & Disks        & \SI{1000000}{\hour} \\
+        1     & Controller   & \SI{500000}{\hour}  \\
+        1     & Power supply & \SI{200000}{\hour}  \\
+        1     & Fan          & \SI{200000}{\hour}  \\
+        1     & Cable        & \SI{1000000}{\hour} \\
+        \bottomrule
+    \end{tabular}
+    \begin{solution}
+        \begin{align*}
+            \text{Failure rate}_{\text{system}} & = \frac{10}{1000000} + \frac{1}{500000} + \frac{1}{200000}+ \frac{1}{200000}+ \frac{1}{1000000} \\
+                                                & = \frac{10+2+5+5+1}{1000000} = \frac{23}{1000000} = \frac{23000}{1000000000}
+        \end{align*}
+        which is \(23000\) FIT.\@ The MTTF will be the reciprocal which is:
+        \[
+            \text{MTTF}_{\text{system}} = \frac{1000000000}{23000} = 43500 \si{\hour} \approx 5 \text{years}
+        \]
+    \end{solution}
+\end{example}
+
+\subsection{Measuring Performance}
+Performance is usually defined by response time and throughput. Response time is how fast a processor can execute a program, while throughput is how many tasks the processor can run in one unit of time.
+
+Using response time as the main metric, Amdahl's law can be used to give the theoretical speedup in latency of a program.
+\[
+    S = \frac{T_B}{T_A} = \frac{1}{\left(1-p\right) + \frac{p}{s}}
+\]
+where \(S\) is the speedup, \(p\) is the portion of the program that gets enhanced and \(s\) is the speedup of the enhanced portion.
+
+It could be extended to apply to multiple different programs by replacing execution time with the geometric mean of all programs:
+\[
+    \sqrt[i]{R_1 R_2 R_3 \ldots R_i}
+\]
+
+\section{Floating Point Numbers}
+The floating point format we will be using in this class is the IEEE754 format.
+
+\subsection{Representation}
+Floating point numbers are represented with a sign bit \(s\), a mantissa/significand \(M\) and an exponent \(E\), which is used like so
+\[
+    {\left(1\right)}^s \times M \times 2^E
+\]
+%TODO: Finish up
+%TODO: Rounding, Memory, Disk, RAID, Caching, Virtual Memory, Address Translation
+\newpage
+\section{Instruction Set Architectures}
+\subsection{Memory Ordering}
+Most modern computer are byte addressed, with the following terms being the most often used one:
+\begin{itemize}
+    \item \textbf{Byte:} 8 bits
+    \item \textbf{Halfword:} 16 bits
+    \item \textbf{Word:} 32 bit
+    \item \textbf{Doubleword:} 64 bit
+\end{itemize}
+Multi-byte objects have two standards for ordering Little Endian (Least significant byte comes first) and Big Endian (Most significant byte comes first). A word-sized example is \verb"0xA0B0C0D". The following will be the result:
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{ c c c }
+        \toprule
+        Address                 & Little Endian           & Big Endian              \\
+        \midrule
+        \verb"0"  & \verb"0D"  & \verb"0A"  \\
+        \verb"1"  & \verb"0C"  & \verb"0B"  \\
+        \verb"2"  & \verb"0B"  & \verb"0C" \\
+        \verb"3" & \verb"0A" & \verb"0D" \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+
+Multi-byte objects must be aligned properly to prevent issues. Alignment is when an object of size \(s\) is stored at address \(A\) fulfils \(A \mod s = 0\).
+
+A structure must start and end at a multiple of the largest element \(K\). In addition, every element must be aligned according to the following rules:
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{ c c c }
+        \toprule
+        \multicolumn{3}{c}{x86}                                                              \\
+        \midrule
+        Size (bytes) & Windows                                     & Linux                   \\
+        \midrule
+        1            & \multicolumn{2}{c}{No restrictions}                                   \\
+        2            & \multicolumn{2}{c}{Lowest bit must be 0}                              \\
+        4*           & \multicolumn{2}{c}{Lowest bits must be 00}                            \\
+        8            & Lowest bits must be 000                     & Lowest bits must be 00  \\
+        12           & \multicolumn{2}{c}{Lowest bits must be 00}                            \\
+        \midrule
+        \multicolumn{3}{c}{x86--64}                                                          \\
+        \midrule
+        8*           & \multicolumn{2}{c}{Lowest bits must be 000}                           \\
+        16           & N/A                                         & Lowest bits must be 000 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+To efficiently repack a structure, start with the largest elements then go down.
+\subsection{Addressing Modes}
+The names of all existing addressing modes are presented in the following table. The term \(d\) is defined to be the data that's being accessed by the instruction.
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{ c c c }
+        \toprule
+        Mode Name         & pseudo-assembly         & RTL Meaning                                        \\
+        \midrule
+        Register          & \verb"ADD R4, R1" & \(R4 \leftarrow R4 + R1\)                          \\
+        Immediate         & \verb"ADD R4, #1" & \(R4 \leftarrow R4 + 1\)                           \\
+        Register Indirect & \verb"ADD R4, (R1)" & \(R4 \leftarrow R4 + [R1]\)                        \\
+        Displacement      & \verb"ADD R4, 100(R1)" & \(R4 \leftarrow R4 + [100 + R1]\)                  \\
+        Scaled            & \verb"ADD R4, 100(R1)[R2]" & \(R4 \leftarrow R4 + [100 + R1 + R2 \times d]\)    \\
+        Direct/Absolute   & \verb"ADD R4, (1000)" & \(R4 \leftarrow R4 + [1000]\)                      \\
+        Memory Indirect   & \verb"ADD R4, @(R1)" & \(R4 \leftarrow R4 +[[R1]]\)                       \\
+        Auto Increment    & \verb"ADD R4, (R1)+" & \(R4 \leftarrow R4 + [R1], R1 \leftarrow R1 + d \) \\
+        Auto Decrement    & \verb"ADD R4, -(R1)" & \(R1 \leftarrow R1 - d, R4 \leftarrow R4 + [R1]\)  \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Pipelining}
+
+Pipelining is done by separating an instruction into it's individual stages, which for MIPS is the Fetch, Decode, Execute, Memory Access and finally Writeback stages.
+
+The pipeline is limited by the slowest stage. Whatever that stage is will be defined as the time for a single cycle of the processor. There is also propagation delay and setup time of flip-flops to take into account, which add to the total full cycle time of a pipelined processor.
+
+Some equations to use are written out here, with \(T\) being the cycle time and \(N\) being the stages of a pipeline.
+\begin{itemize}
+    \item \textbf{Unpipelined instruction time:} \(T + T_{ovh}\)
+    \item Following are all pipelined equations
+    \item \textbf{Balanced time per stage:} \(T/N + T_{ovh}\)
+    \item \textbf{Unbalanced time per stage:} \(T_{slowest}\)
+    \item \textbf{Cycles per instruction:} \(N\)
+    \item \textbf{Total instruction time:} \(T_{slowest} * N + N T_{slowest}\)
+    \item \textbf{Clock speed:} Inverse of time per stage.
+    \item \textbf{Speedup:} Unpipelined instruction time divided by pipelined instruction time
+\end{itemize}
+
+\subsection{Hazards}
+There are several problems that may add issues for your pipeline. They are called hazards, and there are 3 of them.
+\begin{itemize}
+    \item \textbf{Structural hazards:} Hardware is unable to do both instructions.
+          \begin{itemize}
+              \item CPU has single memory bus for data and instructions. MEM and IF conflicts.
+          \end{itemize}
+    \item \textbf{Data hazards:} Consecutive instructions rely on the same registers as results or source of their data.
+          \begin{itemize}
+              \item ADD writes to R1, which is needed for SUB in next instruction. ADD might be at WB when sub is at ID.\@
+              \item Can be solved by adding pipeline stalls.
+              \item Also by forwarding.
+          \end{itemize}
+    \item \textbf{Control hazards:} Branch may cause PC to change a lot, making the instructions in the rest of the pipeline wrong.
+          \begin{itemize}
+              \item Can be solved by discarding instructions after the branch or to stop fetching instructions after branch is found.
+              \item Take the branch not taken until proven otherwise, where we dump the pipeline.
+              \item Assume branch is taken until proven otherwise, inverse of previous.
+              \item Can fill certain number of instructions after branch with instructions that will run either way (e.g. NOP).
+          \end{itemize}
+\end{itemize}
+
+\subsection{Dynamic Branch Prediction}
+Instead of doing the same thing all the time, we could be smart and ``learn'' from past experience instead. Prediction is not perfect, so we might make mistakes now and again.
+
+One way of doing prediction is by storing a branch prediction table which stores lowest few bits of branch instruction, each storing a bit that says whether branch was recently taken or not. If wrong, flip bit.
+
+Prediction bits can be increased to 2 bits with the values being level of confidence.
+
+\subsection{Extending Pipeline}
+Floating point units are generally slower than integer units. One way to solve it is to add separate execution units for floating point addition, combined FP/INT multiply and divide, then allowing those execution units to stall on structural hazards, repeating cycles until they complete.
+
+A better solution is to add pipelining to FP units (except divide) and allowing multiple separate operations to execute.
+
+\subsection{Instruction Level Parallelism}
+Instruction level parallelism is the idea of overlapping execution of different instructions. Pipelining instructions is one way to do it, with superscalar architectures adding another way to do it.
+
+An idea to improve ILP is by allowing the processor to execute code out of order, as long as it eventually produces the same result. This is done through scheduling; Dynamic and Static. Dynamic scheduling is done by the CPU while Static scheduling is done by the programmer or compiler.
+
+\subsection{Loop Unrolling}
+Loop unrolling allows processors to take advantage of pipelining by the processor making the loop take bigger steps then rescheduling to reduce the number of stalls.
+
+This however has downsides, such as increased code size since more instructions are written down and increased register pressure do to an increased number of live variables.
+
+\subsection{Advanced Branch Prediction}
+Branches might not happen in isolation, and can be predicted based on previous branches. A Correlating Branch Predictor takes advantage of this fact and makes a decision based on \(m\) previous branches.
+
+For example, \(m=2\). We then have a 2 bit branch predictor for each possible combination of \(m\): (untaken, untaken), (untaken, taken), (taken, untaken), (taken, taken).
+
+Correlating Branch Predictors are usually defined in the \((m, n)\) notation, so to calculate the number of bits used by the predictor: \(2^m \times n \times \text{address entries}\)
+
+Tournament predictors combine global and local predictors, where global predictors use the behaviour of other branches and current branch while local predictors use just the current branch. Similar to the 2 bit local predictor, which one to use is based on the value.
+\subsection{Tomasulo's Algorithm}
+Look at slides
+\subsection{Speculative Execution}
+
+\subsection{VLIW}
+
+\subsection{Multithreading}
+
+
+\end{document}
