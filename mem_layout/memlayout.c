@@ -6,13 +6,13 @@
 
 #include "memlayout.h"
 
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
 #include <string.h>
 
-#include <signal.h>
 #include <setjmp.h>
-#include <stdint.h>
+#include <signal.h>
 
 const unsigned int PAGE_SIZE = USER_PAGE_SIZE;
 

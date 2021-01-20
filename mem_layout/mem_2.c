@@ -1,12 +1,12 @@
 /**
  * Created by Michael Kwok on 1/15/21.
  *
- * Driver Program 2: mmap /usr/bin/bash.
+ * Driver Program 2: mmap /bin/bash.
  */
 
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <fcntl.h>
 
 #include <sys/mman.h>
 #include <sys/stat.h>
@@ -25,6 +25,7 @@ int main() {
 
     int fd = open("/bin/bash", O_RDONLY);
 
+    // Load information about file to get file size
     fstat(fd, &file_stat);
 
     int *fmap = mmap(NULL, file_stat.st_size, PROT_READ, MAP_PRIVATE, fd, 0);

@@ -21,7 +21,7 @@
 
 extern const unsigned int PAGE_SIZE;
 
-/*
+/**
  * Struct to describe regions of memory
  */
 struct memregion {

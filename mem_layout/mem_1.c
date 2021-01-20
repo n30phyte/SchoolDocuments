@@ -17,11 +17,8 @@ int main() {
     printf("Started with %d regions\n", counted);
     print_mem_layout(regions, 20);
 
-    int *heap_random = (int *) malloc(sizeof(int) * PAGE_SIZE * 4);
-
-    for (int i = 0; i < PAGE_SIZE * 4; i++) {
-        heap_random[i] = i;
-    }
+    // 500 * 2^20 Bytes of memory = 500 megs
+    int *big_heap = (int *) malloc(500 * (1 << 20));
 
     printf("After adding heap array:\n");
 
@@ -32,7 +29,7 @@ int main() {
     printf("Found %d regions\n", counted);
     print_mem_layout(regions2, 20);
 
-    free(heap_random);
+    free(big_heap);
     free(regions);
     free(regions2);
 
