@@ -1,10 +1,16 @@
-//
-// Created by Michael Kwok on 1/15/21.
-//
+/**
+ * Created by Michael Kwok on 1/15/21.
+ *
+ * memlayout header
+ */
 
 #ifndef _MEMLAYOUT_H_
 #define _MEMLAYOUT_H_
 
+// Required to use sigsetjmp from c99 mode
+#define _POSIX_C_SOURCE 200112L
+
+// Constants for memory sizes
 #define MEM_RW 0
 #define MEM_RO 1
 #define MEM_NO 2
@@ -15,13 +21,14 @@
 
 extern const unsigned int PAGE_SIZE;
 
-struct memregion {
+struct memregion
+{
     void *from;
     void *to;
     unsigned char mode; // MEM_RW, or MEM_RO, or MEM_NO
 };
 
-int get_mem_layout (struct memregion *regions, unsigned int size);
+int get_mem_layout(struct memregion *regions, unsigned int size);
 
 void print_mem_layout(struct memregion *regions, unsigned int size);
 

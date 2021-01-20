@@ -9,6 +9,7 @@
 
 #include <signal.h>
 #include <setjmp.h>
+#include <stdint.h>
 
 const unsigned int PAGE_SIZE = USER_PAGE_SIZE;
 
@@ -49,9 +50,7 @@ void save_region(void *start, void *end, unsigned char mode, struct memregion *l
 }
 
 int get_mem_layout(struct memregion *regions, unsigned int size) {
-    unsigned long region_count = 0;
-
-    unsigned long end = 0xFFFFF000; // Max address in 32-bit
+    int region_count = 0;
 
     struct sigaction sigsegv_handler = {
             .sa_handler = sigaction_handler,
@@ -64,18 +63,20 @@ int get_mem_layout(struct memregion *regions, unsigned int size) {
     sigaction(SIGSEGV, &sigsegv_handler, NULL);
     sigaction(SIGBUS, &sigsegv_handler, NULL);
 
-    void *current_start = 0;
     unsigned char current_mode = MEM_NO;
 
-    // Start scanner
-    for (unsigned long current = 0; current < end; current += PAGE_SIZE) {
+    uint32_t current_start = 0;
+    uint32_t end = 0xffffffff; // Max address in 32-bit
+    char page_mode = MEM_NO;
 
-        char page_mode = MEM_NO;
+    // Start scanner
+    for (uint64_t current = current_start; current < end; current += PAGE_SIZE) {
         char read_val;
 
         int res = sigsetjmp(segfault_exit, true);
 
         if (res == 0) {
+            page_mode = MEM_NO;
             // Try read
             read_val = try_read((void *) current);
 
@@ -93,21 +94,30 @@ int get_mem_layout(struct memregion *regions, unsigned int size) {
         if (page_mode != current_mode) {
 
             // Still have space in array
-            if (size > region_count) {
-                save_region(current_start, (void *) (current - 1), current_mode, &regions[region_count]);
-                current_start = (void *) current;
+            if (region_count < size) {
+                save_region((void *) current_start, (void *) (current - 1),
+                            current_mode, &regions[region_count]);
+                current_start = current;
             }
             current_mode = page_mode;
             region_count++;
         }
     }
 
+    // Handle final region
+    if (region_count < size) {
+        // Still have space in array
+        save_region((void *) current_start, (void *) end,
+                    current_mode, &regions[region_count]);
+        region_count++;
+    }
+
     return region_count;
 }
 
 void print_mem_layout(struct memregion *regions, unsigned int size) {
-    for (int i = 0; i < size; i++) {
 
+    for (int i = 0; i < size; i++) {
         // Translate from constants to string
         char read_write_state[3];
         switch (regions[i].mode) {
@@ -122,6 +132,11 @@ void print_mem_layout(struct memregion *regions, unsigned int size) {
                 break;
         }
 
-        printf("0x%08x-0x%08x %s\n", (int) regions[i].from, (int) regions[i].to, read_write_state);
+        // Extra entries.
+        if ((int) regions[i].to == 0 && (int) regions[i].from == 0) {
+            return;
+        }
+
+        printf("0x%08X-0x%08X %s\n", (int) regions[i].from, (int) regions[i].to, read_write_state);
     }
 }
