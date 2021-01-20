@@ -21,15 +21,29 @@
 
 extern const unsigned int PAGE_SIZE;
 
-struct memregion
-{
+/*
+ * Struct to describe regions of memory
+ */
+struct memregion {
     void *from;
     void *to;
     unsigned char mode; // MEM_RW, or MEM_RO, or MEM_NO
 };
 
+/**
+ * Gets the memory layout of all addresses from 0x0 to 0xFFFF FFFF
+ * @param[out] regions Output array for detected regions within @p size
+ * @param[in] size Maximum size of the output array
+ * @return Number of found regions
+ */
 int get_mem_layout(struct memregion *regions, unsigned int size);
 
+/**
+ * Prints memory layout in readable format
+ * @param[in] regions Input array of @p size with list of regions to print
+ * @param[in] size Size of input array
+ * @return Number of found regions
+ */
 void print_mem_layout(struct memregion *regions, unsigned int size);
 
 #endif //_MEMLAYOUT_H_

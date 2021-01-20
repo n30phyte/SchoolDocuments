@@ -1,6 +1,9 @@
-//
-// Created by Michael Kwok on 1/15/21.
-//
+/**
+ * Created by Michael Kwok on 1/15/21.
+ *
+ * Main program
+ */
+
 #include "memlayout.h"
 
 #include <stdio.h>
@@ -26,9 +29,7 @@ char try_read(void *address) {
 }
 
 /***
- * Write back original value at @p address,
- * testing write at the same time
- *
+ * Write back original value at @p address, testing write at the same time
  */
 void try_write(void *address, char val) {
     *((char *) address) = val;
@@ -43,6 +44,9 @@ void sigaction_handler(int sig) {
     siglongjmp(segfault_exit, 1);
 }
 
+/**
+ * Short helper to store regions into output array.
+ */
 void save_region(void *start, void *end, unsigned char mode, struct memregion *location) {
     location->from = start;
     location->to = end;
@@ -57,22 +61,27 @@ int get_mem_layout(struct memregion *regions, unsigned int size) {
             .sa_flags = 0,
     };
 
+    // Reset sa_mask
     sigemptyset(&(sigsegv_handler.sa_mask));
+
+    // Handle segfaults
     sigaddset(&(sigsegv_handler.sa_mask), SIGSEGV);
-    sigaddset(&(sigsegv_handler.sa_mask), SIGBUS);
     sigaction(SIGSEGV, &sigsegv_handler, NULL);
+
+    // Handle bus errors
+    sigaddset(&(sigsegv_handler.sa_mask), SIGBUS);
     sigaction(SIGBUS, &sigsegv_handler, NULL);
 
     unsigned char current_mode = MEM_NO;
 
     uint32_t current_start = 0;
-    uint32_t end = 0xffffffff; // Max address in 32-bit
+    uint32_t end = 0xFFFFFFFF; // Max address in 32-bit
     char page_mode = MEM_NO;
 
-    // Start scanner
     for (uint64_t current = current_start; current < end; current += PAGE_SIZE) {
         char read_val;
 
+        // Save jump point
         int res = sigsetjmp(segfault_exit, true);
 
         if (res == 0) {
@@ -86,11 +95,11 @@ int get_mem_layout(struct memregion *regions, unsigned int size) {
             // Try write
             try_write((void *) current, read_val);
 
-            // No segfault, definitely RW
+            // No segfault, at least RW
             page_mode = MEM_RW;
         }
 
-        // Mode switch
+        // Mode changed
         if (page_mode != current_mode) {
 
             // Still have space in array
@@ -99,6 +108,8 @@ int get_mem_layout(struct memregion *regions, unsigned int size) {
                             current_mode, &regions[region_count]);
                 current_start = current;
             }
+
+            // Update mode
             current_mode = page_mode;
             region_count++;
         }
@@ -132,11 +143,13 @@ void print_mem_layout(struct memregion *regions, unsigned int size) {
                 break;
         }
 
-        // Extra entries.
+        // Extra entries, don't bother printing and just break out of loop.
         if ((int) regions[i].to == 0 && (int) regions[i].from == 0) {
-            return;
+            break;
+        } else {
+            printf("0x%08X-0x%08X %s\n", (int) regions[i].from, (int) regions[i].to, read_write_state);
         }
-
-        printf("0x%08X-0x%08X %s\n", (int) regions[i].from, (int) regions[i].to, read_write_state);
     }
+
+    printf("\n");
 }

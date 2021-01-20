@@ -14,7 +14,7 @@
 #include "memlayout.h"
 
 int main() {
-    struct memregion *regions = (struct memregion *) malloc(sizeof(struct memregion) * 20);
+    struct memregion *regions = (struct memregion *) malloc(sizeof(struct memregion) * 30);
 
     int counted = get_mem_layout(regions, 20);
 
@@ -29,9 +29,9 @@ int main() {
 
     int *fmap = mmap(NULL, file_stat.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
 
-    printf("\nAfter mmap file:\n");
+    printf("After mmap file:\n");
 
-    struct memregion *regions2 = (struct memregion *) malloc(sizeof(struct memregion) * 20);
+    struct memregion *regions2 = (struct memregion *) malloc(sizeof(struct memregion) * 30);
 
     counted = get_mem_layout(regions2, 20);
 

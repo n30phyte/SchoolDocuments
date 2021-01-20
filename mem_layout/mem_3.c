@@ -6,12 +6,22 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <fcntl.h>
-
-#include <sys/mman.h>
-#include <sys/stat.h>
 
 #include "memlayout.h"
+
+/**
+ * Simple implementation for calculating the sequence of Collatz's conjecture.
+ */
+int collatz(int n) {
+    printf("%d ", n);
+    if (n == 1) {
+        return 1;
+    } else if (n % 2 == 0) {
+        return collatz(n / 2);
+    } else {
+        return collatz((3 * n) + 1);
+    }
+}
 
 int main() {
     struct memregion *regions = (struct memregion *) malloc(sizeof(struct memregion) * 20);
@@ -21,15 +31,9 @@ int main() {
     printf("Started with %d regions\n", counted);
     print_mem_layout(regions, 20);
 
-    struct stat file_stat;
+    collatz(63728127); // Try to get many recursive frames deep
 
-    int fd = open("/bin/bash", O_RDONLY);
-
-    fstat(fd, &file_stat);
-
-    int *fmap = mmap(NULL, file_stat.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
-
-    printf("\nAfter mmap file:\n");
+    printf("\nAfter collatz:\n");
 
     struct memregion *regions2 = (struct memregion *) malloc(sizeof(struct memregion) * 20);
 
@@ -37,8 +41,6 @@ int main() {
 
     printf("Found %d regions\n", counted);
     print_mem_layout(regions2, 20);
-
-    munmap(fmap, file_stat.st_size);
 
     return 0;
 }
