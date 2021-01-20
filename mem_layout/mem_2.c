@@ -16,10 +16,10 @@
 int main() {
     struct memregion *regions = (struct memregion *) malloc(sizeof(struct memregion) * 30);
 
-    int counted = get_mem_layout(regions, 20);
+    int counted = get_mem_layout(regions, 30);
 
     printf("Started with %d regions\n", counted);
-    print_mem_layout(regions, 20);
+    print_mem_layout(regions, 30);
 
     struct stat file_stat;
 
@@ -33,10 +33,10 @@ int main() {
 
     struct memregion *regions2 = (struct memregion *) malloc(sizeof(struct memregion) * 30);
 
-    counted = get_mem_layout(regions2, 20);
+    counted = get_mem_layout(regions2, 30);
 
     printf("Found %d regions\n", counted);
-    print_mem_layout(regions2, 20);
+    print_mem_layout(regions2, 30);
 
     munmap(fmap, file_stat.st_size);
 
