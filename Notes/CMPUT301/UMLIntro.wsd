@@ -1,0 +1,15 @@
+@startuml UFO
+
+skinparam classAttributeIconSize 0
+
+class UFO {
+    - abductees: Collection<Earthling> 
+}
+
+class Earthling {
+    - stomachs : int
+    + mindPorbeable() : boolean
+}
+
+
+@enduml

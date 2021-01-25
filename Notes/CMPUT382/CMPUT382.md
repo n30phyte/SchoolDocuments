@@ -24,3 +24,9 @@ Flynn's Taxonomy:
 A thread is a sequence of **instructions**. Data is irrelevant.
 
 A warp is a set of ALUs controlled by the same control unit with access to the same cache, and each warp executes the same thread.
+
+Each **grid** is an array of thread **blocks**, each **block** contains **threads**.
+
+Threads have a block-unique `threadIdx`. Blocks have their own `blockIdx`. Combined together they will have a unique global index.
+
+Threads,  blocks and grids are 3 dimensional (`threadIdx.x, threadIdx.y, threadIdx.z`)

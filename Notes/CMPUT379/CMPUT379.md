@@ -54,3 +54,5 @@ call scanf
 ```
 
 ### Linking
+
+#### ELF File Format

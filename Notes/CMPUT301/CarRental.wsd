@@ -1,0 +1,28 @@
+@startuml CarRental
+
+skinparam classAttributeIconSize 0
+
+class Company {
+    + Cars : ArrayList<Car>
+    - Renters : ArrayList<Person>
+    - Rented : ArrayList<Rental>
+}
+
+class Person {
+    + Name : String
+}
+
+class Car {
+    + LicensePlate : String
+}
+
+Company "1" o-- "0..*" Car
+Company o-- Person: tracked
+
+Rental "0..*" --* "1" Company
+Rental "0..*" o-- "1..*" Car
+Rental "0..*" --o "1..2" Person
+
+Car <-- Person : rent
+
+@enduml
