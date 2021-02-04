@@ -1,0 +1,39 @@
+@startuml PracticeMidtermQ1
+
+skinparam classAttributeIconSize 0
+
+class Segment {
+    nextSegment : Segment
+    getNextSegment() : Segment
+}
+
+interface Worm {
+    getFirstSegment() : Segment
+}
+
+class EarthWorm {
+    + head : Segment
+}
+
+abstract class WormHaver {
+    + worms : List<Worm>
+    + removeWorm() : Worm
+    + stillHaveWorms() : boolean
+}
+
+class CanOfWorms
+class Dog
+
+Worm <|-[dashed]- EarthWorm
+Segment "1" --* "1" EarthWorm
+
+Segment "1" --* "1" Worm
+
+Segment "1" *-- "0..1" Segment
+
+Worm "0..*" --o "0..*" WormHaver
+
+WormHaver <|-- Dog
+WormHaver <|-- CanOfWorms
+
+@enduml

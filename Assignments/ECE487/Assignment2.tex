@@ -1,0 +1,76 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage{booktabs}
+\usepackage{mathtools}
+\usepackage[final]{pdfpages}
+
+\title{ECE 487 Assignment 2}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\subsection*{Detection/Correction}
+\begin{itemize}
+    \item 6
+    \item 7
+\end{itemize}
+
+\subsection*{Hamming Distance}
+\begin{itemize}
+    \item detected: 9, corrected: 4
+    \item detected: 6, corrected: 3
+\end{itemize}
+
+\subsection*{Decoding}
+\begin{itemize}
+    \item \(11110 \oplus 11110 = 00000\), hamming distance 0, \verb|11|
+    \item \(00010 \oplus 00000 = 00010\), hamming distance 1, \verb|00|
+    \item \(00011 \oplus 01011 = 01000\), hamming distance 1, \verb|01|
+    \item \(01110 \oplus 11110 = 10000\), hamming distance 1, \verb|11|
+\end{itemize}
+
+\subsection*{Linear block code}
+
+This block code is a linear block code. This is due to the fact that every pair of codewords form another valid codeword.
+
+\begin{align*}
+    01111 \oplus 10001 & = 11110 \\
+    01111 \oplus 11110 & = 10001 \\
+    10001 \oplus 11110 & = 01111 \\
+\end{align*}
+
+\subsection*{Receiver Action}
+\begin{itemize}
+    \item Calculate syndrome: \((0 + 1 + 1 + 1 + 1) \mod 2 = 0\), Receiver will return \verb|0111|.
+    \item Calculate syndrome: \((0 + 1 + 0 + 1 + 1) \mod 2 = 1\), Receiver will not return data.
+\end{itemize}
+
+\subsection*{2D Parity}
+
+\begin{verbatim}
+Sent:            Received:
+1 1 1 1 1 1      1 0 1 1 0 1
+1 0 1 1 1 0      1 0 1 1 1 0
+0 1 1 1 0 1  ->  0 1 1 1 0 1
+0 1 0 1 0 0      0 1 0 1 0 0
+0 1 1 0 0 0      0 1 0 0 1 0
+\end{verbatim}
+The receiver will calculate the syndrome bits row by row and then column by column. The calculations will look like this:
+\begin{itemize}
+    \item r1: \((1 + 0 + 1 + 1 + 0 + 1) \mod 2 = 0\)
+    \item r2: \((1 + 0 + 1 + 1 + 1 + 0) \mod 2 = 0\)
+    \item r3: \((0 + 1 + 1 + 1 + 0 + 1) \mod 2 = 0\)
+    \item r4: \((0 + 1 + 0 + 1 + 0 + 0) \mod 2 = 0\)
+    \item r5: \((0 + 1 + 0 + 0 + 1 + 1) \mod 2 = 0\)
+    \item c1: \((1 + 1 + 0 + 0 + 0) \mod 2 = 0\)
+    \item c2: \((0 + 0 + 1 + 1 + 1) \mod 2 = 1\)
+    \item c3: \((1 + 1 + 1 + 0 + 0) \mod 2 = 1\)
+    \item c4: \((1 + 1 + 1 + 1 + 0) \mod 2 = 0\)
+    \item c5: \((0 + 1 + 0 + 0 + 1) \mod 2 = 0\)
+    \item c6: \((1 + 0 + 1 + 0 + 0) \mod 2 = 0\)
+\end{itemize}
+
+The errors here are detected, but cannot be corrected.
+\end{document}

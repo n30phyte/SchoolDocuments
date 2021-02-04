@@ -1,0 +1,27 @@
+@startuml UFO
+
+skinparam classAttributeIconSize 0
+
+class Shape {
+ #myLocation: Location
+
+ +Shape()
+ +setLocation(p: Location)
+ +getLocation(): Location
+}
+
+class Square {
+    -side: Integer
+    +Square()
+    +setSide(s: Integer)
+}
+
+class Location {
+    
+}
+
+Shape o-- "1" Location
+
+Shape <|-- Square
+
+@enduml

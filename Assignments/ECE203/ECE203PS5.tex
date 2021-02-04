@@ -13,203 +13,204 @@
 \title{ECE 203 Problem Set 5}
 \author{Michael Kwok}
 \date{March 2020}
+
 \begin{document}
 
 \maketitle
 \begin{multicols}{2}
-\section*{1}
-\subsection*{a}
+    \section*{1}
+    \subsection*{a}
 
-\begin{align*}
-    \omega_0 &= \frac{1}{\sqrt{L C}} = \boxed{\SI{1390.77}{\radian\per\second}}\\
-    f_0 &= \frac{\omega_0}{2\pi} = \boxed{\SI{221.3}{\hertz}}\\
-    Q_0 &= \omega_0 R C\\
-    &= 1390.77 \cdot 1000 \cdot \num{47d-6} = \boxed{65.37}
-\end{align*}
+    \begin{align*}
+        \omega_0 & = \frac{1}{\sqrt{L C}} = \boxed{\SI{1390.77}{\radian\per\second}} \\
+        f_0      & = \frac{\omega_0}{2\pi} = \boxed{\SI{221.3}{\hertz}}              \\
+        Q_0      & = \omega_0 R C                                                    \\
+                 & = 1390.77 \cdot 1000 \cdot \num{47d-6} = \boxed{65.37}
+    \end{align*}
 
-\subsection*{b}
+    \subsection*{b}
 
-\begin{align*}
-    \omega_0 \text{ parallel} &= \omega_0 \text{ series}\\
-    f_0 \text{ parallel} &= f_0 \text{ series}\\
-    Q_0 \text{ series} &= \frac{1}{Q_0 \text{ parallel}}\\
-\end{align*}
-\begin{align*}
-    \omega_0 &= \boxed{\SI{1390.77}{\radian\per\second}}\\
-    f_0 &= \boxed{\SI{221.3}{\hertz}}\\
-    Q_0 &= \boxed{0.0153}
-\end{align*}
+    \begin{align*}
+        \omega_0 \text{ parallel} & = \omega_0 \text{ series}        \\
+        f_0 \text{ parallel}      & = f_0 \text{ series}             \\
+        Q_0 \text{ series}        & = \frac{1}{Q_0 \text{ parallel}} \\
+    \end{align*}
+    \begin{align*}
+        \omega_0 & = \boxed{\SI{1390.77}{\radian\per\second}} \\
+        f_0      & = \boxed{\SI{221.3}{\hertz}}               \\
+        Q_0      & = \boxed{0.0153}
+    \end{align*}
 
-\subsection*{c}
+    \subsection*{c}
 
-The parallel configuration is better as the quality factor is higher, which by definition means that the filter is more selective.
+    The parallel configuration is better as the quality factor is higher, which by definition means that the filter is more selective.
 
-\section*{2}
-\subsection*{a}
+    \section*{2}
+    \subsection*{a}
 
-\begin{align*}
-    Q_0 &= \omega_0 R C\\
-    \omega_0 &= 2\pi f_0 \\
-    Q_0 &= 2\pi f_0 R C\\
-\end{align*}
+    \begin{align*}
+        Q_0      & = \omega_0 R C \\
+        \omega_0 & = 2\pi f_0     \\
+        Q_0      & = 2\pi f_0 R C \\
+    \end{align*}
 
-\begin{align*}
-    R  &= \frac{V}{I}\\
-       &= \frac{\num{125e-3}}{2e-6}\\
-       &= \boxed{\SI{62500}{\ohm}}\\
-    RC &= \frac{40}{2\pi \cdot 1000000}\\
-    C  &= \frac{\num{6.366197724e-6}}{62500}\\
-       &= \SI{1.018591636e-10}{\farad}\\
-       &= \boxed{\SI{102}{\pico\farad}}
-\end{align*}
-\begin{align*}
-    \omega_0 &= \frac{1}{\sqrt{LC}}\\
-    \num{2\pi e-6} &= \frac{1}{\sqrt{LC}}\\
-    LC &= \left(\frac{1}{\num{2\pi e-6}}\right)^2\\
-    L &= \boxed{\num{2.5e-4}}
-\end{align*}
+    \begin{align*}
+        R  & = \frac{V}{I}                        \\
+           & = \frac{\num{125e-3}}{2e-6}          \\
+           & = \boxed{\SI{62500}{\ohm}}           \\
+        RC & = \frac{40}{2\pi \cdot 1000000}      \\
+        C  & = \frac{\num{6.366197724e-6}}{62500} \\
+           & = \SI{1.018591636e-10}{\farad}       \\
+           & = \boxed{\SI{102}{\pico\farad}}
+    \end{align*}
+    \begin{align*}
+        \omega_0       & = \frac{1}{\sqrt{LC}}                     \\
+        \num{2\pi e-6} & = \frac{1}{\sqrt{LC}}                     \\
+        LC             & = \left(\frac{1}{\num{2\pi e-6}}\right)^2 \\
+        L              & = \boxed{\num{2.5e-4}}
+    \end{align*}
 
-\subsection*{b}
-\begin{align*}
-\text{Using Z at } \omega = 2000,\\
-R= \boxed{\SI{8}{\kilo\ohm}}
-\end{align*}
-\begin{align*}
-    Z&=\left( \frac{1}{R} + \frac{1}{j \omega L} + j \omega C \right) ^{-1}\\
-    \frac{1}{4000} e^{-j \theta} &= \frac{1}{8000} + \frac{1}{1800 L j} + 1800 C j\\
-    \frac{1}{4000} \cos \theta &= \frac{1}{8000}\\
-    \cos\theta &= \frac{1}{2}\\
-    \theta &= \frac{\pi}{3}
-\end{align*}
-\begin{align*}
-    -j\frac{1}{4000} \sin\theta &= -j\left( \frac{1}{1800L} - 1800 C\right)\\
-    \frac{1800L}{4000} \sin\theta &= -(1800)^2 LC + 1\\
-    \omega_0 &= 2000\\
-    &= \frac{1}{\sqrt{LC}}\\
-    LC&= \frac{1}{\num{4e6}}\\
-\end{align*}
-\begin{align*}
-    L\sin\theta &= 0.4222\\
-    L &= \boxed{\SI{0.488}{\henry}}\\
-    C &= \boxed{\SI{5.133e-7}{\farad}}
-\end{align*}
+    \subsection*{b}
+    \begin{align*}
+        \text{Using Z at } \omega = 2000, \\
+        R= \boxed{\SI{8}{\kilo\ohm}}
+    \end{align*}
+    \begin{align*}
+        Z                            & =\left( \frac{1}{R} + \frac{1}{j \omega L} + j \omega C \right) ^{-1} \\
+        \frac{1}{4000} e^{-j \theta} & = \frac{1}{8000} + \frac{1}{1800 L j} + 1800 C j                      \\
+        \frac{1}{4000} \cos \theta   & = \frac{1}{8000}                                                      \\
+        \cos\theta                   & = \frac{1}{2}                                                         \\
+        \theta                       & = \frac{\pi}{3}
+    \end{align*}
+    \begin{align*}
+        -j\frac{1}{4000} \sin\theta   & = -j\left( \frac{1}{1800L} - 1800 C\right) \\
+        \frac{1800L}{4000} \sin\theta & = -(1800)^2 LC + 1                         \\
+        \omega_0                      & = 2000                                     \\
+                                      & = \frac{1}{\sqrt{LC}}                      \\
+        LC                            & = \frac{1}{\num{4e6}}                      \\
+    \end{align*}
+    \begin{align*}
+        L\sin\theta & = 0.4222                        \\
+        L           & = \boxed{\SI{0.488}{\henry}}    \\
+        C           & = \boxed{\SI{5.133e-7}{\farad}}
+    \end{align*}
 
-\section*{3}
-\subsection*{a}
-\begin{align*}
-    Z_{in} &= 10 + j\omega 3 + \left( \frac{1}{75} + \frac{1}{15 + \frac{675}{j\omega}} \right) ^{-1}\\
-    &= \frac{90\omega + (6 \omega^2 - 1275)j}{2\omega - 15j}\\
-    &= \frac{\left[ 90\omega + (6 \omega^2 - 1275)j \right] [2\omega + 15j]}{4\omega^2 + 15^2}\\
-    &= \frac{90\omega^2 +19125 + \left( 12\omega^3 -1200 \omega j \right)}{4\omega^2 + 15^2}
-\end{align*}
-\begin{align*}
-    12\omega^3-1200\omega &= 0\\
-    12\omega^3 &= 1200\omega\\
-    \omega^2 &= 100\\
-    \omega &= \boxed{\SI{10}{\radian\per\second}}
-\end{align*}
+    \section*{3}
+    \subsection*{a}
+    \begin{align*}
+        Z_{in} & = 10 + j\omega 3 + \left( \frac{1}{75} + \frac{1}{15 + \frac{675}{j\omega}} \right) ^{-1} \\
+               & = \frac{90\omega + (6 \omega^2 - 1275)j}{2\omega - 15j}                                   \\
+               & = \frac{\left[ 90\omega + (6 \omega^2 - 1275)j \right] [2\omega + 15j]}{4\omega^2 + 15^2} \\
+               & = \frac{90\omega^2 +19125 + \left( 12\omega^3 -1200 \omega j \right)}{4\omega^2 + 15^2}
+    \end{align*}
+    \begin{align*}
+        12\omega^3-1200\omega & = 0                                   \\
+        12\omega^3            & = 1200\omega                          \\
+        \omega^2              & = 100                                 \\
+        \omega                & = \boxed{\SI{10}{\radian\per\second}}
+    \end{align*}
 
-\subsection*{b}
-\begin{align*}
-    Z_{in} &= 10 + 30j + \left( \frac{1}{75} + \frac{1}{15 + \frac{675}{j10}} \right)^{-1}\\
-    &= 10 + 30j - 30j + 35\\
-    &= \boxed{\SI{45}{\ohm}}
-\end{align*}
+    \subsection*{b}
+    \begin{align*}
+        Z_{in} & = 10 + 30j + \left( \frac{1}{75} + \frac{1}{15 + \frac{675}{j10}} \right)^{-1} \\
+               & = 10 + 30j - 30j + 35                                                          \\
+               & = \boxed{\SI{45}{\ohm}}
+    \end{align*}
 
-\section*{4}
-Use a test voltage $V_{in}$
+    \section*{4}
+    Use a test voltage $V_{in}$
 
-\begin{circuitikz}
-\draw (0,0) to[V=$V_{in}$] (0,2) -- (4,2);
-\draw (0,0) -- (7,0) to[cV] (7,2);
-\draw (2,2) to[C, i=$I_C$](2,0);
-\draw (4,0) to[R, i=$I_R$](4,2);
-\draw (4,2) to[L] (7,2);
-\end{circuitikz}
+    \begin{circuitikz}
+        \draw (0,0) to[V=$V_{in}$] (0,2) -- (4,2);
+        \draw (0,0) -- (7,0) to[cV] (7,2);
+        \draw (2,2) to[C, i=$I_C$](2,0);
+        \draw (4,0) to[R, i=$I_R$](4,2);
+        \draw (4,2) to[L] (7,2);
+    \end{circuitikz}
 
-\begin{align*}
-    I_C &= V_{in}\num{e-8}j\omega\\
-    I_R &= -\frac{V_{in}}{10000}\\
-\end{align*}
+    \begin{align*}
+        I_C & = V_{in}\num{e-8}j\omega \\
+        I_R & = -\frac{V_{in}}{10000}  \\
+    \end{align*}
     Using KCL on node above resistor,
-\begin{align*}
-    -I_C + I_R &+\frac{V_{in} - \num{e5}I_R}{\num{4.4e-3}j\omega } = 0\\
-    -V_{in}\num{e-8}j\omega-\frac{V_{in}}{10000} &+\frac{V_{in} - \num{e5}I_R}{\num{4.4e-3}j\omega} = 0\\
-    Y = &\frac{V_{in}\num{e-8}j\omega +\frac{V_{in}}{10000} +\frac{V_{in} \left( 1+\frac{\num{e5}}{10000}\right)}{\num{4.4e-3}j\omega}}{V_{in}}\\
-    = &\boxed{\num{e-8}j\omega +\frac{1}{10000} -\frac{2500}{\omega}j}
-\end{align*}
-Finding $\omega_0$ and $Q_0$.
+    \begin{align*}
+        -I_C + I_R                                   & +\frac{V_{in} - \num{e5}I_R}{\num{4.4e-3}j\omega } = 0                                                                                 \\
+        -V_{in}\num{e-8}j\omega-\frac{V_{in}}{10000} & +\frac{V_{in} - \num{e5}I_R}{\num{4.4e-3}j\omega} = 0                                                                                  \\
+        Y =                                          & \frac{V_{in}\num{e-8}j\omega +\frac{V_{in}}{10000} +\frac{V_{in} \left( 1+\frac{\num{e5}}{10000}\right)}{\num{4.4e-3}j\omega}}{V_{in}} \\
+        =                                            & \boxed{\num{e-8}j\omega +\frac{1}{10000} -\frac{2500}{\omega}j}
+    \end{align*}
+    Finding $\omega_0$ and $Q_0$.
 
-$\omega_0$ is when coefficient of $j = 0$
-\begin{align*}
-    \text{Start with: }\num{e-8}j\omega&+\frac{1}{10000} -\frac{2500}{\omega}j\\
-    \num{e-8}j\omega &-\frac{2500}{\omega}j = 0\\
-    \omega^2 &= \num{2.5e4}\\
-    \omega &= \boxed{\SI{500}{\kilo\radian}}\\
-    Q_0 &= \omega_0 R C\\
-    &\boxed{= 50}
-\end{align*}
-\section*{5}
-\subsection*{a}
-$H_{dB} = 20 \log(|\tilde{H}(j\omega)|)$
-\begin{enumerate}
-    \item $20 \log(0.2) = \boxed{-13.979}$
-    \item $20 \log(13) = \boxed{22.3}$
-    \item $20 \log(|\frac{100}{23j +21}|) = \log(|\frac{2300 j - 2100}{23^2+21^2}|) = 20 \log(3.21) = \boxed{10.13}$
-\end{enumerate}
-\subsection*{b}
-$|\tilde{H}(j\omega)| = 10^{\frac{H_{dB}}{20}}$
-\begin{enumerate}
-    \item $|\tilde{H}(j\omega)| = \boxed{39.8}$
-    \item $|\tilde{H}(j\omega)| = \boxed{0.447}$
-    \item $|\tilde{H}(j\omega)| = \boxed{1.00}$
-\end{enumerate}
+    $\omega_0$ is when coefficient of $j = 0$
+    \begin{align*}
+        \text{Start with: }\num{e-8}j\omega & +\frac{1}{10000} -\frac{2500}{\omega}j \\
+        \num{e-8}j\omega                    & -\frac{2500}{\omega}j = 0              \\
+        \omega^2                            & = \num{2.5e4}                          \\
+        \omega                              & = \boxed{\SI{500}{\kilo\radian}}       \\
+        Q_0                                 & = \omega_0 R C                         \\
+                                            & \boxed{= 50}
+    \end{align*}
+    \section*{5}
+    \subsection*{a}
+    $H_{dB} = 20 \log(|\tilde{H}(j\omega)|)$
+    \begin{enumerate}
+        \item $20 \log(0.2) = \boxed{-13.979}$
+        \item $20 \log(13) = \boxed{22.3}$
+        \item $20 \log(|\frac{100}{23j +21}|) = \log(|\frac{2300 j - 2100}{23^2+21^2}|) = 20 \log(3.21) = \boxed{10.13}$
+    \end{enumerate}
+    \subsection*{b}
+    $|\tilde{H}(j\omega)| = 10^{\frac{H_{dB}}{20}}$
+    \begin{enumerate}
+        \item $|\tilde{H}(j\omega)| = \boxed{39.8}$
+        \item $|\tilde{H}(j\omega)| = \boxed{0.447}$
+        \item $|\tilde{H}(j\omega)| = \boxed{1.00}$
+    \end{enumerate}
 \end{multicols}
 \subsection*{c}
 \begin{align*}
-    \tilde{H}(j\omega) &= \frac{V_{out}}{V_{in}}\\
-    Z &= 1+ \frac{1}{j\omega \num{100e-6}}\\
-    \tilde{H}(j\omega) &= \frac{1}{1 + j\omega\num{100e-6}}\\
-    H_{dB} &= 20 \log(|\tilde{H}(j\omega)|) = 20\log\left(\frac{1}{\num{e-8}\omega^{2} + 1}\right)\\
-    \angle\tilde{H}(j\omega) &= -\arctan\left(0.0001\omega\right)
+    \tilde{H}(j\omega)       & = \frac{V_{out}}{V_{in}}                                                               \\
+    Z                        & = 1+ \frac{1}{j\omega \num{100e-6}}                                                    \\
+    \tilde{H}(j\omega)       & = \frac{1}{1 + j\omega\num{100e-6}}                                                    \\
+    H_{dB}                   & = 20 \log(|\tilde{H}(j\omega)|) = 20\log\left(\frac{1}{\num{e-8}\omega^{2} + 1}\right) \\
+    \angle\tilde{H}(j\omega) & = -\arctan\left(0.0001\omega\right)
 \end{align*}
 \begin{figure}
     \centering
-\begin{tikzpicture}
-\begin{axis}[xmode=log,
-xmin=1,
-xmax=1000000,
-ymin=-40,
-ymax=10,
-grid=both]
-\addplot table [smooth, x={omega}, y={result}, col sep=comma, mark=none]{res1.csv};
-\addplot[gray,ultra thick, opacity=0.6] coordinates {
-(1,0)
-(10000,0)
-(99500, -40)};
-\end{axis}
-\end{tikzpicture}
+    \begin{tikzpicture}
+        \begin{axis}[xmode=log,
+                xmin=1,
+                xmax=1000000,
+                ymin=-40,
+                ymax=10,
+                grid=both]
+            \addplot table [smooth, x={omega}, y={result}, col sep=comma, mark=none]{res1.csv};
+            \addplot[gray,ultra thick, opacity=0.6] coordinates {
+                    (1,0)
+                    (10000,0)
+                    (99500, -40)};
+        \end{axis}
+    \end{tikzpicture}
     \caption{Magnitude bode plot}
     \label{fig:my_label}
 \end{figure}
 \begin{figure}
     \centering
-\begin{tikzpicture}
-\begin{axis}[xmode=log,
-xmin=1,
-xmax=1000000,
-ymin=-135,
-ymax=45,
-ytick={45,0,-45,-90,-135},
-grid=both]
-\addplot table [smooth, x={omega}, y={atan}, col sep=comma, mark=none]{res1.csv};
-\addplot[gray,ultra thick, opacity=0.6] coordinates {
-(1,0)
-(1000,0)
-(100000,-90)
-(1000000, -90)};
-\end{axis}
-\end{tikzpicture}
+    \begin{tikzpicture}
+        \begin{axis}[xmode=log,
+                xmin=1,
+                xmax=1000000,
+                ymin=-135,
+                ymax=45,
+                ytick={45,0,-45,-90,-135},
+                grid=both]
+            \addplot table [smooth, x={omega}, y={atan}, col sep=comma, mark=none]{res1.csv};
+            \addplot[gray,ultra thick, opacity=0.6] coordinates {
+                    (1,0)
+                    (1000,0)
+                    (100000,-90)
+                    (1000000, -90)};
+        \end{axis}
+    \end{tikzpicture}
     \caption{Phase bode plot}
     \label{fig:label2}
 \end{figure}
