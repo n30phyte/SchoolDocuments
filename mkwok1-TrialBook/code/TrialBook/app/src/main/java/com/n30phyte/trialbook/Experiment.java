@@ -14,6 +14,9 @@ import java.util.Locale;
  * Implements Parcelable instead of Serializable due to having to store SimpleDateFormat inside.
  */
 public class Experiment implements Parcelable {
+    /**
+     * Required CREATOR static member to parcel and unparcel objects for Android APIs
+     */
     public static final Parcelable.Creator<Experiment> CREATOR = new Parcelable.Creator<Experiment>() {
         public Experiment createFromParcel(Parcel in) {
             return new Experiment(in);
@@ -27,10 +30,11 @@ public class Experiment implements Parcelable {
             return new Experiment[size];
         }
     };
+
     private final SimpleDateFormat sdf;
     private String description;
     private Date recordedDate;
-    private int trials;
+    private int fails;
     private int pass;
 
     /**
@@ -49,9 +53,8 @@ public class Experiment implements Parcelable {
         this.description = description;
 
         this.recordedDate = sdf.parse(recordedDate);
-        trials = 0;
+        fails = 0;
         pass = 0;
-
     }
 
     /**
@@ -63,7 +66,7 @@ public class Experiment implements Parcelable {
         try {
             this.description = input.readString();
             this.setDateFromString(input.readString());
-            this.trials = input.readInt();
+            this.fails = input.readInt();
             this.pass = input.readInt();
         } catch (ParseException e) {
             e.printStackTrace();
@@ -105,11 +108,15 @@ public class Experiment implements Parcelable {
     }
 
     public int getTrials() {
-        return trials;
+        return fails + pass;
     }
 
-    public void incrementTrials() {
-        this.trials++;
+    public int getFails() {
+        return fails;
+    }
+
+    public void incrementFails() {
+        this.fails++;
     }
 
     public int getPass() {
@@ -129,7 +136,7 @@ public class Experiment implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(description);
         dest.writeString(this.getDateAsString());
-        dest.writeInt(this.trials);
+        dest.writeInt(this.fails);
         dest.writeInt(this.pass);
     }
 }

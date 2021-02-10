@@ -77,18 +77,17 @@ public class ExperimentInfoActivity extends Activity {
 
             experimentPassRateTextView.setText(String.format("%s%%", successRate));
             experimentPassTextView.setText(String.valueOf(experiment.getPass()));
-            experimentFailTextView.setText(String.valueOf(experiment.getTrials() - experiment.getPass()));
+            experimentFailTextView.setText(String.valueOf(experiment.getFails()));
         }
     }
 
     private void onPass(View v) {
         experiment.incrementPass();
-        experiment.incrementTrials();
         updateViews();
     }
 
     private void onFail(View v) {
-        experiment.incrementTrials();
+        experiment.incrementFails();
         updateViews();
     }
 
@@ -116,7 +115,6 @@ public class ExperimentInfoActivity extends Activity {
                 experiment.setDateFromString(dateString);
                 data.putExtra(EXP_ARG, experiment);
                 data.putExtra(POS_ARG, position);
-
             }
 
             setResult(RESULT_OK, data);
