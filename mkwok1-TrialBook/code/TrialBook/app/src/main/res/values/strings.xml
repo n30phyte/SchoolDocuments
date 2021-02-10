@@ -4,5 +4,4 @@
     <string name="newExperimentDescription">Experiment Description</string>
     <string name="pass">Pass</string>
     <string name="fail">Fail</string>
-    <string name="title_activity_experiment_info">ExperimentInfoActivity</string>
 </resources>

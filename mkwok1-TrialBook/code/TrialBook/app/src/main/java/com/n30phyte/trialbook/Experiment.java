@@ -1,18 +1,73 @@
 package com.n30phyte.trialbook;
 
-import java.io.Serializable;
-import java.util.Date;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Experiment implements Serializable {
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+/**
+ * Main model for experiments, storing the description, date, trials and passes.
+ * <p>
+ * Implements Parcelable instead of Serializable due to having to store SimpleDateFormat inside.
+ */
+public class Experiment implements Parcelable {
+    public static final Parcelable.Creator<Experiment> CREATOR = new Parcelable.Creator<Experiment>() {
+        public Experiment createFromParcel(Parcel in) {
+            return new Experiment(in);
+        }
+
+        /**
+         * Unused, since an array of experiments is never passed around with the parcelable feature.
+         */
+        @Override
+        public Experiment[] newArray(int size) {
+            return new Experiment[size];
+        }
+    };
+    private final SimpleDateFormat sdf;
     private String description;
     private Date recordedDate;
     private int trials;
     private int pass;
 
+    /**
+     * Constructor for a new experiment. Newly created experiments usually won't have any trials and such, so can be left out of the constructor parameters.
+     * <p>
+     * Throws an exception when the date is not in the expected format.
+     *
+     * @param description
+     *         Description/name of the experiment
+     * @param recordedDate
+     *         Date that should be recorded in the experiment
+     */
+    public Experiment(String description, String recordedDate) throws ParseException {
+        sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA);
 
-    public Experiment(String description, Date recordedDate) {
         this.description = description;
-        this.recordedDate = recordedDate;
+
+        this.recordedDate = sdf.parse(recordedDate);
+        trials = 0;
+        pass = 0;
+
+    }
+
+    /**
+     * Constructor for when it needs to be passed between activities.
+     */
+    public Experiment(Parcel input) {
+        sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA);
+
+        try {
+            this.description = input.readString();
+            this.setDateFromString(input.readString());
+            this.trials = input.readInt();
+            this.pass = input.readInt();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getDescription() {
@@ -31,6 +86,24 @@ public class Experiment implements Serializable {
         this.recordedDate = recordedDate;
     }
 
+    /**
+     * Gets the currently saved date as a String
+     *
+     * @return Returns a String with the date formatted to the expected format.
+     */
+    public String getDateAsString() {
+        return sdf.format(getRecordedDate());
+    }
+
+    /**
+     * Sets the currently saved date from a string, with the pre-specified format used.
+     * <p>
+     * Throws an exception when the entry isn't in the expected format.
+     */
+    public void setDateFromString(String dateString) throws ParseException {
+        setRecordedDate(sdf.parse(dateString));
+    }
+
     public int getTrials() {
         return trials;
     }
@@ -45,5 +118,18 @@ public class Experiment implements Serializable {
 
     public void incrementPass() {
         this.pass++;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(description);
+        dest.writeString(this.getDateAsString());
+        dest.writeInt(this.trials);
+        dest.writeInt(this.pass);
     }
 }

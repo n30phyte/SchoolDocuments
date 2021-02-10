@@ -1,26 +1,17 @@
 package com.n30phyte.listycity;
 
-import androidx.annotation.ColorRes;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.SparseBooleanArray;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-
-import static android.widget.AdapterView.INVALID_POSITION;
-import static android.widget.AdapterView.INVALID_ROW_ID;
 
 public class MainActivity extends AppCompatActivity {
 

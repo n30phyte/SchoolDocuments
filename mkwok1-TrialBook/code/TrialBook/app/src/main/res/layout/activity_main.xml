@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
 
     android:id="@+id/fragment_holder"
@@ -12,18 +11,16 @@
 
     <ListView
 
-        android:id="@+id/experiment_list"
+        android:id="@+id/lv_main_experiment"
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:layout_margin="16dp"
 
         tools:listitem="@layout/item_experiment" />
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_experiment"
+        android:id="@+id/fab_main_add"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +29,5 @@
 
         android:contentDescription="@string/saveExperimentText"
 
-        android:onClick="fabTapped"
-
-        android:src="@android:drawable/ic_input_add" />
+        android:src="@drawable/ic_baseline_add" />
 </merge>

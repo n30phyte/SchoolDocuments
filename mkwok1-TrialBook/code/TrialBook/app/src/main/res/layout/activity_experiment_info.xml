@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/et_experiment_description"
+        android:id="@+id/et_info_description"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/et_experiment_date"
+        android:id="@+id/et_info_date"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,19 +42,18 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_experiment_description"
-        tools:ignore="HardcodedText" />
+        app:layout_constraintTop_toBottomOf="@id/et_info_description" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_experiment_data"
+        android:id="@+id/cl_info_data"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/et_experiment_date">
+        app:layout_constraintTop_toBottomOf="@id/et_info_date">
 
         <TextView
-            android:id="@+id/tv_trial_count"
+            android:id="@+id/tv_info_trials"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,7 +68,7 @@
 
 
         <TextView
-            android:id="@+id/tv_pass_rate"
+            android:id="@+id/tv_info_rate"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -83,10 +81,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_trial_count" />
+            app:layout_constraintTop_toBottomOf="@id/tv_info_trials" />
 
         <TextView
-            android:id="@+id/tv_pass_count"
+            android:id="@+id/tv_info_pass"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -96,12 +94,11 @@
 
             android:textSize="24sp"
 
-            app:layout_constraintEnd_toEndOf="@id/layout_experiment_data"
-            app:layout_constraintTop_toBottomOf="@id/tv_pass_rate"
-            tools:layout_editor_absoluteX="243dp" />
+            app:layout_constraintEnd_toEndOf="@id/cl_info_data"
+            app:layout_constraintTop_toBottomOf="@id/tv_info_rate" />
 
         <TextView
-            android:id="@+id/tv_fail_count"
+            android:id="@+id/tv_info_fail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
@@ -110,12 +107,12 @@
 
             android:textSize="24sp"
 
-            app:layout_constraintStart_toStartOf="@id/layout_experiment_data"
-            app:layout_constraintTop_toBottomOf="@id/tv_pass_rate" />
+            app:layout_constraintStart_toStartOf="@id/cl_info_data"
+            app:layout_constraintTop_toBottomOf="@id/tv_info_rate" />
 
 
         <Button
-            android:id="@+id/btn_experiment_pass"
+            android:id="@+id/btn_info_pass"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -124,10 +121,10 @@
             android:text="@string/pass"
 
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_pass_count" />
+            app:layout_constraintTop_toBottomOf="@id/tv_info_pass" />
 
         <Button
-            android:id="@+id/btn_experiment_fail"
+            android:id="@+id/btn_info_fail"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -136,12 +133,12 @@
             android:text="@string/fail"
 
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_fail_count" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_info_fail" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/btn_save"
+        android:id="@+id/btn_info_save"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -150,7 +147,7 @@
         android:text="@string/saveExperimentText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_experiment_data" />
+        app:layout_constraintTop_toBottomOf="@+id/cl_info_data" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

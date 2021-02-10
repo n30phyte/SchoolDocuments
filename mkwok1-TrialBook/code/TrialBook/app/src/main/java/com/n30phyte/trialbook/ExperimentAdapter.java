@@ -10,16 +10,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+/**
+ * Adapter for ListView to show Experiments as entries in the app.
+ */
 public class ExperimentAdapter extends ArrayAdapter<Experiment> {
-
-    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     private final ArrayList<Experiment> experiments;
     private final Context context;
-    private OnAdapterTouchedListener listener;
 
     public ExperimentAdapter(Context context, ArrayList<Experiment> experimentList) {
         super(context, 0, experimentList);
@@ -38,24 +37,20 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> {
 
         Experiment experiment = experiments.get(position);
 
-        TextView experimentDescription = view.findViewById(R.id.tv_experiment_description);
-        TextView experimentDate = view.findViewById(R.id.tv_experiment_date);
+        // Grab the views
+        TextView tvItemDescription = view.findViewById(R.id.tv_item_description);
+        TextView tvItemDate = view.findViewById(R.id.tv_item_date);
+        TextView tvItemTrials = view.findViewById(R.id.tv_item_trials);
+        TextView tbItemSuccessRate = view.findViewById(R.id.tv_item_rate);
 
-        TextView experimentTrials = view.findViewById(R.id.tv_experiment_trials);
-        TextView experimentSuccessRate = view.findViewById(R.id.tv_experiment_success_rate);
-
-        experimentDescription.setText(experiment.getDescription());
-        experimentDate.setText(sdf.format(experiment.getRecordedDate()));
-
-        experimentTrials.setText(String.format("Pass: %s", experiment.getTrials()));
+        // Set the data up inside the views
+        tvItemDescription.setText(experiment.getDescription());
+        tvItemDate.setText(experiment.getDateAsString());
+        tvItemTrials.setText(String.format("Trials: %s", experiment.getTrials()));
 
         float successRate = ((float) experiment.getPass() / experiment.getTrials()) * 100;
-        experimentSuccessRate.setText(String.format("%s%%", successRate));
+        tbItemSuccessRate.setText(String.format("%s%%", successRate));
 
         return view;
-    }
-
-    public interface OnAdapterTouchedListener {
-        void onItemTouched(Experiment toEdit);
     }
 }

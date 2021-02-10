@@ -10,8 +10,7 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.text.ParseException;
 
 public class ExperimentInfoActivity extends Activity {
 
@@ -24,7 +23,6 @@ public class ExperimentInfoActivity extends Activity {
     TextView experimentPassTextView;
     TextView experimentFailTextView;
     private Experiment experiment;
-    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private int position;
 
     @Override
@@ -32,47 +30,46 @@ public class ExperimentInfoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experiment_info);
 
-        descriptionEditText = findViewById(R.id.et_experiment_description);
-        dateEditText = findViewById(R.id.et_experiment_date);
-        experimentTrialsTextView = findViewById(R.id.tv_trial_count);
-        experimentPassRateTextView = findViewById(R.id.tv_pass_rate);
-        experimentPassTextView = findViewById(R.id.tv_pass_count);
-        experimentFailTextView = findViewById(R.id.tv_fail_count);
+        descriptionEditText = findViewById(R.id.et_info_description);
+        dateEditText = findViewById(R.id.et_info_date);
+        experimentTrialsTextView = findViewById(R.id.tv_info_trials);
+        experimentPassRateTextView = findViewById(R.id.tv_info_rate);
+        experimentPassTextView = findViewById(R.id.tv_info_pass);
+        experimentFailTextView = findViewById(R.id.tv_info_fail);
 
-        ConstraintLayout experimentData = findViewById(R.id.layout_experiment_data);
+        ConstraintLayout experimentData = findViewById(R.id.cl_info_data);
 
         if (!getIntent().hasExtra(EXP_ARG)) {
+            // New experiment, hide trial data view.
             experiment = null;
 
             experimentData.setVisibility(View.GONE);
         } else {
-            experiment = (Experiment) getIntent().getSerializableExtra(EXP_ARG);
+            // Existing experiment, show trial data view.
+            experiment = (Experiment) getIntent().getParcelableExtra(EXP_ARG);
             position = getIntent().getIntExtra(POS_ARG, -1);
             experimentData.setVisibility(View.VISIBLE);
         }
 
-        Button saveButton = findViewById(R.id.btn_save);
+        Button saveButton = findViewById(R.id.btn_info_save);
         saveButton.setOnClickListener(this::onSave);
 
-        Button passButton = findViewById(R.id.btn_experiment_pass);
+        Button passButton = findViewById(R.id.btn_info_pass);
         passButton.setOnClickListener(this::onPass);
 
-        Button failButton = findViewById(R.id.btn_experiment_fail);
+        Button failButton = findViewById(R.id.btn_info_fail);
         failButton.setOnClickListener(this::onFail);
 
         updateViews();
     }
 
+    /**
+     * Sets up all the TextViews in the activity to show the stored data.
+     */
     private void updateViews() {
-        if (experiment == null) {
-            experimentTrialsTextView.setText("0");
-            experimentPassRateTextView.setText("0");
-            experimentPassTextView.setText("0");
-            experimentFailTextView.setText("0");
-        } else {
+        if (experiment != null) {
             descriptionEditText.setText(experiment.getDescription());
-            String experimentDate = sdf.format(experiment.getRecordedDate());
-            dateEditText.setText(experimentDate);
+            dateEditText.setText(experiment.getDateAsString());
 
             experimentTrialsTextView.setText(String.valueOf(experiment.getTrials()));
 
@@ -96,37 +93,36 @@ public class ExperimentInfoActivity extends Activity {
     }
 
     private void onSave(View v) {
-        // Save item
-
         String experimentDescription = descriptionEditText.getText().toString();
+        String dateString = dateEditText.getText().toString();
 
         if (experimentDescription.isEmpty()) {
             descriptionEditText.setError("Input a description");
             return;
         }
 
-        if (dateEditText.getText().toString().isEmpty()) {
+        if (dateString.isEmpty()) {
             dateEditText.setError("Input a date");
             return;
         }
 
         try {
-            Date experimentDate = sdf.parse(dateEditText.getText().toString());
             Intent data = new Intent();
 
             if (experiment == null) {
-                data.putExtra(EXP_ARG, new Experiment(experimentDescription, experimentDate));
+                data.putExtra(EXP_ARG, new Experiment(experimentDescription, dateString));
             } else {
                 experiment.setDescription(experimentDescription);
-                experiment.setRecordedDate(experimentDate);
+                experiment.setDateFromString(dateString);
                 data.putExtra(EXP_ARG, experiment);
                 data.putExtra(POS_ARG, position);
 
             }
+
             setResult(RESULT_OK, data);
             finish();
 
-        } catch (Exception e) {
+        } catch (ParseException e) {
             // Invalid date
             dateEditText.setError("Invalid Date Format");
         }
