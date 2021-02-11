@@ -42,10 +42,8 @@ public class Experiment implements Parcelable {
      * <p>
      * Throws an exception when the date is not in the expected format.
      *
-     * @param description
-     *         Description/name of the experiment
-     * @param recordedDate
-     *         Date that should be recorded in the experiment
+     * @param description  Description/name of the experiment
+     * @param recordedDate Date that should be recorded in the experiment
      */
     public Experiment(String description, String recordedDate) throws ParseException {
         sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA);

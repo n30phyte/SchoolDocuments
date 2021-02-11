@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -20,9 +19,9 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> {
     private final ArrayList<Experiment> experiments;
     private final Context context;
 
-    public ExperimentAdapter(Context context, ArrayList<Experiment> experimentList) {
-        super(context, 0, experimentList);
-        this.experiments = experimentList;
+    public ExperimentAdapter(Context context) {
+        super(context, 0, ExperimentLog.getInstance());
+        this.experiments = ExperimentLog.getInstance();
         this.context = context;
     }
 

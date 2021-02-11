@@ -16,12 +16,15 @@ public class ExperimentLog {
     private ExperimentLog() {
     }
 
-    public static void addExperiment(Experiment newExperiment) {
-        experiments.add(newExperiment);
-    }
-
     public static ArrayList<Experiment> getInstance() {
         return experiments;
     }
 
+    public static void addExperiment(Experiment newExperiment) {
+        experiments.add(newExperiment);
+    }
+
+    public static void setExperiment(int index, Experiment experiment) {
+        experiments.set(index, experiment);
+    }
 }

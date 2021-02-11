@@ -8,10 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity implements View.OnCreateContextMenuListener {
@@ -30,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
         setContentView(R.layout.activity_main);
 
         // Set up adapter
-        elAdapter = new ExperimentAdapter(this, ExperimentLog.getInstance());
+        elAdapter = new ExperimentAdapter(this);
 
         // Set up ListView
         experimentList = findViewById(R.id.lv_main_experiment);
@@ -43,18 +41,14 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
         // Add onClickListener to FAB
         FloatingActionButton fabAdd = findViewById(R.id.fab_main_add);
         fabAdd.setOnClickListener(this::fabTapped);
-
     }
 
     /**
      * This handles returning to this activity from the experiment editing one.
      *
-     * @param requestCode
-     *         The pre-specified request code (edit mode or add mode).
-     * @param resultCode
-     *         The result from the swapped activity.
-     * @param data
-     *         The data returned from the activity, if available.
+     * @param requestCode The pre-specified request code (edit mode or add mode).
+     * @param resultCode  The result from the swapped activity.
+     * @param data        The data returned from the activity, if available.
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -65,10 +59,11 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
             Experiment newExperiment = (Experiment) data.getParcelableExtra(ExperimentInfoActivity.EXP_ARG);
 
             if (requestCode == NEW_EXPERIMENT_ACTIVITY) {
-                elAdapter.add(newExperiment);
+                ExperimentLog.addExperiment(newExperiment);
+                elAdapter.notifyDataSetChanged();
             } else if (requestCode == EDIT_EXPERIMENT_ACTIVITY) {
                 int experimentId = data.getIntExtra(ExperimentInfoActivity.POS_ARG, -1);
-                ExperimentLog.getInstance().set(experimentId, newExperiment);
+                ExperimentLog.setExperiment(experimentId, newExperiment);
                 elAdapter.notifyDataSetChanged();
             }
         }
@@ -103,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
      * From: https://stackoverflow.com/a/21959658
      * Author: https://stackoverflow.com/users/1598308/kamil-seweryn
      * License: CC BY-SA 3.0
+     * Edit date: 2014-02-22
      */
 
     /**
