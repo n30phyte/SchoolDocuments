@@ -1,0 +1,12 @@
+<component name="ProjectCodeStyleConfiguration">
+  <code_scheme name="Project" version="173">
+    <option name="RIGHT_MARGIN" value="256" />
+    <clangFormatSettings>
+      <option name="ENABLED" value="true" />
+    </clangFormatSettings>
+    <codeStyleSettings language="ObjectiveC">
+      <option name="RIGHT_MARGIN" value="256" />
+      <option name="SOFT_MARGINS" value="256" />
+    </codeStyleSettings>
+  </code_scheme>
+</component>

@@ -7,9 +7,11 @@
 #include "vector.h"
 
 /**
+ * Send a message through the specified socket, adding a \n at the end to be
+ * used as an end delimiter.
  *
- * @param socket_fd
- * @param message
+ * @param socket_fd Socket to send to.
+ * @param message Message to send.
  */
 void send_msg(const int socket_fd, const char *message) {
   const unsigned long orig_len = strlen(message);
@@ -32,6 +34,13 @@ void send_msg(const int socket_fd, const char *message) {
   free(msg_newline);
 }
 
+/**
+ * Receive a message over the socket that has a \n as the delimiter.
+ * Buffer should have enough storage for the incoming message.
+ *
+ * @param socket_fd Socket to send to.
+ * @param message Pointer to buffer.
+ */
 int recv_msg(const int socket_fd, char *message) {
   // Check if anything is available
   int current_length = 0;
@@ -50,6 +59,11 @@ int recv_msg(const int socket_fd, char *message) {
   return received_size;
 }
 
+/**
+ * Split a string by space into a vector of strings.
+ *
+ * @param text String to split.
+ */
 struct vector *split_string(const char *text) {
   char *process;
   copy_string(&process, text);
@@ -66,6 +80,12 @@ struct vector *split_string(const char *text) {
   return output;
 }
 
+/**
+ * Like asprintf but for strcpy.
+ *
+ * @param dest Address of pointer to copy the text to.
+ * @param source String to copy.
+ */
 void copy_string(char **dest, const char *source) {
   if (source == NULL) {
     *dest = NULL;

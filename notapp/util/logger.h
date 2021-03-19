@@ -1,7 +1,3 @@
-//
-// Created by Michael Kwok on 3/12/21.
-//
-
 #ifndef NOTAPP_LOGGER_H
 #define NOTAPP_LOGGER_H
 

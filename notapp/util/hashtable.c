@@ -5,8 +5,12 @@
 
 #include "util.h"
 
-// 32-bit FNV-1a hash function from Wikipedia.
-// Good enough for this assignment.
+/**
+ * 32-bit FNV-1a hash function from Wikipedia.
+ * Good enough for this hash table.
+ * @param key Key to hash.
+ * @return size_t sized hash value.
+ */
 size_t fnv(char *key) {
   size_t hash = 0x01000193;
   const size_t fnv_prime = 0x01000193;

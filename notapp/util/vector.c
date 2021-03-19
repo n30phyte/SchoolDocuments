@@ -1,10 +1,12 @@
-//
-// Created by Michael Kwok on 3/9/21.
-//
 #include "vector.h"
 
 #include <stdlib.h>
 
+/**
+ * Initialize a new thread safe vector.
+ *
+ * @param this vector struct to initialize.
+ */
 void vector_new(struct vector *this) {
   this->capacity = VECTOR_DEFAULT_CAPACITY;
   this->count = 0;
@@ -13,6 +15,12 @@ void vector_new(struct vector *this) {
   pthread_mutex_init(this->mutex, NULL);
 }
 
+/**
+ * Get the number of items stored in the referenced vector.
+ *
+ * @param this Vector to check the size of.
+ * @return Size of the vector.
+ */
 size_t vector_size(struct vector *this) {
   pthread_mutex_lock(this->mutex);
   size_t count = this->count;
@@ -20,6 +28,12 @@ size_t vector_size(struct vector *this) {
   return count;
 }
 
+/**
+ * Resize the vector to the specified size.
+ *
+ * @param this Vector to resize.
+ * @param new_capacity Capacity to resize to.
+ */
 void vector_resize(struct vector *this, int new_capacity) {
   pthread_mutex_lock(this->mutex);
 
@@ -33,6 +47,12 @@ void vector_resize(struct vector *this, int new_capacity) {
   pthread_mutex_unlock(this->mutex);
 }
 
+/**
+ * Add an item to the vector.
+ *
+ * @param this vector to add to.
+ * @param item Item to add.
+ */
 void vector_push(struct vector *this, void *item) {
   if (this->count == this->capacity) {
     vector_resize(this, this->capacity << 1);
@@ -44,6 +64,12 @@ void vector_push(struct vector *this, void *item) {
   pthread_mutex_unlock(this->mutex);
 }
 
+/**
+ *
+ * @param this
+ * @param index
+ * @return
+ */
 void *vector_get(struct vector *this, size_t index) {
   if (index >= 0 && index < this->count) {
     pthread_mutex_lock(this->mutex);
@@ -55,6 +81,11 @@ void *vector_get(struct vector *this, size_t index) {
   return NULL;
 }
 
+/**
+ *
+ * @param this
+ * @param index
+ */
 void vector_delete(struct vector *this, size_t index) {
   if (index >= 0 && index < this->count) {
     pthread_mutex_lock(this->mutex);
@@ -74,12 +105,22 @@ void vector_delete(struct vector *this, size_t index) {
   }
 }
 
+/**
+ *
+ * @param this
+ * @return
+ */
 void *vector_pop(struct vector *this) {
   void *item = vector_get(this, this->count - 1);
   vector_delete(this, this->count - 1);
   return item;
 }
 
+/**
+ * Clean up the vector.
+ *
+ * @param this
+ */
 void vector_free(struct vector *this) {
   while (vector_size(this) != 0) {
     vector_pop(this);

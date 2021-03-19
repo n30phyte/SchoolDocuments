@@ -44,6 +44,12 @@ int main(int argc, char *argv[]) {
       case 't':
         interval_s = strtof(optarg, NULL);
         interval_ms = (int)(interval_s * 1000);
+        if (interval_s <= 0.1 || interval_s >= 10) {
+          // Force an error
+          server_flag = true;
+          observer_flag = true;
+          client_flag = true;
+        }
         break;
       case 'p':
         copy_string(&server_port, optarg);
@@ -56,7 +62,8 @@ int main(int argc, char *argv[]) {
   }
 
   // Ensure only one flag is set
-  if ((server_flag ^ observer_flag ^ client_flag) != 1) {
+  if ((server_flag ^ observer_flag ^ client_flag) ^
+      (server_flag & observer_flag & client_flag)) {
     printf("Incorrect usage. Arguments:\n");
     printf(
         "  Server:\n    notapp -s -t <interval> [-p <sport>] [-l "
@@ -67,7 +74,15 @@ int main(int argc, char *argv[]) {
     if (server_flag) {
       struct serverinfo info = {.update_interval = interval_ms};
       copy_string(&info.log_file, fname);
-      copy_string(&info.server_port, server_port);
+      if (server_port == NULL) {
+        int generated_port = (rand() % (65535 - 1024 + 1)) + 1024;
+        char port_str[6];
+        sprintf(port_str, "%d", generated_port);
+        copy_string(&info.server_port, port_str);
+      } else {
+        copy_string(&info.server_port, server_port);
+        free(server_port);
+      }
 
       server(info);
     } else if (observer_flag) {
@@ -79,15 +94,16 @@ int main(int argc, char *argv[]) {
       copy_string(&info.server_address, server_addr);
       copy_string(&info.server_port, server_port);
       copy_string(&info.watch_target, fname);
+      free(server_port);
 
       observer(info);
     } else {
       client(server_addr, server_port);
+      free(server_port);
     }
   }
 
   free(server_addr);
-  free(server_port);
   free(fname);
 
   return 0;

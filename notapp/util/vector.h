@@ -1,7 +1,3 @@
-//
-// Created by Michael Kwok on 3/9/21.
-//
-
 #ifndef NOTAPP_VECTOR_HPP
 #define NOTAPP_VECTOR_HPP
 

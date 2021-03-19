@@ -38,6 +38,7 @@ struct obs_info {
 
 static struct hash_table *update_list;
 static struct logger *logger;
+static char *server_port;
 
 static sigjmp_buf server_exit;
 static volatile bool server_running = true;
@@ -55,26 +56,28 @@ void server_daemonize() {
     case 0:
       break;
     case -1:
-      perror("Failed to demonize\n");
+      fprintf(stderr, "Failed to demonize\n");
       _exit(EXIT_FAILURE);
     default:
       _exit(EXIT_SUCCESS);
   }
 
   if (setsid() == -1) {
-    perror("Failed to demonize\n");
+    fprintf(stderr, "Failed to demonize\n");
     _exit(EXIT_FAILURE);
   }
-  int pid;
-  switch (pid = fork()) {
+  switch (fork()) {
     case 0:
       break;
     case -1:
-      perror("Failed to demonize\n");
+      fprintf(stderr, "Failed to demonize\n");
       _exit(EXIT_FAILURE);
     default:
       _exit(EXIT_SUCCESS);
   }
+
+  fprintf(stderr, "%s\n", server_port);
+
   close(STDIN_FILENO);
 }
 
@@ -224,6 +227,7 @@ void *watch_handler(void *args) {
 }
 
 void server(struct serverinfo info) {
+  server_port = info.server_port;
   server_daemonize();
   logger = logger_init(info.log_file);
   logger_write(logger, "Starting server, listening to port %s.",

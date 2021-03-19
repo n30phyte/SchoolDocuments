@@ -1,7 +1,3 @@
-//
-// Created by Michael Kwok on 3/9/21.
-//
-
 #ifndef NOTAPP_UTIL_H
 #define NOTAPP_UTIL_H
 

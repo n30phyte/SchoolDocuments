@@ -13,6 +13,10 @@
  * @return A logger struct that should be used for future logging operations.
  */
 struct logger *logger_init(char *filename) {
+  if (filename == NULL) {
+    return NULL;
+  }
+
   struct logger *this = malloc(sizeof(struct logger));
   this->mutex = malloc(sizeof(pthread_mutex_t));
   pthread_mutex_init(this->mutex, NULL);
@@ -30,6 +34,10 @@ struct logger *logger_init(char *filename) {
  * @param ...
  */
 void logger_write(struct logger *logger, char *format_str, ...) {
+  if (logger == NULL) {
+    return;
+  }
+
   struct timeval tv;
   gettimeofday(&tv, NULL);
 
@@ -54,6 +62,10 @@ void logger_write(struct logger *logger, char *format_str, ...) {
  * @param logger Logger to close
  */
 void logger_close(struct logger *logger) {
+  if (logger == NULL) {
+    return;
+  }
+
   pthread_mutex_lock(logger->mutex);
   fflush(logger->file);
   fclose(logger->file);
