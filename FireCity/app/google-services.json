@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "954072447631",
+    "project_id": "cmput301-306000",
+    "storage_bucket": "cmput301-306000.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954072447631:android:786c30e55e7fa1a542cefa",
+        "android_client_info": {
+          "package_name": "com.n30phyte.listycity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "954072447631-kqipcmdo7ftb2spfdhsle9mn417pg11q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcQCR5FDGaLW-SAF4oGfWplLfSyqu09JA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "954072447631-kqipcmdo7ftb2spfdhsle9mn417pg11q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
