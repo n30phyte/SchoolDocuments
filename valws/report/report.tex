@@ -1,0 +1,154 @@
+\documentclass{article}
+\usepackage{pgfplots}
+\usepackage[letterpaper, margin=1.2cm]{geometry}
+\usepackage{booktabs}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage{siunitx}
+
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{external}
+\tikzexternalize[prefix=tikz/]
+
+\title{CMPUT 379 Assignment 3}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+All of the data was collected by the following command:\\
+\verb!valgrind --tool=lackey --trace-mem=yes <program> 10000 2>&1 | ./valws379 <pgsize> <windowsize> !
+
+The first set of references in the beginning of the graphs are similar for all the data, explained by the fact that they all set up the sorting array similarly. At the end of the program, a large spike appears as allocated items get freed and cleaned up.
+
+The 4096 and 8192 byte page graphs are similar in shape, but the 8192 graphs are lower as each page encompasses more references, and thus count for less ``pages'' loaded.
+
+In the following sections, the 4k page size results will be focus, as they show more extreme differences between input sizes, and the same explanations can be applied to the 8k page results. Similar behaviour such as the beginning and the end was explained previously and will not be repeated below.
+
+The following timing results were found for each sorting algorithm:
+
+\begin{center}
+    \begin{tabular}{ c c }
+        \toprule
+        Sorting Algorithm & Time (\si{\second}) \\
+        \midrule
+        Radix Sort        & 36.482              \\
+        Quick Sort        & 25.335              \\
+        Heap Sort         & 39.481              \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+In the following sections, it can be seen that Heap Sort has the most memory accesses, Radix Sort having the 2nd most and Quick Sort has the least number of accesses, which explains the time difference.
+
+\section{Heap Sort}
+
+The first section of both graphs show the heapify section of the heapsort process. Since heapify has to go through the entire array to swap and build the binary tree, the number of pages required for it will increase as time passes. After building the heap is done, the test code calls \verb|fprintf|, which explains the massive spike in the middle, as the program was linked dynamically. After the \verb|fprintf|, the working set starts a decreasing trend. This looks higher in the \num{100000} windowsize case, as it still has references from the previous parts of the program in the ``working set''. As time goes on, the number of pages kept in the working set gets dropped as it goes out of the sliding window before stabilizing at the end of sorting.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis} [
+                xmin=0.15,
+                xmax=19000000,
+                ymin=0,
+                ymax=15,
+                width=0.9\textwidth,
+                height=2.6in]
+            \addplot gnuplot[raw gnuplot, blue, mark=none] {plot "heapsort_4k_1k.txt" using ($0*2000):1 every 2000;};
+            \addlegendentry{1000 windowsize};
+            \addplot gnuplot[raw gnuplot, red, mark=none] {plot "heapsort_4k_10k.txt" using ($0*2000):1 every 2000;};
+            \addlegendentry{10000 windowsize};
+            \addplot gnuplot[raw gnuplot, green, mark=none] {plot "heapsort_4k_100k.txt" using ($0*2000):1 every 2000;};
+            \addlegendentry{100000 windowsize};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Heap Sort with 4096 Page Size}
+    \label{fig:heap4k}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis} [xmin=0.15, ymin=0, xmax=19000000, ymax=15, width=0.9\textwidth, height=2.6in]
+            \addplot gnuplot[raw gnuplot, blue, mark=none] {plot "heapsort_8k_1k.txt" using ($0*2000):1 every 2000;};
+            \addlegendentry{1000 windowsize};
+            \addplot gnuplot[raw gnuplot, red, mark=none] {plot "heapsort_8k_10k.txt" using ($0*2000):1 every 2000;};
+            \addlegendentry{10000 windowsize};
+            \addplot gnuplot[raw gnuplot, green, mark=none] {plot "heapsort_8k_100k.txt" using ($0*2000):1 every 2000;};
+            \addlegendentry{100000 windowsize};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Heap Sort with 8192 Page Size}
+    \label{fig:heap8k}
+\end{figure}
+
+\section{Radix Sort}
+
+The graph shows the cyclic fashion of radix sorting. The entire array gets traversed in each cycle, as the way radix sort works is by sorting the digits of each entry relative to each other. During the cycle iterations, less and less of the array is looked at as they slowly get sorted in the relative order. As shown with the \num{1000} case, there are 10 peaks, and each plateau is a single digit in the number.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis} [xmin=0.15, ymin=0, xmax=17000000, ymax=20, width=0.9\textwidth, height=2.6in]
+            \addplot gnuplot[raw gnuplot, blue, mark=none] {plot "rsort_4k_1k.txt" using ($0*2000):1 every 2000;};
+            \addlegendentry{1000 windowsize};
+            \addplot gnuplot[raw gnuplot, red, mark=none] {plot "rsort_4k_10k.txt" using ($0*2000):1 every 2000;};
+            \addlegendentry{10000 windowsize};
+            \addplot gnuplot[raw gnuplot, green, mark=none] {plot "rsort_4k_100k.txt" using ($0*2000):1 every 2000;};
+            \addlegendentry{100000 windowsize};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Radix Sort with 4096 Page Size}
+    \label{fig:radix4k}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis} [xmin=0.15, ymin=0, xmax=17000000, ymax=15, width=0.9\textwidth, height=2.6in]
+            \addplot gnuplot[raw gnuplot, blue, mark=none] {plot "rsort_8k_1k.txt" using ($0*2000):1 every 2000;};
+            \addlegendentry{1000 windowsize};
+            \addplot gnuplot[raw gnuplot, red, mark=none] {plot "rsort_8k_10k.txt" using ($0*2000):1 every 2000;};
+            \addlegendentry{10000 windowsize};
+            \addplot gnuplot[raw gnuplot, green, mark=none] {plot "rsort_8k_100k.txt" using ($0*2000):1 every 2000;};
+            \addlegendentry{100000 windowsize};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Radix Sort Graphs with 8192 Page Size}
+    \label{fig:radix8k}
+\end{figure}
+\newpage
+\section{Quick Sort}
+
+For quicksort, the sorting algorithm works on small blocks of the array at a time, which is explained in the lack of pages in the working set for most of the smaller window sizes. The larger window size shows that the working sets are not overlapping, showing up as more pages compared to the smaller window sizes, as it ``remembers'' a longer reference access history.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis} [xmin=0.15, ymin=0, xmax=11000000, ymax=15, width=0.9\textwidth, height=2.6in]
+            \addplot gnuplot[raw gnuplot, blue, mark=none] {plot "qsort_4k_1k.txt" using ($0*2000):1 every 2000;};
+            \addlegendentry{1000 windowsize};
+            \addplot gnuplot[raw gnuplot, red, mark=none] {plot "qsort_4k_10k.txt" using ($0*2000):1 every 2000;};
+            \addlegendentry{10000 windowsize};
+            \addplot gnuplot[raw gnuplot, green, mark=none] {plot "qsort_4k_100k.txt" using ($0*2000):1 every 2000;};
+            \addlegendentry{100000 windowsize};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Quick Sort Graphs with 4096 Page Size}
+    \label{fig:quick4k}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis} [xmin=0.15, ymin=0, xmax=11000000, ymax=15, width=0.9\textwidth, height=2.6in]
+            \addplot gnuplot[raw gnuplot, blue, mark=none] {plot "qsort_8k_1k.txt" using ($0*2000):1 every 2000;};
+            \addlegendentry{1000 windowsize};
+            \addplot gnuplot[raw gnuplot, red, mark=none] {plot "qsort_8k_10k.txt" using ($0*2000):1 every 2000;};
+            \addlegendentry{10000 windowsize};
+            \addplot gnuplot[raw gnuplot, green, mark=none] {plot "qsort_8k_100k.txt" using ($0*2000):1 every 2000;};
+            \addlegendentry{100000 windowsize};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Quick Sort Graphs with 8192 Page Size}
+    \label{fig:quick8k}
+\end{figure}
+\end{document}

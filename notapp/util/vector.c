@@ -18,7 +18,7 @@ void vector_new(struct vector *this) {
 /**
  * Get the number of items stored in the referenced vector.
  *
- * @param this Vector to check the size of.
+ * @param this Vector to check the capacity of.
  * @return Size of the vector.
  */
 size_t vector_size(struct vector *this) {
@@ -29,7 +29,7 @@ size_t vector_size(struct vector *this) {
 }
 
 /**
- * Resize the vector to the specified size.
+ * Resize the vector to the specified capacity.
  *
  * @param this Vector to resize.
  * @param new_capacity Capacity to resize to.

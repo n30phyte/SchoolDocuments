@@ -62,8 +62,8 @@ int main(int argc, char *argv[]) {
   }
 
   // Ensure only one flag is set
-  if (!((server_flag ^ observer_flag ^ client_flag) ^
-      (server_flag & observer_flag & client_flag))) {
+  if ((server_flag ^ observer_flag ^ client_flag) ^
+      (server_flag & observer_flag & client_flag)) {
     printf("Incorrect usage. Arguments:\n");
     printf(
         "  Server:\n    notapp -s -t <interval> [-p <sport>] [-l "
