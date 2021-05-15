@@ -8,13 +8,13 @@ valws379: $(OBJ)/valws379.o $(OBJ)/queue.o $(OBJ)/lru.o $(OBJ)/multiset.o
 	@mkdir -p $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ)/valws379.o $(OBJ)/queue.o $(OBJ)/lru.o $(OBJ)/multiset.o -o valws379
 
-$(OBJ)/queue.o: queue.c
+$(OBJ)/queue.o: util/queue.c
 	@mkdir -p $(OBJ)
 	$(CC) $(CFLAGS) -c queue.c -o $(OBJ)/queue.o
-$(OBJ)/lru.o: lru.c
+$(OBJ)/lru.o: util/lru.c
 	@mkdir -p $(OBJ)
 	$(CC) $(CFLAGS) -c lru.c -o $(OBJ)/lru.o
-$(OBJ)/multiset.o: multiset.c
+$(OBJ)/multiset.o: util/multiset.c
 	@mkdir -p $(OBJ)
 	$(CC) $(CFLAGS) -c multiset.c -o $(OBJ)/multiset.o
 $(OBJ)/valws379.o: main.c

@@ -3,7 +3,7 @@
 #include <string.h>
 #include <getopt.h>
 
-#include "lru.h"
+#include "util/lru.h"
 
 const int BUFFER_SIZE = 255;
 
