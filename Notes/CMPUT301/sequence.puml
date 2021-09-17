@@ -1,0 +1,12 @@
+@startuml sequence
+
+actor Client 
+
+Client -> ConcreteCommand : new()
+Client <-- ConcreteCommand : commandInstance
+
+Client -> Invoker : invokeCommand(commandInstance)
+ConcreteCommand <- Invoker : execute()
+ConcreteCommand -> Receiver : changeState()
+
+@enduml

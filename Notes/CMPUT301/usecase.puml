@@ -1,0 +1,24 @@
+@startuml UseCase
+
+rectangle System {
+
+(Filling up gas in a car at a gas station) as UC1
+
+
+(Preauthorize) <|-- (Credit) : <<extend>>
+(Preauthorize) <|-- (Debit) : <<extend>>
+
+(Pump gas) as UC3
+
+UC1 ..> (Preauthorize) : <<include>>
+UC1 ..> UC3 : <<include>>
+UC1 ..> (Settle) : <<include>>
+}
+
+:Customer: -- UC3
+:Customer: -- (Preauthorize)
+
+:Attendant: -- UC3
+:Attendant: -- (Settle)
+
+@enduml

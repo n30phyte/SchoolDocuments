@@ -1,0 +1,5 @@
+git revert HEAD~1
+git commit
+git push origin/main
+git pull origin
+git checkout -b newbranch 9a4c3e

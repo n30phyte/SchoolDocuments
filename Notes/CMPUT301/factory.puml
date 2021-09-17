@@ -1,0 +1,24 @@
+@startuml factory
+
+skinparam classAttributeIconSize 0
+
+abstract class Document <<abstract>> 
+class MyDocument extends Document
+class YourDocument extends Document
+
+abstract class Application <<abstract>> {
+   {abstract} newDocument() : Document
+}
+
+class MyApplication extends Application {
+    newDocument() : MyDocument
+}
+
+class YourApplication extends Application {
+    newDocument() : YourDocument
+}
+
+YourApplication "1" --> "*" YourDocument : creates
+MyApplication "1" --> "*" MyDocument : creates
+
+@enduml

@@ -1,0 +1,235 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper]{geometry}
+\usepackage{booktabs}
+\usepackage{mathtools}
+\usepackage[binary-units=true]{siunitx}
+\usepackage{tikz}
+
+\title{ECE 487 Assignment 5}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\subsection*{Stop and Wait ARQ}
+Round trip time: \(\frac{600000}{3 \times 10^8} = 2 \times 10^{-3}\)
+2 Timeouts: \(0.5 + 0.5\) seconds\\
+1 Successful round trip: \(2 \times 10^{-3}\) \\
+Total time: \(1.002\) seconds\\
+Data sent: \(1000\) bits\\
+Throughput: \( \frac{1000}{1.002} = \SI{998}{\bit\per\second}\)
+
+\subsection*{ALOHA station throughput}
+\(T_{fr} = \SI{0.4}{\milli\second}\)
+
+\subsubsection*{Pure}
+\(G = 0.5\) to get maximum throughput.\\
+System frames per second: \( G \cdot \frac{1000}{0.4} = 1250 \text{Frames per Second} \) \\
+50 stations, so average frames per second per station: \(\frac{1250}{50} = 25\)
+
+\subsubsection*{Slotted}
+\(G = 1\) to get maximum throughput.\\
+System frames per second: \( G \cdot \frac{1000}{0.4} = 2500 \text{Frames per Second} \) \\
+50 stations, so average frames per second per station: \(\frac{2500}{50} = 50\)
+
+\subsection*{ALOHA system throughput}
+\(T_{fr} = \frac{2000}{10^6} = \SI{2}{\milli\second}\)
+
+\(G = \frac{500}{\frac{1000}{2}} = 1\)
+
+\(50 \cdot 10 = 500\) Frames sent per second
+
+\subsubsection*{Pure}
+\(S = G \cdot e^{-2} = 0.135 \) \\
+System throughput: \(500 \cdot 0.135 = 67.7\) Frames per second
+
+\subsubsection*{Slotted}
+\(S = G \cdot e^{-1} = 0.368 \) \\
+System throughput: \(500 \cdot 0.368 = 183.9\) Frames per second
+
+\subsection*{CSMA/CD}
+
+\ifx\du\undefined
+    \newlength{\du}
+\fi
+\setlength{\du}{15\unitlength}
+\begin{tikzpicture}
+    \pgftransformxscale{0.998158}
+    \pgftransformyscale{-0.998158}
+    \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+    \pgfsetstrokecolor{dialinecolor}
+    \definecolor{dialinecolor}{rgb}{1.000000, 1.000000, 1.000000}
+    \pgfsetfillcolor{dialinecolor}
+    \definecolor{dialinecolor}{rgb}{1.000000, 1.000000, 1.000000}
+    \pgfsetfillcolor{dialinecolor}
+    \fill (13.000000\du,8.000000\du)--(13.000000\du,10.000000\du)--(17.000000\du,10.000000\du)--(17.000000\du,8.000000\du)--cycle;
+    \pgfsetlinewidth{0.100000\du}
+    \pgfsetdash{}{0pt}
+    \pgfsetdash{}{0pt}
+    \pgfsetmiterjoin
+    \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+    \pgfsetstrokecolor{dialinecolor}
+    \draw (13.000000\du,8.000000\du)--(13.000000\du,10.000000\du)--(17.000000\du,10.000000\du)--(17.000000\du,8.000000\du)--cycle;
+    % setfont left to latex
+    \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+    \pgfsetstrokecolor{dialinecolor}
+    \node at (15.000000\du,9.194053\du){A};
+    \definecolor{dialinecolor}{rgb}{1.000000, 1.000000, 1.000000}
+    \pgfsetfillcolor{dialinecolor}
+    \fill (23.000000\du,8.000000\du)--(23.000000\du,10.000000\du)--(27.000000\du,10.000000\du)--(27.000000\du,8.000000\du)--cycle;
+    \pgfsetlinewidth{0.100000\du}
+    \pgfsetdash{}{0pt}
+    \pgfsetdash{}{0pt}
+    \pgfsetmiterjoin
+    \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+    \pgfsetstrokecolor{dialinecolor}
+    \draw (23.000000\du,8.000000\du)--(23.000000\du,10.000000\du)--(27.000000\du,10.000000\du)--(27.000000\du,8.000000\du)--cycle;
+    % setfont left to latex
+    \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+    \pgfsetstrokecolor{dialinecolor}
+    \node at (25.000000\du,9.194053\du){B};
+    \definecolor{dialinecolor}{rgb}{1.000000, 1.000000, 1.000000}
+    \pgfsetfillcolor{dialinecolor}
+    \fill (33.000000\du,8.000000\du)--(33.000000\du,10.000000\du)--(37.000000\du,10.000000\du)--(37.000000\du,8.000000\du)--cycle;
+    \pgfsetlinewidth{0.100000\du}
+    \pgfsetdash{}{0pt}
+    \pgfsetdash{}{0pt}
+    \pgfsetmiterjoin
+    \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+    \pgfsetstrokecolor{dialinecolor}
+    \draw (33.000000\du,8.000000\du)--(33.000000\du,10.000000\du)--(37.000000\du,10.000000\du)--(37.000000\du,8.000000\du)--cycle;
+    % setfont left to latex
+    \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+    \pgfsetstrokecolor{dialinecolor}
+    \node at (35.000000\du,9.194053\du){C};
+    \pgfsetlinewidth{0.100000\du}
+    \pgfsetdash{}{0pt}
+    \pgfsetdash{}{0pt}
+    \pgfsetbuttcap
+    {
+        \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+        \pgfsetfillcolor{dialinecolor}
+        % was here!!!
+        \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+        \pgfsetstrokecolor{dialinecolor}
+        \draw (15.000000\du,10.000000\du)--(15.000000\du,20.000000\du);
+    }
+    \pgfsetlinewidth{0.100000\du}
+    \pgfsetdash{}{0pt}
+    \pgfsetdash{}{0pt}
+    \pgfsetbuttcap
+    {
+        \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+        \pgfsetfillcolor{dialinecolor}
+        % was here!!!
+        \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+        \pgfsetstrokecolor{dialinecolor}
+        \draw (25.000000\du,10.000000\du)--(25.000000\du,20.000000\du);
+    }
+    \pgfsetlinewidth{0.100000\du}
+    \pgfsetdash{}{0pt}
+    \pgfsetdash{}{0pt}
+    \pgfsetbuttcap
+    {
+        \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+        \pgfsetfillcolor{dialinecolor}
+        % was here!!!
+        \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+        \pgfsetstrokecolor{dialinecolor}
+        \draw (35.000000\du,10.000000\du)--(35.000000\du,20.000000\du);
+    }
+    \pgfsetlinewidth{0.100000\du}
+    \pgfsetdash{}{0pt}
+    \pgfsetdash{}{0pt}
+    \pgfsetbuttcap
+    {
+        \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+        \pgfsetfillcolor{dialinecolor}
+        % was here!!!
+        \pgfsetarrowsend{to}
+        \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+        \pgfsetstrokecolor{dialinecolor}
+        \draw (15.000000\du,10.000000\du)--(35.000000\du,18.000000\du);
+    }
+    \pgfsetlinewidth{0.100000\du}
+    \pgfsetdash{}{0pt}
+    \pgfsetdash{}{0pt}
+    \pgfsetbuttcap
+    {
+        \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+        \pgfsetfillcolor{dialinecolor}
+        % was here!!!
+        \pgfsetarrowsend{to}
+        \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+        \pgfsetstrokecolor{dialinecolor}
+        \draw (25.000000\du,12.000000\du)--(15.000000\du,16.000000\du);
+    }
+    \pgfsetlinewidth{0.100000\du}
+    \pgfsetdash{}{0pt}
+    \pgfsetdash{}{0pt}
+    \pgfsetbuttcap
+    {
+        \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+        \pgfsetfillcolor{dialinecolor}
+        % was here!!!
+        \pgfsetarrowsend{to}
+        \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+        \pgfsetstrokecolor{dialinecolor}
+        \draw (25.000000\du,12.000000\du)--(35.000000\du,16.000000\du);
+    }
+    \pgfsetlinewidth{0.100000\du}
+    \pgfsetdash{}{0pt}
+    \pgfsetdash{}{0pt}
+    \pgfsetbuttcap
+    {
+        \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+        \pgfsetfillcolor{dialinecolor}
+        % was here!!!
+        \pgfsetarrowsend{to}
+        \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+        \pgfsetstrokecolor{dialinecolor}
+        \draw (35.000000\du,14.000000\du)--(15.000000\du,20.000000\du);
+    }
+    % setfont left to latex
+    \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+    \pgfsetstrokecolor{dialinecolor}
+    \node[anchor=west] at (14.000000\du,10.000000\du){};
+    % setfont left to latex
+    \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+    \pgfsetstrokecolor{dialinecolor}
+    \node[anchor=west] at (14.000000\du,10.000000\du){};
+    % setfont left to latex
+    \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+    \pgfsetstrokecolor{dialinecolor}
+    \node[anchor=west] at (27.000000\du,10.000000\du){0uS};
+    % setfont left to latex
+    \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+    \pgfsetstrokecolor{dialinecolor}
+    \node[anchor=west] at (27.000000\du,12.000000\du){1uS};
+    % setfont left to latex
+    \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+    \pgfsetstrokecolor{dialinecolor}
+    \node[anchor=west] at (27.000000\du,14.000000\du){2uS};
+    % setfont left to latex
+    \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+    \pgfsetstrokecolor{dialinecolor}
+    \node[anchor=west] at (27.000000\du,16.000000\du){3uS};
+    % setfont left to latex
+    \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+    \pgfsetstrokecolor{dialinecolor}
+    \node[anchor=west] at (27.000000\du,18.000000\du){4uS};
+    % setfont left to latex
+    \definecolor{dialinecolor}{rgb}{0.000000, 0.000000, 0.000000}
+    \pgfsetstrokecolor{dialinecolor}
+    \node[anchor=west] at (27.000000\du,20.000000\du){5uS};
+\end{tikzpicture}
+
+Transmission rate: \(10\times 10 ^{6} \times 3 \times 10 ^{-6} = \SI{30}{\bit\per\second}\)\\
+A will transmit for \SI{3}{\micro\second}, \SI{30}{\bit}\\
+B will transmit for \SI{1}{\micro\second}, \SI{10}{\bit}\\
+C will transmit for \SI{1}{\micro\second}, \SI{10}{\bit}
+
+
+
+\end{document}

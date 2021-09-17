@@ -4,11 +4,9 @@
   "latex-workshop.latex.recipes": [
     {
       "name": "latexmk",
-      "tools": ["latexmk"]
-    },
-    {
-      "name": "spellcheck",
-      "tools": ["spellcheck"]
+      "tools": [
+        "latexmk"
+      ]
     }
   ],
   "latex-workshop.latex.rootFile.useSubFile": false,
@@ -23,16 +21,9 @@
         "-lualatex",
         "-file-line-error",
         "-interaction=nonstopmode",
-        "-halt-on-error",
         "-outdir=%OUTDIR%",
         "%DOC%"
       ],
-      "env": {}
-    },
-    {
-      "name": "spellcheck",
-      "command": "aspell",
-      "args": ["--lang=en", " --mode=tex ", "check", "%DOC%"],
       "env": {}
     }
   ]

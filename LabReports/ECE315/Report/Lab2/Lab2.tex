@@ -1,0 +1,101 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+\usepackage[letterpaper]{geometry}
+\usepackage{siunitx}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{booktabs}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{fontspec}
+\usepackage{multirow}
+
+\setmainfont{Noto Serif}
+\setmonofont{Source Code Pro}
+
+\usemintedstyle{xcode}
+\setminted{fontsize=\footnotesize, linenos=true}
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+
+        \textbf{\Large{Lab 2}}
+
+        \vspace{0.5cm}
+
+        \LARGE{Polling and Interrupts}
+        \vspace{1.5cm}
+
+        Michael Kwok
+
+        \vfill
+        \Large{ECE 315 Lab H41\\
+            Department of Electrical and Computer Engineering\\
+            University of Alberta\\
+            24 March 2021}
+    \end{center}
+\end{titlepage}
+\newpage
+\tableofcontents
+\thispagestyle{empty}
+\newpage
+\section{Abstract}
+The Zybo Z7 is a digital logic and embedded software development platform by Digilent, containing a Zybo 7000 System on a Chip (SoC) that has both a digital logic fabric (Xilinx 7-series FPGA) and a hard processor (ARM Cortex-A9). In this lab, we are interested in making use of the board's UART capabilities. The programs written for this lab will be running on FreeRTOS.\@
+
+In the first part of the lab, we wrote 3 tasks to handle user input into a UART terminal, inverting the case of the text then sending it back via UART.\@ In the second part, we were to write a task, helper functions and an Interrupt Service Routine to echo the text that the users input back through UART.\@
+
+All code for this lab has been attached in the Appendix.
+
+\section{Design}
+\subsection{Part 1}
+Three tasks and two queues were used in this program. This part of the lab relied purely on the FreeRTOS preemptive scheduler, as no task priority switching is done. This is done by having busy loops polling on data receive actions, indicating to the operating system that the task can get preempted out of execution.\@
+
+In the first task, a busy loop just checks if the message queue between task one and two is full, and if it is not, it will read a byte from UART, sending the read value into the queue. This task can also get blocked in the loop to ensures that it only runs every \SI{20}{\milli\second} by using \verb|vTaskDelayUntil|.\@
+
+The second task checks the queue in an infinite loop until new data is available. When new data arrives, ut gets stored to a buffer local to the task. This task also checks input value order for the specified termination pattern, which was defined to be \verb|\r#\r|. When the pattern is received, the task starts sending characters to the final task, converting the case of the characters as it does so, if it's an alphanumeric character.\@
+
+In the final task, the characters are sent back to the UART port one character at a time with \verb|XUartPs_Send| until the queue is empty.
+
+\subsection{Part 2}
+
+In the second part, only a single task is used as a lot of the work is done via an Interrupt Service Routine. The ISR first handles when data is received in the UART, sending the values read into a queue and incrementing a counter. When data is to be sent to the UART, the ISR checks if the FIFO is full before writing the values into the register. After everything has been written, the ISR masks the TXEMPTY interrupt to ensure that it does not get called multiple times on an empty queue.
+
+Other functions in the \verb|uart_driver.h| were written to replace the need to do polling in the main task. The functions are the following: \verb|MyIsReceiveData()| to check if the interrupt handler has received any new data, \verb|MyReceiveByte()| to read the received data, \verb|MyIsTransmitFull()| to check if the transmit queue is full and finally \verb|MySendByte()| to send new data to the UART.\@
+
+\section{Testing}
+The first part of the lab was tested by putting in random text and symbols up to 64 characters long. Any more and the UART's FIFO buffer will get overwhelmed and will not get processed by the task. When a newline, a hash then another newline is entered, the processed text should show up in the serial monitor. Alphanumeric characters should have their case inverted, but symbols should stay the same.
+
+For the 2nd part of the lab, as much text as possible can be put into the system, and it should get printed out back to the user after pressing enter. The user can check interrupt statistics by typing in a newline, a hash then another newline. To reset the statistics, a percent sign can be used instead of the hash.
+
+\section{Conclusion}
+Using interrupts has many advantageous over using polling. Only one task is required to handle user input, and much more data can be handled at one time as the input is processed as fast as the CPU can handle, while with polling there is extra waiting time involved.
+
+There is a certain level of care that must be put into writing the interrupt service routine as it is critical to the performance of the program. An interrupt service routine doing too much work might slow everything down as it gets called very often.
+
+\section{Questions}
+\begin{itemize}
+    \item The critical sections are used to protect any form of globals and whenever there are queues being modified. This is to ensure that as global state is being modified, nothing can come in to corrupt it. In \verb|MySendByte|, interrupt masks are being modified, and the queue is being is read from. 
+    \item The point of the driver is to add an abstraction over the implementation details. The user task should not know that an interrupt is being used to handle the input/output in the background.
+    \item The order does not matter, as we're only trying to echo back what the user sent. The data is processed at the order it was received, so only the processed data will be output back.
+    \item This is to ensure that the interrupt doesn't get constantly called due to the FIFO queue being empty.
+    \item The interrupts can be left on, as they are not called if there is nothing to do.
+    \item With lower input count, the FIFO queue don't get full enough to use the send interrupt. When a large amount of data is input at a time, the FIFO queue will get full, forcing the system to use the \verb|xQueueTx| queue to supplement it instead.
+    \item With lower input count, the FIFO queue don't get full enough to use the send interrupt. When a large amount of data is input at a time, the FIFO queue will get full, forcing the system to use the \verb|xQueueTx| queue to supplement it instead.
+\end{itemize}
+\newpage
+\appendix
+\section{Part 1}
+\inputminted{C}{polled_uart_part1.c}
+\newpage
+\section{Part 2}
+\subsection{Driver}
+\inputminted{C}{uart_driver.h}
+\newpage
+\subsection{Main}
+\inputminted{C}{uart_interrupt.c}
+\end{document}

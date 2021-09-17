@@ -1,0 +1,97 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper]{geometry}
+\usepackage{booktabs}
+\usepackage{mathtools}
+\usepackage[binary-units=true]{siunitx}
+\usepackage{tikz}
+\usepackage[final]{pdfpages}
+
+\title{ECE 487 Assignment 7}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\subsection*{VCN}
+Station 1:
+
+\begin{center}
+    \begin{tabular}{@{}llll@{}}
+        \toprule
+        \multicolumn{2}{c}{Incoming} & \multicolumn{2}{c}{Outgoing}              \\
+        \midrule
+        Port                         & VCI                          & Port & VCI \\
+        2                            & 23                           & 3    & 23  \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+Station 2:
+
+\begin{center}
+    \begin{tabular}{@{}llll@{}}
+        \toprule
+        \multicolumn{2}{c}{Incoming} & \multicolumn{2}{c}{Outgoing}              \\
+        \midrule
+        Port                         & VCI                          & Port & VCI \\
+        1                            & 23                           & 3    & 35  \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+Station 3:
+
+\begin{center}
+    \begin{tabular}{@{}llll@{}}
+        \toprule
+        \multicolumn{2}{c}{Incoming} & \multicolumn{2}{c}{Outgoing}              \\
+        \midrule
+        Port                         & VCI                          & Port & VCI \\
+        2                            & 35                           & 1    & 35  \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+\subsection*{Distance Vector Routing}
+
+\begin{align*}
+    A \rightarrow B = 6, B \rightarrow C = 9; A \rightarrow C & = 15 \text{ (Update)}          \\
+    A \rightarrow B = 6, B \rightarrow D = 5; A\rightarrow D  & = 11 < 16\text{ (Take)}        \\
+    A \rightarrow B = 6, B \rightarrow E = 9; A\rightarrow E  & = 15 > 12 \text{ (Don't Take)}
+\end{align*}
+
+Updated:
+
+\begin{center}
+    \begin{tabular}{@{}lll@{}}
+        \toprule
+        To & Cost & Next \\
+        \midrule
+        A  & 0    &      \\
+        B  & 6    &      \\
+        C  & 15   & B    \\
+        D  & 11   & B    \\
+        E  & 12   &      \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+\subsection*{Dijkstra}
+\begin{center}
+    \begin{tabular}{@{}lll@{}}
+        \toprule
+        To & Cost & Next \\
+        \midrule
+        A  & 0    &      \\
+        B  & 3    & D    \\
+        C  & 4    & D    \\
+        D  & 1    & D    \\
+        E  & 2    &      \\
+        F  & 5    & D    \\
+        G  & 6    & D    \\
+        H  & 8    & D    \\
+        I  & 7    & D    \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+\includepdf[pages=-]{Dijkstra.pdf}
+\end{document}

@@ -1,0 +1,44 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+
+\title{ECE 315 Assignment 2}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\begin{enumerate}
+      \item Using a hardware timer's signal triggers an interrupt in regular intervals, which come with multiple advantages. Some guarantees can be made due to the hardware timer's stability compared to relying on software instructions, such as minimum polling frequency and maximum response time being the same despite the system's load. Since all real-time systems prefer low variability in system behaviour, using a hardware timer will only help in attaining this goal.\\
+            This approach is not perfect, however, as there are disadvantages too. Devices being polled might get polled more often than is necessary, which wastes CPU cycles that could be used for other operations. Despite having guarantees for maximum response times, response times can be slower as devices only get polled when requested by the code. A new input might have been entered, but the polling for that device just completed, so the system will only process that input almost a full cycle afterwards.
+
+      \item FreeRTOS multitasking requires the programmer to insert the \texttt{\#define configUSE\_PREEMPTION 0} into their code, which will disable pre-emption, and thus only allow cooperative multitasking. For a task to give up the CPU, the task has to yield execution with \verb|taskYIELD()|. To add idle time, a task with priority set to be on priority level \verb|tskIDLE_PRIORITY| can be introduced, with its action being simply a busy wait loop that runs until the timer ISR to restart the cooperative event loop gets triggered.
+
+      \item A critical section is a part of code that has to get executed from start to end without getting context switched out due to preemption or by interrupt service routines, as they can corrupt the data required by the critical section.\\
+            There are several methods to achieve the protection of critical sections, one of them is to disable all interrupts, which only allows a single task to run. This is very simple to implement, however, this might be problematic as some critical IRQs might get masked off, and never end up running.\\
+            Interrupts can be selectively masked too, which potentially might cause fewer problems for the system. Only IRQs that can modify the data used in the critical section will get disabled. Which IRQs cause data changes can be very difficult to determine, and the list must be kept updated as the critical section gets updated too, which is a disadvantage as it's a lot of extra work.
+            Multitasking can be disabled, so IRQs will still trigger, however, any context switch can only happen after the critical section completes, and thus nothing can modify the data required. This negatively impacts tasks that do not modify the data at all, however, and is not ideal.\\
+            Finally, semaphores can be used to protect critical sections. Before the critical section begins, the task checks the semaphore for its state, only proceeding if it's available before acquiring the resource. After execution of the critical section, the flag gets changed into a state that signifies it's availability. A disadvantage of this is that inside the semaphore's implementation code, one of the 3 previous techniques must be used to protect its critical sections.
+
+      \item A noise margin is the addition of margins into the design of a circuit's specification. This allows for transmission to stay readable in case of minor voltage changes due to electromagnetic interference, digital-analogue conversion, or other possible sources of noise. This allows the terminal components to be implemented with larger tolerances, reducing the price of manufacturing as a slightly distorted or overdriven signal might still get accepted. Conducting materials can also be made cheaper, saving costs in total.
+
+      \item \begin{equation}\begin{gathered}
+                        \text{Bits to Transmit: }8+64\times8+16=536, 1/115200 \text{ seconds per bit}\\
+                        536 \left(\frac{1}{115200} + e\right) - 536\left(\frac{1}{115200} - e\right) = 30\% \frac{1}{115200}\\
+                        2e = 4.8585\times 10^{-9}\\
+                        e = 2.424\times 10 ^{-4}\\
+                        \frac{e}{115200} \times 1000000 \approx 280 PPM
+                  \end{gathered}\end{equation}
+
+      \item To initialize the connection between UART1 and the MIO pins, the UART1 has to be set to Normal mode, then to set \verb|slcr.MIO_PIN_36| to \verb|0x000012E0| and \verb|slcr.MIO_PIN_49| to \verb|0x000012E1| to configure the MIO pins to the right settings. Afterwards, the \verb|slcr.UART_CLK_CTRL| register needs to be set to the right settings, depending on the UART baud rate required.
+
+      \item For the Rx FIFO Channel, the following conditions can be selected to cause an interrupt: Overflow, Full, Trigger and Empty. For the Tx FIFO Channel, the conditions are: Overflow, Full, Nearly Full, Trigger and Empty. In both channels, trigger simply means a preset level that defines how full the channel can be before the Trigger interrupt fires. If the incorrect interrupts are not masked out, the program might get them too frequent or too rarely. For example, in a case where a large amount of data frames are being entered into the queue in a burst that the task can't process quickly enough, the Rx channel Overflow interrupt might get triggered very often, which further reduces the amount of time available for the processing task to handle the data bursts.
+
+\end{enumerate}
+\end{document}

@@ -1,0 +1,32 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper]{geometry}
+\usepackage{booktabs}
+\usepackage{mathtools}
+\usepackage[binary-units=true]{siunitx}
+\usepackage{tikz}
+
+\title{ECE 487 Assignment 6}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\subsection*{CSMA/CD minimum frame size}
+Propagation Time: \(T_p = \frac{1200}{3 \times 10^8} = 4\times 10 ^{-6}\) \\
+Frame time: \(T_{fr} \geq 8 \times 10^{-6} = \SI{8}{\micro\second}\) \\
+Minimum frame size: \( \SI{10}{\mega\bit\per\second} \cdot \SI{8}{\micro\second} = 80 \text{ bits}\)
+
+\subsection*{Reservation Access Method}
+Reservation phrase: \(\SI{10}{\micro\second} \cdot 5 = \SI{50}{\micro\second}\) \\
+Data transmission time: \( \frac{5 \cdot 1000}{10 \times 10^6} = \SI{0.00055}{\second} \) \\
+Throughput: \(\frac{0.001}{0.00055} = \SI{1.818}{\mega\bit\per\second}\)
+
+\subsection*{WLAN}
+\begin{enumerate}
+    \item First transmission: \(\text{DIFS} + \SI{200}{\micro\second} = \SI{250}{\micro\second}\)
+    \item \(\text{RTS}+ \text{SIFS} + \text{CTS} + \text{SIFS} + \text{DATA} + \text{SIFS} + \text{ACK} + (\text{Station 2 timer} - \text{Station 1 timer}) = \SI{1580}{\micro\second}\)
+\end{enumerate}
+
+
+\end{document}

@@ -1,0 +1,60 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+
+\title{ECE 315 Assignment 5}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\begin{enumerate}
+  \item \(\SI{200}{\hertz} \times 100 \times 800 = 16 000 000\)
+
+        \(\SI{400}{\hertz} \times 80 \times 300 = 4 600 000\)
+
+        \(\SI{1000}{\hertz} \times 140 \times 75 = 10 500 000\)
+
+        \(10500000 + 4600000 + 16000000 = 36100000\)
+
+        \(\frac{36100000}{30\%} = \SI{120333.333}{\hertz} = \SI{120.33}{\mega\hertz}\) is the minimum CPU frequency to keep the percentage used for polling below 30.
+  \item There are several advantages to using a stack data structure for memory management. A stack is simple to implement, and usually only require few instructions, as pointer addition and subtraction is generally enough. This means that stacks can be higher in performance than other methods of buffer management. Stacks can be used to implement function call tracking, where it can be used to save registers and other important variables for each function call, supporting recursive calls and parameter passing for reentrant functions.
+
+        A disadvantage to using stacks is that it may grow unbounded, especially if it's used for storing sensor input and the consumer can't keep up. This would cause an execution stack overflow that may crash the system.
+
+        An example of where stacks are used for dynamic memory allocation is for the function call stacks in many programming languages.
+
+  \item An advantage of TCP's numbering is that partially received or corrupted packets can still be used, instead of requiring you to request the entire packet again. This increases throughput of the connection between the two nodes. However, this requires more complex processing at both sides as it's more than simply increasing a packet counter.
+
+  \item The Windows API is backwards compatible. A program targetted to the latest version of the Windows API cannot be run on older versions of Windows, but programs compiled for Windows XP can still be run on Windows 10, provided it's for the same CPU architecture.
+
+        The x86--64 CPU architecture is backwards compatible to 18 bit x86 programs, via the x86 real mode.\@ x86--64 code however might not run on 16 bit x86 CPUs, as many pieces of code written now assume 64 bit registers.
+
+        The C++ programming language is backwards compatible with C code. C source code should still compile on a C++ compiler without errors. The opposite case is however not true, as C++ has many changes over C.
+
+        HTML is both backwards and forwards compatible, as newer tags that aren't in old versions of HTML get rendered as plaintext code if the renderer does not support it.
+
+        Nvidia's CUDA has forward compatibility, as old drivers for old GPUs can run newer code if the new code ships the updated userspace library along with the binary.
+
+        HDMI is both forwards and backwards compatible. HDMI 2.0 output devices connected to HDMI 2.0 monitors will work, and HDMI 1.4 monitors will work fine with HDMI 2.0 output devices.
+
+  \item CPU registers are the fastest method of parameter passing, but there are a limited number of registers on most CPUs, much less than there is memory space.
+
+        Using the heap for parameter passing is slower, as there's an additional level of indirection when the function gets called. It has to load the address of the parameter, then dereference it before it can be used. Heap allocated parameters for functions also requires multiple copies in case of reentrant calls, so that the wrong data does not get modified.
+
+        Stack passing has the flexibility of heap passing, still slower than register but faster as the parameters are just offsets from the stack frame's base pointer. Reentrant calls can work easily as each function call creates a new stack frame that is independent from other calls before.
+
+        Embedding the values into the instructions require that the ISA support that mode of operation. It also requires care as modifying instructions could change what instruction gets called, which might cause the program to not work as expected.
+
+  \item Instructions and Data caches are performance optimizations built into modern CPUs to take advantage of how most code operate on data that are close to each other at similar times, and instructions are usually close together unless there is branching or long jumps. Caches are able to improve program performance at the cost of additional implementation circuitry in the CPU for the caching algorithm and the SRAM registers for the cache.
+
+        The worst case scenario for cached accesses would be for patterns that cause a lot of cache trashing, like instructions that branch very often and require long jumps that are larger than the cache line. For the data cache, it would be for random accesses that always take data outside of the cache at every operation.
+
+\end{enumerate}
+\end{document}

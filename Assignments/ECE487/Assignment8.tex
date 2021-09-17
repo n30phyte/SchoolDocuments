@@ -1,0 +1,88 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper]{geometry}
+\usepackage{booktabs}
+\usepackage{mathtools}
+\usepackage[binary-units=true]{siunitx}
+\usepackage{tikz}
+\usepackage[final]{pdfpages}
+
+\title{ECE 487 Assignment 8}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\subsection*{Address}
+\begin{enumerate}
+    \item \verb|01110110.11101110.01100111.01111010|: \verb|118.238.103.122|
+    \item \verb|10101111.11000011.11111000.00011100|: \verb|175.195.248.028|
+\end{enumerate}
+\subsection*{Mask}
+Mask:   \verb|11111111 1111111x xxxxxxxx xxxxxxxx|
+
+Address:\verb|00010100 00100010 00001100 00111000|
+
+First Address: \verb|00010100 00100010 00000000 00000000|: 20.34.0.0
+
+Final Address: \verb|00010100 00100011 11111111 11111111|: 20.35.255.255
+
+\subsection*{Subnets}
+\verb|11111111 11xxxxxx xxxxxxxx xxxxxxxx -> 2^22| addresses \verb| -> 2^15| address/subnet
+\begin{enumerate}
+    \item Mask: \( \log_2(2^{(32-15)}) = 17 \)
+    \item Addresses per subnet: \( 2^{(32-17)} = 2^{15}\)
+    \item \verb|Mask: 11111111 11111111 1xxxxxxx xxxxxxxx|\\
+          \verb|First: 00010000 00000000 00000000 00000000|: 16.0.0.0\\
+          \verb|Last:  00010000 00000000 01111111 11111111|: 16.0.127.255
+    \item \verb|Mask: 11111111 11111111 1xxxxxxx xxxxxxxx|\\
+          \verb|First: 00010000 00111111 10000000 00000000|: 16.63.128.0\\
+          \verb|Last:  00010000 00111111 11111111 11111111|: 16.63.255.255
+\end{enumerate}
+
+\subsection*{Fragments}
+Input:
+\begin{itemize}
+    \item M = 1: More fragments after this
+    \item HLEN = 5: Header 20 bytes
+    \item Payload = \(820 - 20\) bytes = 800 bytes
+    \item Offset = 100
+\end{itemize}
+
+Split into 2 fragments:
+
+Fragment 1:
+\begin{itemize}
+    \item M: 1
+    \item Total Length: 420
+    \item Offset: 100
+\end{itemize}
+
+
+Fragment 2:
+\begin{itemize}
+    \item M: 1
+    \item Total Length: 420
+    \item Offset: \(100 + 400/5 = 150\)
+\end{itemize}
+
+\subsection*{Checksum}
+\begin{tabular}{ccccc}
+      & 4 & 5 & 0 & 4 \\
+      & 0 & 0 & D & C \\
+      & 0 & 1 & 0 & 0 \\
+      & 0 & 0 & 6 & 4 \\
+      & 1 & 0 & 0 & 6 \\
+      & 0 & A & 0 & C \\
+      & 0 & E & 0 & 5 \\
+      & 0 & C & 0 & 6 \\
+    + & 0 & 7 & 0 & 9 \\
+    \midrule
+      & 8 & 2 & 6 & A
+\end{tabular}
+\\\\
+\verb|0x826A = 1000 0010 0110 1010|\\
+One's complement:\\
+\verb|0111 1101 1001 0101 = 0x7D95|\\
+
+\end{document}

@@ -1,0 +1,38 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[landscape,letterpaper]{geometry}
+\usepackage{booktabs}
+\usepackage[final]{pdfpages}
+\usepackage{siunitx}
+\usepackage{subcaption}
+\usepackage{float}
+
+\title{CMPUT 382 Lab 6}
+\author{Michael Kwok}
+\begin{document}
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{Unoptimized.PNG}
+        \caption{Plain convolution kernel}
+    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{Unoptimized_Ref.PNG}
+        \caption{Reference convolution kernel}
+    \end{subfigure}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{Optimized.PNG}
+        \caption{Tiled kernel}
+    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{Optimized_Ref.PNG}
+        \caption{Reference tiled kernel}
+    \end{subfigure}
+\end{figure}
+
+\end{document}

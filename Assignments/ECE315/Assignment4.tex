@@ -1,0 +1,57 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+
+\title{ECE 315 Assignment 4}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\begin{enumerate}
+      \item The lwIP stack offers a BSD sockets-like implementation of many protocols that are used on the Internet Protocol with reduced resource usage, specifically RAM. This is done by reducing the amount of protocols that are implemented in the library. The library is also implemented outside of the kernel, with all layers of the TCP/IP stack implemented in a single task. lwIP is also implemented with an OS abstraction layer, which means the core code may not need to get changed much, with the abstraction layer being the one that changes between platforms. The combination of the three previous points increase portability of the library, as a single task with less changed code can be ported between different platforms easier. There are no platform specific scheduling issues to contend with, and less components to port.
+
+            There are however drawbacks to this approach, chiefly of them is the high coupling between layers. This causes debugging to be more difficult, as the components are less cleanly separated. Since the library exists as a user space task instead of kernel code, it might not get priority execution, and can get preempted by other tasks which is a double edged sword as it might be desirable at times, but might be accidental at others.
+
+      \item The buffers set for use by the application is likely set up in a pool, or ring buffer-like structure. As packets are received, the buffer gets used to store the data which the application will then copy the buffer into it's memory for use. When the application wants to send a packet to the server, the previously used buffer will be used, with it's ACK number incremented as TCP ACKs are always the for the next packet requested.
+
+      \item For a "quarter-step" drive, microstepping waveforms via PWM should be used to control the bridge. The bridge circuit to be used should be the Half-H bridge, as it allows the same number of windings to control the stator even after splitting it up with extra subwindings.
+
+      \item The trigger levels in the FIFO for both commands must be decided with the bandwidth and transmission speed of the feedback signal line in mind. The X-on signal should be triggered when the receiver's FIFO buffer is able to store more data, and the receiver can process whatever is left in the buffer quickly enough, taking into account transmission time. The X-off signal should get triggered when the receiver predicts that by the time the transmitter gets the signal, the buffer will be full or close to full.
+
+      \item Transmitter:
+            \begin{verbatim}
+loop:
+  if recv_new_ack():
+    receive_window = ack.window
+    ptr_last_byte_acked = ack.byte
+
+  if ptr_next_byte_to_send - ptr_last_byte_acked < receive_window:
+    bytes_to_send = (ptr_last_byte_acked + receive_window) - ptr_next_byte_to_send
+    send_new_bytes(ptr_next_byte_to_send, bytes_to_send)
+    ptr_next_byte_to_send = ptr_next_byte_to_send + bytes_to_send
+  else:
+    sleep(persist_time)
+    send_window_probe()\end{verbatim}
+
+            Receiver:
+            \begin{verbatim}
+loop:
+  byte = recv_new_byte()
+  if byte:
+    buffer[byte.number] = byte
+
+    if byte.number == last_byte.number + 1:
+      send_ack(byte.number + 1)
+    else:
+      send_ack(last_byte.number + 1)
+            \end{verbatim}
+
+\end{enumerate}
+\end{document}

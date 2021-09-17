@@ -1,0 +1,51 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+
+\title{ECE 315 Assignment 3}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\begin{enumerate}
+      \item The main advantage of the ALOHAnet's method for access control is that it is simple to implement. There is no requirement for handshaking, synchronization or timing. ALOHAnet is extremely susceptible to collisions, requiring the data to get resent over the communication channel again.
+
+            In the event of a collision, all senders that were sending data that collided would have the random timeout trigger. This means that all of those nodes would not send any messages for a time, and the channel will likely be silent until the first station sends a message. This reduces the throughput of the communication channel as there is dead time, and the same data may need to get resent instead of new data.
+
+      \item When the Zynq's SPI controller is on master mode, and is requested to start a transfer to the slaves, it will first listen on the slave select wire for any other masters on the bus before pushing the transfer out. If the controller detects another master, it will set an interrupt register to notify the software to reset the controller and restart the transfer after. The controller's bus connections will also be placed in a high impedance mode to ensure that it does not affect the rest of the devices in the bus.
+
+      \item Request: User unlocks the phone, and opens the dialer app. User enters telephone number. User hears simulated ringing sound.
+
+            Indication: Remote device receives data packets signifying an incoming phone call. Remote device plays user set ringtone.
+
+            Response: User accepts call, ringtone stops and the users are connected. Packet sent to indicate that user has accepted call.
+
+            Confirm: Calling device no longer plays simulated ringing sound. User hears voice of callee.
+
+      \item TCP is a connection based protocol, while UDP is a connectionless protocol. In practical terms this means that TCP requires the client and server to establish a connection first before data can be exchanged, while UDP does not require this. UDP is thus more useful for broadcasting information, like updates to many clients for example, while TCP is oriented more towards tailored information exchange between clients.
+
+            UDP is considered unreliable, as it does not guarantee the delivery of the packets sent if it were to become corrupt or get lost in transit. On the other hand, TCP is reliable, with lost or corrupted packets getting resent to ensure the receiver gets the correct information.
+
+            TCP has methods for flow control, by having the receiver and sender agree to a buffer size that the receiver can handle before getting overwhelmed. UDP does not have any flow control of this sort, and simply sends the packet whether or not the receiver can accept it.
+
+            All this extra overhead causes TCP to be slower, and so it would not be the main choice for real time communication uses such as audio and video streaming, as the extra overhead would add latency. Resending of video frames is also not very useful, as the frames will simply get replaced by a new one every 1/30 seconds. Audio is sampled at a much higher rate, making it even less useful there. For real time communications, short blips and glitches are acceptable as latency and speed are prioritized.
+
+            DHCP is unable to use TCP as TCP requires both the start and end locations to have an IP address to connect. The DHCP set up message can be broadcast over UDP, and only the correct device will use the information.
+
+            DNS runs on UDP instead of TCP as it is not desirable to have a three-way handshake on every request. A DNS server might have to service millions of users at a time, and simply sending a UDP packet whenever requested for one instead of opening a TCP connection to ensure reliability will require less overhead on the server.
+
+      \item The reason is likely mostly historical. Most services were originally built with telnet in mind, and the standard encoding of text at that time was ASCII. Web browsers formed as mostly a simple UI to use over telnet, simplifying telnet commands to mouse clicks so the requirement of human readable and ASCII encoding would have been determined due to that. Using ASCII instead of binary encodings reduces the throughput of networked services, as there are 95 human readable characters in ASCII, but NVT, the required format of telnet, padded the ASCII messages with a 0 bit. This leaves over 100 possible states of information per character sent unusable. An potential benefit of this is that most of the requests to the web is human readable, allowing developers to easily debug problems.
+
+      \item The accept function is used to create a new socket for the server to communicate to the client with. This allows the server to create a new socket for each new client while only using one port address.
+
+            A way to accept multiple clients on a server is by having listen() block until a request come in, before accept() ing that request and create a new thread or task for each new client. This way, each client will have a thread dedicated to handling it's requests. The thread should run until the client disconnects, at which point the thread will exit.
+
+\end{enumerate}
+\end{document}

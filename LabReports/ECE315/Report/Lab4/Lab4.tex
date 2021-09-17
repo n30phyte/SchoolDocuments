@@ -1,0 +1,72 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+\usepackage[letterpaper]{geometry}
+\usepackage{siunitx}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{booktabs}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{fontspec}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{pdfpages}
+
+\setmainfont{Noto Serif}
+\setmonofont{Source Code Pro}
+
+\usemintedstyle{xcode}
+\setminted{fontsize=\footnotesize, linenos=true}
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+
+        \textbf{\Large{Lab 4}}
+
+        \vspace{0.5cm}
+
+        \LARGE{Servo Motors}
+        \vspace{1.5cm}
+
+        Michael Kwok
+
+        \vfill
+        \Large{ECE 315 Lab H41\\
+            Department of Electrical and Computer Engineering\\
+            University of Alberta\\
+            12 April 2021}
+    \end{center}
+\end{titlepage}
+\newpage
+\section{Abstract}
+The Zybo Z7 is a digital logic and embedded software development platform by Digilent, containing a Zybo 7000 System on a Chip (SoC) that has both a digital logic fabric (Xilinx 7-series FPGA) and a hard processor (ARM Cortex-A9). For this lab, we will be making use of UART and GPIO for servo control\@
+
+In the first part of the lab, a new task was to be created with the purpose of listening to a button to trigger an emergency stop. In the 2nd part of the lab, we write code to add simple ``programmability'' to the servo, by specifying steps and delays. The final part is to experimentally determine the limits of the servo.\@
+
+All modified code for this lab has been attached in the Appendix.
+
+\section{Design}
+A new task was written to handle the input for emergency stoppage. The task used\\\verb|vTaskDelayUntil| to keep a consistent frequency of polling, and kept listening until the button specified is held down for 3 intervals of that frequency. When that is detected, the task prints out to UART, informing the user that the motor is going to get stopped. The task accomplishes the stop by having a global flag that tells the other tasks if it has been triggered or not. Function calls to disable the other running tasks to ensure that the system is fully stopped, \verb|vTaskDelete|, also gets called after execution of it's current loop is complete.
+
+The program is then extended to handle extra inputs from the users relating to creating a test sequence for the motor. This is done by adding a field into the struct sent to the motor task which contains the delay expected for this command. The receiving task is also modified to handle multiple items in the queue, instead of the assumed single item by using an if statement instead of the blocking wait.
+
+\section{Testing}
+
+The motor's abilities was tested. This was done by attaching tape, a guitar pick and a paperclip to it, in that order. It was tested with the following targets: \(512 \rightarrow 3000ms \rightarrow 1024 \rightarrow 1000ms \rightarrow 3072 \rightarrow 250ms\rightarrow 4096 \rightarrow 8192 \rightarrow 16384\). The results for all of them was found to be the same.
+
+To find the result, the parameters are modified until skipping or weird behaviour is observed with the same targets. For all 3 items, the same point was observed at 500 for speed, 45000 for acceleration and seemingly unlimited for deceleration. The speed limit is due to physical constraints, while the acceleration limits are likely due to the code in \verb|stepper.c|, within the \verb|Stepper_processMovement()| function, which does not handle large numbers properly.
+\newpage
+\appendix
+\section{Code}
+\inputminted{C}{lab4_main.c}
+\end{document}
