@@ -202,36 +202,48 @@ class AStar(Search):
 
         expand_count = 0
 
-        # self.update_cost(start, 0, self.h_value(start))
+        start.set_g(0)
+        start.set_h(self.h_value(start))
+        start.set_cost(self.h_value(start))
 
-        # heapq.heappush(self.OPEN, start)
+        heapq.heappush(self.OPEN, start)
+        self.CLOSED[start.state_hash()] = start
 
-        # while self.OPEN:
-        #     node = heapq.heappop(self.OPEN)
-        #     expand_count += 1
+        while self.OPEN:
+            node = heapq.heappop(self.OPEN)
 
-        #     if node == goal:
-        #         return node.get_g(), expand_count
+            expand_count += 1
 
-        #     self.CLOSED[node.state_hash()] = node
+            if node == goal:
+                return node.get_g(), expand_count
 
-        #     for new_node in self.map.successors(node):
-        #         if new_node.state_hash() not in self.CLOSED:
+            for new_node in self.map.successors(node):
+                node_g: float = node.get_g() + self.map.cost(
+                    new_node.get_x() - node.get_x(),
+                    new_node.get_y() - node.get_y(),
+                )
 
-        #             node_cost = node.get_cost() + self.map.cost(
-        #                 new_node.get_x() - node.get_x(),
-        #                 new_node.get_y() - node.get_y(),
-        #             )
+                node_h = self.h_value(new_node)
 
-        #             node_h = self.h_value(new_node)
+                node_cost = node_g + node_h
 
-        #             if new_node in self.OPEN:
-        #                 if new_node.get_g() > node_cost:
-        #                     new_node.set_g(node_cost)
-        #                     new_node.set_cost(new_node.get_g() + node_h)
-        #                     heapq.heapify(self.OPEN)
-        #             else:
-        #                 new_node.set_cost(node_cost + node_h)
-        #                 heapq.heappush(self.OPEN, new_node)
+                new_hash = new_node.state_hash()
+
+                if new_hash not in self.CLOSED:
+                    new_node.set_g(node_g)
+                    new_node.set_h(node_h)
+                    new_node.set_cost(node_cost)
+
+                    heapq.heappush(self.OPEN, new_node)
+                    self.CLOSED[new_node.state_hash()] = new_node
+                else:
+                    existing_node = self.CLOSED[new_hash]
+
+                    if node_cost < existing_node.get_cost():
+                        existing_node.set_g(node_g)
+                        existing_node.set_h(node_h)
+                        existing_node.set_cost(node_cost)
+
+                        heapq.heapify(self.OPEN)
 
         return -1, expand_count
