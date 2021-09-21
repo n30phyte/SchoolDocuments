@@ -155,23 +155,23 @@ class Dijkstra(Search):
                 return node.get_cost(), expand_count
 
             for new_node in self.map.successors(node):
-
-                node_cost = node.get_cost() + self.map.cost(
+                node_cost: float = node.get_cost() + self.map.cost(
                     new_node.get_x() - node.get_x(),
                     new_node.get_y() - node.get_y(),
                 )
 
-                if new_node.state_hash() not in self.CLOSED:
+                new_hash = new_node.state_hash()
+
+                if new_hash not in self.CLOSED:
                     new_node.set_cost(node_cost)
                     heapq.heappush(self.OPEN, new_node)
                     self.CLOSED[new_node.state_hash()] = new_node
+                else:
+                    existing_node = self.CLOSED[new_hash]
 
-                if (
-                    new_node.state_hash() in self.CLOSED
-                    and node_cost < new_node.get_cost()
-                ):
-                    new_node.set_cost(node_cost)
-                    heapq.heapify(self.OPEN)
+                    if node_cost < existing_node.get_cost():
+                        existing_node.set_cost(node_cost)
+                        heapq.heapify(self.OPEN)
 
         return -1, expand_count
 
@@ -182,6 +182,11 @@ class AStar(Search):
         deltaY = abs(self.goal.get_y() - state.get_y())
 
         return max(deltaX, deltaY) + (0.5 * min(deltaX, deltaY))
+
+    def update_cost(self, state: State, g_val: float, h_val: float):
+        state.set_g(g_val)
+        state.set_h(h_val)
+        state.set_cost(g_val + h_val)
 
     def search(self, start: State, goal: State):
         """
@@ -197,36 +202,36 @@ class AStar(Search):
 
         expand_count = 0
 
-        start.set_cost(self.h_value(start))
+        # self.update_cost(start, 0, self.h_value(start))
 
-        heapq.heappush(self.OPEN, start)
+        # heapq.heappush(self.OPEN, start)
 
-        while self.OPEN:
-            node = heapq.heappop(self.OPEN)
-            expand_count += 1
+        # while self.OPEN:
+        #     node = heapq.heappop(self.OPEN)
+        #     expand_count += 1
 
-            if node == goal:
-                return node.get_g(), expand_count
+        #     if node == goal:
+        #         return node.get_g(), expand_count
 
-            self.CLOSED[node.state_hash()] = node
+        #     self.CLOSED[node.state_hash()] = node
 
-            for new_node in self.map.successors(node):
-                if new_node.state_hash() not in self.CLOSED:
+        #     for new_node in self.map.successors(node):
+        #         if new_node.state_hash() not in self.CLOSED:
 
-                    node_cost = node.get_cost() + self.map.cost(
-                        new_node.get_x() - node.get_x(),
-                        new_node.get_y() - node.get_y(),
-                    )
+        #             node_cost = node.get_cost() + self.map.cost(
+        #                 new_node.get_x() - node.get_x(),
+        #                 new_node.get_y() - node.get_y(),
+        #             )
 
-                    node_h = self.h_value(new_node)
+        #             node_h = self.h_value(new_node)
 
-                    if new_node in self.OPEN:
-                        if new_node.get_g() > node_cost:
-                            new_node.set_g(node_cost)
-                            new_node.set_cost(new_node.get_g() + node_h)
-                            heapq.heapify(self.OPEN)
-                    else:
-                        new_node.set_cost(node_cost + node_h)
-                        heapq.heappush(self.OPEN, new_node)
+        #             if new_node in self.OPEN:
+        #                 if new_node.get_g() > node_cost:
+        #                     new_node.set_g(node_cost)
+        #                     new_node.set_cost(new_node.get_g() + node_h)
+        #                     heapq.heapify(self.OPEN)
+        #             else:
+        #                 new_node.set_cost(node_cost + node_h)
+        #                 heapq.heappush(self.OPEN, new_node)
 
         return -1, expand_count
