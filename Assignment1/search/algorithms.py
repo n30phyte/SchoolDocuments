@@ -131,7 +131,7 @@ class Search:
 class Dijkstra(Search):
     def search(self, start: State, goal: State):
         """
-        Disjkstra's Algorithm: receives a start state and a goal state as input. It returns the
+        Dijkstra's Algorithm: receives a start state and a goal state as input. It returns the
         cost of a path between start and goal and the number of nodes expanded.
 
         If a solution isn't found, it returns -1 for the cost.
@@ -178,15 +178,10 @@ class Dijkstra(Search):
 
 class AStar(Search):
     def h_value(self, state: State):
-        deltaX = abs(self.goal.get_x() - state.get_x())
-        deltaY = abs(self.goal.get_y() - state.get_y())
+        delta_x = abs(self.goal.get_x() - state.get_x())
+        delta_y = abs(self.goal.get_y() - state.get_y())
 
-        return max(deltaX, deltaY) + (0.5 * min(deltaX, deltaY))
-
-    def update_cost(self, state: State, g_val: float, h_val: float):
-        state.set_g(g_val)
-        state.set_h(h_val)
-        state.set_cost(g_val + h_val)
+        return max(delta_x, delta_y) + (0.5 * min(delta_x, delta_y))
 
     def search(self, start: State, goal: State):
         """
