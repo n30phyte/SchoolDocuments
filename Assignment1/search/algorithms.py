@@ -197,7 +197,7 @@ class AStar(Search):
 
         expand_count = 0
 
-        start.set_cost(0)
+        start.set_cost(self.h_value(start))
 
         heapq.heappush(self.OPEN, start)
 
