@@ -1,4 +1,3 @@
-from typing import List
 from search.algorithms import State
 import numpy as np
 import random
@@ -9,7 +8,7 @@ class Map:
     Class to store the map. The maps in folder dao-map are from movingai.org.
     """
 
-    def __init__(self, file_name: str):
+    def __init__(self, file_name):
         self.file_name = file_name
         self.map_file = open(self.file_name)
         self.type_map = self.map_file.readline()
@@ -65,7 +64,7 @@ class Map:
                 else:
                     self.data_int[i][j] = 1
 
-    def random_state(self) -> State:
+    def random_state(self):
         """
         Generates a valid random state for a given map.
         """
@@ -77,7 +76,7 @@ class Map:
         state = State(x, y)
         return state
 
-    def is_valid_pair(self, x: int, y: int) -> bool:
+    def is_valid_pair(self, x, y):
         """
         Verifies if an x-y pair is valid for a map.
         """
@@ -89,7 +88,7 @@ class Map:
             return False
         return True
 
-    def cost(self, x: int, y: int) -> float:
+    def cost(self, x, y):
         """
         Returns the cost of an action.
 
@@ -100,7 +99,7 @@ class Map:
         else:
             return 1.5
 
-    def successors(self, state: State) -> List[State]:
+    def successors(self, state):
         """
         Transition function: receives a state and returns a list with the neighbors of that state in the space
         """

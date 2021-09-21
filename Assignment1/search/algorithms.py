@@ -116,9 +116,7 @@ class Search:
     The CLOSED list is implemented as a dictionary where the state hash value is used as key.
     """
 
-    from search.map import Map
-
-    def __init__(self, gridded_map: Map):
+    def __init__(self, gridded_map):
         self.map = gridded_map
         self.OPEN: List[State] = []
         self.CLOSED: Dict[int, State] = {}
@@ -151,11 +149,12 @@ class Dijkstra(Search):
         while self.OPEN:
             node = heapq.heappop(self.OPEN)
 
+            expand_count += 1
+
             if node == goal:
                 return node.get_cost(), expand_count
 
             for new_node in self.map.successors(node):
-                expand_count += 1
 
                 node_cost = node.get_cost() + self.map.cost(
                     new_node.get_x() - node.get_x(),
@@ -166,7 +165,8 @@ class Dijkstra(Search):
                     new_node.set_cost(node_cost)
                     heapq.heappush(self.OPEN, new_node)
                     self.CLOSED[new_node.state_hash()] = new_node
-                elif (
+
+                if (
                     new_node.state_hash() in self.CLOSED
                     and node_cost < new_node.get_cost()
                 ):
@@ -178,7 +178,10 @@ class Dijkstra(Search):
 
 class AStar(Search):
     def h_value(self, state: State):
-        return 0
+        deltaX = abs(self.goal.get_x() - state.get_x())
+        deltaY = abs(self.goal.get_y() - state.get_y())
+
+        return max(deltaX, deltaY) + (0.5 * min(deltaX, deltaY))
 
     def search(self, start: State, goal: State):
         """
@@ -187,4 +190,43 @@ class AStar(Search):
 
         If a solution isn't found, it returns -1 for the cost.
         """
-        return -1, 0
+        self.goal = goal
+
+        self.OPEN = []
+        self.CLOSED = {}
+
+        expand_count = 0
+
+        start.set_cost(0)
+
+        heapq.heappush(self.OPEN, start)
+
+        while self.OPEN:
+            node = heapq.heappop(self.OPEN)
+            expand_count += 1
+
+            if node == goal:
+                return node.get_g(), expand_count
+
+            self.CLOSED[node.state_hash()] = node
+
+            for new_node in self.map.successors(node):
+                if new_node.state_hash() not in self.CLOSED:
+
+                    node_cost = node.get_cost() + self.map.cost(
+                        new_node.get_x() - node.get_x(),
+                        new_node.get_y() - node.get_y(),
+                    )
+
+                    node_h = self.h_value(new_node)
+
+                    if new_node in self.OPEN:
+                        if new_node.get_g() > node_cost:
+                            new_node.set_g(node_cost)
+                            new_node.set_cost(new_node.get_g() + node_h)
+                            heapq.heapify(self.OPEN)
+                    else:
+                        new_node.set_cost(node_cost + node_h)
+                        heapq.heappush(self.OPEN, new_node)
+
+        return -1, expand_count
