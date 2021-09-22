@@ -5,11 +5,20 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Assignment 1",
+      "name": "Assignment 1 Test",
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/Assignment1/main.py",
       "args": ["--testinstances"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/Assignment1"
+    },
+    {
+      "name": "Assignment 1 Plot",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/Assignment1/main.py",
+      "args": ["--testinstances", "--plots"],
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}/Assignment1"
     }
