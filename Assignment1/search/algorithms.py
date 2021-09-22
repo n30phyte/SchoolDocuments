@@ -171,7 +171,8 @@ class Dijkstra(Search):
 
                     if node_cost < existing_node.get_cost():
                         existing_node.set_cost(node_cost)
-                        heapq.heapify(self.OPEN)
+                        if node_cost <= self.OPEN[0].get_cost():
+                            heapq.heapify(self.OPEN)
 
         return -1, expand_count
 
@@ -239,6 +240,7 @@ class AStar(Search):
                         existing_node.set_h(node_h)
                         existing_node.set_cost(node_cost)
 
-                        heapq.heapify(self.OPEN)
+                        if node_cost <= self.OPEN[0].get_cost():
+                            heapq.heapify(self.OPEN)
 
         return -1, expand_count
