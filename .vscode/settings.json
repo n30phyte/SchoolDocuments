@@ -22,5 +22,9 @@
       "name": "build",
       "tools": ["lualatex"]
     }
-  ]
+  ],
+  "spellright.language": ["en_GB"],
+  "spellright.documentTypes": ["markdown", "latex", "plaintext"],
+  "editor.wordWrap": "on",
+  "editor.wordWrapColumn": 100
 }
