@@ -171,8 +171,8 @@ class Dijkstra(Search):
 
                     if node_cost < existing_node.get_cost():
                         existing_node.set_cost(node_cost)
-                        if node_cost <= self.OPEN[0].get_cost():
-                            heapq.heapify(self.OPEN)
+
+                        heapq.heapify(self.OPEN)
 
         return -1, expand_count
 
@@ -214,10 +214,7 @@ class AStar(Search):
                 return node.get_g(), expand_count
 
             for new_node in self.map.successors(node):
-                node_g: float = node.get_g() + self.map.cost(
-                    new_node.get_x() - node.get_x(),
-                    new_node.get_y() - node.get_y(),
-                )
+                node_g = new_node.get_g()
 
                 node_h = self.h_value(new_node)
 
@@ -226,7 +223,6 @@ class AStar(Search):
                 new_hash = new_node.state_hash()
 
                 if new_hash not in self.CLOSED:
-                    new_node.set_g(node_g)
                     new_node.set_h(node_h)
                     new_node.set_cost(node_cost)
 
@@ -236,11 +232,10 @@ class AStar(Search):
                     existing_node = self.CLOSED[new_hash]
 
                     if node_cost < existing_node.get_cost():
-                        existing_node.set_g(node_g)
+                        existing_node.set_g(new_node.get_g())
                         existing_node.set_h(node_h)
                         existing_node.set_cost(node_cost)
 
-                        if node_cost <= self.OPEN[0].get_cost():
-                            heapq.heapify(self.OPEN)
+                        heapq.heapify(self.OPEN)
 
         return -1, expand_count
