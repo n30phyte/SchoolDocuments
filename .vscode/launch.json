@@ -21,6 +21,24 @@
       "args": ["--testinstances", "--plots"],
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}/Assignment1"
+    },
+    {
+      "name": "Assignment 1 Tex",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/Assignment1/main.py",
+      "args": ["--testinstances", "--tex"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/Assignment1"
+    },
+    {
+      "name": "Assignment 1 Data",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/Assignment1/main.py",
+      "args": ["--testinstances", "--plots", "--tex"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/Assignment1"
     }
   ]
 }

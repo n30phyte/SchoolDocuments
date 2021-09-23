@@ -11,10 +11,11 @@ def main():
     Run it with a -help option to see the options available.
     """
     optlist, _ = getopt.getopt(
-        sys.argv[1:], "h:m:r:", ["testinstances", "plots", "help"]
+        sys.argv[1:], "h:m:r:", ["testinstances", "plots", "help", "tex"]
     )
 
     plots = False
+    tex = False
     for o, a in optlist:
         if o in ("-help"):
             print("Examples of Usage:")
@@ -27,6 +28,8 @@ def main():
             plots = True
         elif o in ("--testinstances"):
             test_instances = "test-instances/testinstances.txt"
+        elif o in ("--tex"):
+            tex = True
 
     gridded_map = Map("dao-map/brc000d.map")
     dijkstra = Dijkstra(gridded_map)
@@ -118,6 +121,26 @@ def main():
             "Solution Cost (Dijkstra)",
             "solution_cost",
         )
+
+    if tex:
+        with open("runtime.dat", "w") as f_runtime:
+            f_runtime.write("astar\tdijkstra\tlabel\n")
+            for i in range(len(runtime_astar)):
+                f_runtime.write(f"{runtime_astar[i]}\t{runtime_dijkstra[i]}\tb\n")
+
+        with open("expanded.dat", "w") as f_expanded:
+            f_expanded.write("astar\tdijkstra\tlabel\n")
+            for i in range(len(nodes_expanded_astar)):
+                f_expanded.write(
+                    f"{nodes_expanded_astar[i]}\t{nodes_expanded_dijkstra[i]}\tb\n"
+                )
+
+        with open("cost.dat", "w") as f_cost:
+            f_cost.write("astar\tdijkstra\tlabel\n")
+            for i in range(len(solution_cost_astar)):
+                f_cost.write(
+                    f"{solution_cost_astar[i]}\t{solution_cost_dijkstra[i]}\tb\n"
+                )
 
 
 if __name__ == "__main__":
