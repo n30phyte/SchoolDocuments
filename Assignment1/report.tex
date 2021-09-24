@@ -1,6 +1,6 @@
 \documentclass{article}
 
-\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage[letterpaper, margin=1.5cm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage{mathtools}
 \usepackage{amssymb}
@@ -26,8 +26,18 @@ The solution cost of the paths found by both algorithms are the same, since Dijk
 
 \section*{Scaled Heuristic}
 
-The A* algorithm is much faster and expanded much less nodes compared to the original heuristic. This can be explained by the scaling factor on the heuristic which gave a much bigger priority to nodes that are ``closer'' to the goal. This allows the algorithm to find a working path sooner as nodes that are even slightly ``further'' away.
+The A* algorithm is much faster and expanded much less nodes compared to the original heuristic. This can be explained by the scaling factor on the heuristic which gave a much bigger priority to nodes that are ``closer'' to the goal and deprioritizing nodes that are ``further'' away.
 
+This in turn reduces the runtime by a massive amount. However, it comes with the downside of getting suboptimal costs as shown in the solution cost graph because the scaled heuristic allows the algorithm to find a working path sooner as we might ignore potentially better paths that will only get found with re-expansion of nodes.
 
+This can be explained by the definition of an admissible heuristic. An admissible heuristic must be in the form
+
+\[
+    h\left(n\right) \leq h^{*}\left(n\right)
+\]
+
+for all nodes \( n \) where \( h\left(n\right) \) is the Octile Distance heuristic and \( h^{*}\left(n\right) \) is the perfect heuristic.
+
+Since we are scaling the value of \(h\left(n\right)\), the inequality is not guaranteed to hold, i.e. \( 2 \cdot h\left(n\right) > h^{*}\left(n\right)\) might be true instead.
 
 \end{document}
