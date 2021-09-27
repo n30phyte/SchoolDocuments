@@ -5,16 +5,142 @@
 \usepackage{mathtools}
 \usepackage{amssymb}
 \usepackage{pgfplots}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikzscale}
+
 \pgfplotsset{compat=1.17}
+
+\begin{filecontents}{unscaled_runtime.tikz}
+  \begin{tikzpicture}
+    \begin{axis}[
+        ylabel = Dijkstra,
+        xlabel = A*,
+        xmin = 0,
+        xmax = 0.8,
+        ymin = 0,
+        ymax = 0.8,
+        scaled y ticks = false
+    ]
+    
+    \addplot[only marks, scatter]table{results/unscaled/runtime.dat};
+    \addplot [black, mark=none] coordinates {(0,0) (0.8, 0.8)};
+    \end{axis}
+    \end{tikzpicture}
+\end{filecontents}
+
+\begin{filecontents}{unscaled_expanded.tikz}
+  \begin{tikzpicture}
+    \begin{axis}[
+        ylabel = Dijkstra,
+        xlabel = A*,
+        xmin = -100,
+        xmax = 28000,
+        ymin = -100,
+        ymax = 28000,
+        scaled y ticks = false,
+        scaled x ticks = false
+      ]
+              
+      \addplot[only marks, scatter]table{results/unscaled/expanded.dat};
+      \addplot [black, mark=none] coordinates {(-100,-100) (28000, 28000)};
+    \end{axis}
+  \end{tikzpicture}
+\end{filecontents}
+
+\begin{filecontents}{unscaled_cost.tikz}
+  \begin{tikzpicture}
+    \begin{axis}[
+        ylabel = Dijkstra,
+        xlabel = A*,
+        xmin = 0,
+        xmax = 250,
+        ymin = 0,
+        ymax = 250
+    ]
+    
+    \addplot[only marks, scatter]table{results/unscaled/cost.dat};
+    \addplot [black, mark=none] coordinates {(0,0) (250, 250)};
+    \end{axis}
+    \end{tikzpicture}
+\end{filecontents}
+
+\begin{filecontents}{scaled_runtime.tikz}
+  \begin{tikzpicture}
+    \begin{axis}[
+        ylabel = Dijkstra,
+        xlabel = A*,
+        xmin = 0,
+        xmax = 0.8,
+        ymin = 0,
+        ymax = 0.8,
+        scaled y ticks = false
+    ]
+    
+    \addplot[only marks, scatter]table{results/scaled/runtime.dat};
+    \addplot [black, mark=none] coordinates {(0,0) (0.8, 0.8)};
+    \end{axis}
+    \end{tikzpicture}
+\end{filecontents}
+
+\begin{filecontents}{scaled_expanded.tikz}
+  \begin{tikzpicture}
+    \begin{axis}[
+        ylabel = Dijkstra,
+        xlabel = A*,
+        xmin = -100,
+        xmax = 28000,
+        ymin = -100,
+        ymax = 28000,
+        scaled y ticks = false,
+        scaled x ticks = false
+      ]
+              
+      \addplot[only marks, scatter]table{results/scaled/expanded.dat};
+      \addplot [black, mark=none] coordinates {(-100,-100) (28000, 28000)};
+    \end{axis}
+  \end{tikzpicture}
+\end{filecontents}
+
+\begin{filecontents}{scaled_cost.tikz}
+  \begin{tikzpicture}
+    \begin{axis}[
+        ylabel = Dijkstra,
+        xlabel = A*,
+        xmin = 0,
+        xmax = 250,
+        ymin = 0,
+        ymax = 250
+    ]
+    
+    \addplot[only marks, scatter]table{results/scaled/cost.dat};
+    \addplot [black, mark=none] coordinates {(0,0) (250, 250)};
+    \end{axis}
+    \end{tikzpicture}
+\end{filecontents}
 
 \title{CMPUT 366 Assignment 1}
 \author{Michael Kwok}
+
 \begin{document}
 \maketitle
 \section*{Scatterplot Analysis}
 
-\begin{figure}
-
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[c]{0.3\textwidth}
+    \includegraphics[width=\linewidth, height=\linewidth]{unscaled_runtime.tikz}
+    \caption{Algorithm Runtimes (s)}
+  \end{subfigure}
+  \begin{subfigure}[c]{0.3\textwidth}
+    \includegraphics[width=\linewidth, height=\linewidth]{unscaled_expanded.tikz}
+    \caption{Nodes Expanded}
+  \end{subfigure}
+  \begin{subfigure}[c]{0.3\textwidth}
+    \includegraphics[width=\linewidth, height=\linewidth]{unscaled_cost.tikz}
+    \caption{Solution costs}
+  \end{subfigure}
+  \caption{Scatterplots for both algorithms}
 \end{figure}
 
 A* in general performed better than Dijkstra in terms of runtime and number of nodes expanded. This can be explained by the presence of a heuristic function dictating which nodes the search algorithm expands, making it much more picky in terms of what nodes it chooses to expand as compared to Dijkstra, which allows it to expand less nodes in total before arriving at the goal. This is explained by the cost of nodes that are unlikely to perform well getting boosted by the heuristic, while nodes that are likely to perform well will have a lower cost, which our priority queue will serve first.
@@ -22,18 +148,33 @@ A* in general performed better than Dijkstra in terms of runtime and number of n
 There's a correlation between the number of nodes expanded and the running time in seconds. While the results relate very closely, it's likely due the need to heapify more or less often based on needing to update nodes or not.
 
 The solution cost of the paths found by both algorithms are the same, since Dijkstra is known to be optimal and complete, and since our version of A* is running with an admissible heuristic (Octile Distance), the algorithm is also both complete and optimal.
-
-
+\newpage
 \section*{Scaled Heuristic}
 
-The A* algorithm is much faster and expanded much less nodes compared to the original heuristic. This can be explained by the scaling factor on the heuristic which gave a much bigger priority to nodes that are ``closer'' to the goal and deprioritizing nodes that are ``further'' away.
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[c]{0.3\textwidth}
+    \includegraphics[width=\linewidth, height=\linewidth]{scaled_runtime.tikz}
+    \caption{Algorithm Runtimes}
+  \end{subfigure}
+  \begin{subfigure}[c]{0.3\textwidth}
+    \includegraphics[width=\linewidth, height=\linewidth]{scaled_expanded.tikz}
+    \caption{Nodes Expanded}
+  \end{subfigure}
+  \begin{subfigure}[c]{0.3\textwidth}
+    \includegraphics[width=\linewidth, height=\linewidth]{scaled_cost.tikz}
+    \caption{Solution costs}
+  \end{subfigure}
+  \caption{Scaled scatterplots}
+\end{figure}
+The A* algorithm is much faster and expanded much less nodes compared to the original heuristic due to the scaling factor on the heuristic which gave a much bigger priority to nodes that are ``closer'' to the goal and deprioritizing nodes that are ``further'' away.
 
 This in turn reduces the runtime by a massive amount. However, it comes with the downside of getting suboptimal costs as shown in the solution cost graph because the scaled heuristic allows the algorithm to find a working path sooner as we might ignore potentially better paths that will only get found with re-expansion of nodes.
 
-This can be explained by the definition of an admissible heuristic. An admissible heuristic must be in the form
+The reasoning behind this is due to the definition of an admissible heuristic. An admissible heuristic must be in the form
 
 \[
-    h\left(n\right) \leq h^{*}\left(n\right)
+  h\left(n\right) \leq h^{*}\left(n\right)
 \]
 
 for all nodes \( n \) where \( h\left(n\right) \) is the Octile Distance heuristic and \( h^{*}\left(n\right) \) is the perfect heuristic.
