@@ -31,4 +31,11 @@ endif
 	@$(GHDL) -m $(GHDL_FLAGS) --workdir=$(WORK_DIR) --work=work $(TESTBENCH)_tb
 
 run:
+	@mkdir -p $(SIM_DIR)
+
+ifeq ($(strip $(TESTBENCH)),)
+	@echo "TESTBENCH not set. Use TESTBENCH=<value> to set it."
+	@exit 1
+endif
+
 	@$(GHDL) -r $(GHDL_FLAGS) --workdir=$(WORK_DIR) $(TESTBENCH)_tb --vcd=$(SIM_DIR)/$(TESTBENCH)_tb.vcd
