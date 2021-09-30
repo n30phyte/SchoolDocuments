@@ -180,7 +180,6 @@ vsim.dbg
 *.sopc_builder
 *.summary
 *.tcl
-*.txt # Explicitly add any text files used
 *~
 *example*
 *sopc_*
@@ -197,3 +196,10 @@ incremental_db/
 db/
 _output_files/
 PLLJ_PLLSPE_INFO.txt
+
+# GHDL outputs
+*.v87
+*.v93
+*.v08
+*.cf
+e~*.lst
