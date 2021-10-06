@@ -1,4 +1,3 @@
-
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
@@ -7,7 +6,7 @@ USE std.env.finish;
 ENTITY full_adder_1bit_tb IS
 END ENTITY;
 
-ARCHITECTURE behavioral OF full_adder_1bit_tb IS
+ARCHITECTURE Behavioral OF full_adder_1bit_tb IS
 
   -- Component Definitions
   COMPONENT full_adder_1bit IS
