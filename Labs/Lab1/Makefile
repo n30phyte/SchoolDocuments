@@ -24,6 +24,7 @@ build:
 
 ifeq ($(strip $(TESTBENCH)),)
 	@echo "TESTBENCH not set. Use TESTBENCH=<value> to set it."
+	@echo "Example: make TESTBENCH=adder"
 	@exit 1
 endif
 
@@ -35,7 +36,17 @@ run:
 
 ifeq ($(strip $(TESTBENCH)),)
 	@echo "TESTBENCH not set. Use TESTBENCH=<value> to set it."
+	@echo "Example: make TESTBENCH=adder"
 	@exit 1
 endif
 
 	@$(GHDL) -r $(GHDL_FLAGS) --workdir=$(WORK_DIR) $(TESTBENCH)_tb --vcd=$(SIM_DIR)/$(TESTBENCH)_tb.vcd
+
+# diagram:
+# 	@mkdir -p doc
+
+# ifeq ($(strip $(TOP_LEVEL)),)
+# 	@echo "TOP_LEVEL not set. Use TOP_LEVEL=<value> to set it."
+# 	@echo "Example: make TOP_LEVEL=adder"
+# 	@exit 1
+# endif
