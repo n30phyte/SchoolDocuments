@@ -97,7 +97,7 @@ BEGIN
 
     ASSERT(led_tb = "0011")
     REPORT "not zero"
-      SEVERITY NOTE;
+    SEVERITY NOTE;
     finish;
 
   END PROCESS;

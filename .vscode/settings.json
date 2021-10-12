@@ -1,7 +1,5 @@
 {
-  "editor.wordWrapColumn": 120,
-  "editor.wordWrap": "bounded",
-  "editor.rulers": [80],
+  "editor.rulers": [120],
   "latex-workshop.latex.recipes": [
     {
       "name": "latexmk",
@@ -24,5 +22,9 @@
         "%DOC%"
       ]
     }
-  ]
+  ],
+  "[tex]": {
+    "editor.wordWrapColumn": 80,
+    "editor.wordWrap": "bounded",
+    }
 }
