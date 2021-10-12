@@ -1,0 +1,52 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+\usepackage{circuitikz}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage[outputdir=obj]{minted}
+
+\ctikzset{
+    logic ports=ieee,
+    logic ports/scale=0.7,
+}
+
+\title{ECE 410 Assignment 1}
+\author{Michael Kwok}
+
+\begin{document}
+\maketitle
+\begin{enumerate}
+    \item
+
+    \item
+          Code:
+          \begin{minted}{vhdl}
+        TYPE quark_t IS (up, down, charm, strange, top, bottom);
+      \end{minted}
+
+          \begin{enumerate}
+              \item 3
+              \item down
+              \item strange
+              \item top
+              \item strange
+              \item charm
+          \end{enumerate}
+
+    \item `U' means the value is not initialized yet, so it could be anything from a strong signal or a floating value, as we have not assigned anything to it yet. `X' is the value that signifies multiple drivers are assigning values to that port, indicating that there might be an issue with the design. `W' is for weak signal where it can't be determined whether it's a weak high or low. `Z' is a high impedance value used for implementing three-state logic, ``disconnecting'' that port from the bus. `-' is for don't care values, usually for control flow and other matching statements.
+
+    \item Code:
+    \begin{minted}{vhdl}
+        TYPE quark_t IS (up, down, charm, strange, top, bottom);
+      \end{minted}
+
+\end{enumerate}
+\end{document}
