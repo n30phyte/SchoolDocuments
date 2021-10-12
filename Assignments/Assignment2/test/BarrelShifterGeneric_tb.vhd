@@ -20,8 +20,7 @@ ARCHITECTURE Behavioural OF BarrelShifterGeneric_tb IS
   SIGNAL rot_amt : INTEGER RANGE 0 TO 31         := 0;
 BEGIN
 
-  shifter :
-  BarrelShifterGeneric
+  shifter : BarrelShifterGeneric
   GENERIC MAP(N => 32)
   PORT MAP(
     d_in  => input,

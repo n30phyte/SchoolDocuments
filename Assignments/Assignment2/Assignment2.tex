@@ -18,35 +18,121 @@
     logic ports/scale=0.7,
 }
 
-\title{ECE 410 Assignment 1}
+\title{ECE 410 Assignment 2}
 \author{Michael Kwok}
 
 \begin{document}
 \maketitle
 \begin{enumerate}
-    \item
+  \item A component declaration describes the interface of a specific design unit without defining the implementation.
+        A component instantiation creates an instance or copy of an object, along with the connections from ports to signals in the design requested.
 
-    \item
-          Code:
-          \begin{minted}{vhdl}
-        TYPE quark_t IS (up, down, charm, strange, top, bottom);
-      \end{minted}
+        The main purpose of component declarations in VHDL is to keep the code easily modularizable, while instantiations ``connect'' the component to the rest of the circuit, and can also specify which component architecture is to be used.
 
-          \begin{enumerate}
-              \item 3
-              \item down
-              \item strange
-              \item top
-              \item strange
-              \item charm
-          \end{enumerate}
 
-    \item `U' means the value is not initialized yet, so it could be anything from a strong signal or a floating value, as we have not assigned anything to it yet. `X' is the value that signifies multiple drivers are assigning values to that port, indicating that there might be an issue with the design. `W' is for weak signal where it can't be determined whether it's a weak high or low. `Z' is a high impedance value used for implementing three-state logic, ``disconnecting'' that port from the bus. `-' is for don't care values, usually for control flow and other matching statements.
+  \item Code:
 
-    \item Code:
-    \begin{minted}{vhdl}
-        TYPE quark_t IS (up, down, charm, strange, top, bottom);
-      \end{minted}
+        \begin{minted}{vhdl}
+TYPE quark_t IS (up, down, charm, strange, top, bottom);
+        \end{minted}
+
+        \begin{enumerate}
+          \item 3
+          \item down
+          \item strange
+          \item top
+          \item strange
+          \item charm
+        \end{enumerate}
+
+  \item `U' means the value is not initialized yet, so it could be anything from a strong signal or a floating value, as we have not assigned anything to it yet. `X' is the value that signifies multiple drivers are assigning values to that port, indicating that there might be an issue with the design. `W' is for weak signal where it can't be determined whether it's a weak high or low. `Z' is a high impedance value used for implementing three-state logic, ``disconnecting'' that port from the bus. `-' is for don't care values, usually for control flow and other matching statements.
+
+  \item Code:
+
+        \inputminted{vhdl}{src/BarrelShifterGeneric.vhd}
+
+        Instantiation:
+
+        \begin{minted}{vhdl}
+shifter : BarrelShifterGeneric
+GENERIC MAP(N => 32)
+PORT MAP(
+  d_in  => input,
+  d_out => output,
+  rot   => rot_amount);
+            \end{minted}
+
+  \item Synthesis software will ignore any timing specifiers as actual hardware has it's own timing constraints that cannot be changed, so there is no point for synthesizers to read timing specifications defined in VHDL code.
+        Timing specifiers should still be used as simulations assume statements without any timing constraints to happen instantaneously, and it will help in the design process to find possible timing errors before going to hardware.
+        Similarly, after synthesis, the timings specifiers could be adjusted to follow hardware more closely, allowing the designers to optimize their designs and tighten timings, possibly increasing performance or efficiency of the system.
+
+  \item \begin{minted}{vhdl}
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+
+ENTITY BinaryAdderGeneric IS
+  GENERIC (WID : NATURAL);
+  PORT (
+    a   : IN STD_LOGIC_VECTOR(WID - 1 DOWNTO 0);
+    b   : IN STD_LOGIC_VECTOR(WID - 1 DOWNTO 0);
+    c   : IN STD_LOGIC_VECTOR(WID - 1 DOWNTO 0);
+    sum : OUT STD_LOGIC_VECTOR(WID + 1 DOWNTO 0) := (OTHERS => '0'));
+END;
+
+ARCHITECTURE Behavioural_Loop OF BinaryAdderGeneric IS
+BEGIN
+
+  PROCESS (a, b, c)
+    VARIABLE temp_sum : STD_LOGIC_VECTOR(WID + 1 DOWNTO 0) := (OTHERS => '0');
+  BEGIN
+    FOR i IN 0 TO WID - 1 LOOP
+
+      IF i = 0 THEN
+        temp_sum(i) := a(i) XOR b(i) XOR c(i);
+      ELSE
+        temp_sum(i) := a(i) XOR b(i) XOR c(i) XOR temp_sum(i);
+      END IF;
+
+      temp_sum(i + 1) := (a(i) AND b(i)) OR (b(i) AND c(i)) OR (a(i) AND c(i));
+    END LOOP;
+    sum <= temp_sum;
+  END PROCESS;
+END;
+  \end{minted}
+
+  \item  \begin{minted}{vhdl}
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+USE IEEE.numeric_std.ALL;
+
+ENTITY BinaryAdderGenericUnsigned IS
+GENERIC (WID : NATURAL);
+PORT (
+a   : IN UNSIGNED(WID - 1 DOWNTO 0);
+b   : IN UNSIGNED(WID - 1 DOWNTO 0);
+c   : IN UNSIGNED(WID - 1 DOWNTO 0);
+sum : OUT UNSIGNED(WID + 1 DOWNTO 0) := (OTHERS => '0'));
+END;
+ARCHITECTURE Behavioural OF BinaryAdderGenericUnsigned IS
+BEGIN
+
+PROCESS (a, b, c)
+VARIABLE temp_sum : UNSIGNED(WID + 1 DOWNTO 0) := (OTHERS => '0');
+BEGIN
+FOR i IN 0 TO WID - 1 LOOP
+
+IF i = 0 THEN
+temp_sum(i) := a(i) XOR b(i) XOR c(i);
+ELSE
+temp_sum(i) := a(i) XOR b(i) XOR c(i) XOR temp_sum(i);
+END IF;
+
+temp_sum(i + 1) := (a(i) AND b(i)) OR (b(i) AND c(i)) OR (a(i) AND c(i));
+END LOOP;
+sum <= temp_sum;
+END PROCESS;
+END;
+  \end{minted}
 
 \end{enumerate}
 \end{document}
