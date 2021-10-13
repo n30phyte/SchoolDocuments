@@ -1,0 +1,101 @@
+$date
+  Tue Oct 12 15:30:53 2021
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$scope module standard $end
+$upscope $end
+$scope module textio $end
+$upscope $end
+$scope module std_logic_1164 $end
+$upscope $end
+$scope module env $end
+$upscope $end
+$scope module sequencedetector_tb $end
+$var reg 1 ! clk_tb $end
+$var reg 1 " reset_tb $end
+$var reg 1 # x_tb $end
+$var reg 1 $ z_tb $end
+$scope module detector $end
+$var reg 1 % clk $end
+$var reg 1 & reset $end
+$var reg 1 ' x $end
+$var reg 1 ( z $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+0!
+0"
+U#
+0$
+0%
+0&
+U'
+0(
+#20000000
+1!
+0#
+1%
+0'
+#40000000
+0!
+0%
+#60000000
+1!
+1#
+1%
+1'
+#80000000
+0!
+0%
+#100000000
+1!
+1%
+#120000000
+0!
+0%
+#140000000
+1!
+0#
+1%
+0'
+#160000000
+0!
+0%
+#180000000
+1!
+1#
+1%
+1'
+#200000000
+0!
+0%
+#220000000
+1!
+0#
+1%
+0'
+#240000000
+0!
+0%
+#260000000
+1!
+1#
+1$
+1%
+1'
+1(
+#280000000
+0!
+0%
+#300000000
+1!
+1%
+#320000000
+0!
+0%

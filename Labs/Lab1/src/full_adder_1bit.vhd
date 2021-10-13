@@ -10,7 +10,7 @@ ENTITY full_adder_1bit IS
     c_out : OUT STD_LOGIC);
 END ENTITY;
 
-ARCHITECTURE Dataflow OF full_adder_1bit IS
+ARCHITECTURE rtl OF full_adder_1bit IS
 BEGIN
 
   sum   <= a XOR b XOR c_in;
