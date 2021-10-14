@@ -28,6 +28,10 @@ BEGIN
       equal        <= '0';
       greater_than <= '1';
       less_than    <= '0';
+    ELSE
+      equal <= '1';
+      greater_than <= '1';
+      less_than <= '1';
     END IF;
   END PROCESS;
 

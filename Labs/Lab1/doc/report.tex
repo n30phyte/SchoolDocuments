@@ -14,6 +14,7 @@
 \usepackage{minted}
 \usepackage{fontspec}
 \usepackage[style=ieee]{biblatex}
+\usepackage{karnaugh-map}
 
 \setmainfont{Noto Serif}
 \setsansfont{Segoe UI}
@@ -57,7 +58,46 @@ by only needing to select a specific architecture in Vivado instead of editing f
 
 \section{Design}
 
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.3\linewidth}
+\begin{karnaugh-map}[4][2][1][$AB$][$C_{in}$]
+\minterms{1,2,4,7}
+\autoterms[0]
+\implicant{1}{1}
+\implicant{2}{2}
+\implicant{4}{4}
+\implicant{7}{7}
+\end{karnaugh-map}
+\end{subfigure}
+
+\begin{subfigure}{0.3\linewidth}
+\begin{karnaugh-map}[4][2][1][$AB$][$C_{in}$]
+\minterms{3,5,6,7}
+\autoterms[0]
+\implicant{3}{7}
+\implicant{5}{7}
+\implicant{7}{6}
+\end{karnaugh-map}
+\end{subfigure}
+\caption{Karnaugh Maps}
+\label{diag:kmap}
+\end{figure}
+
 Initially, a truth table for a 1-bit full adder was made (Table \ref{tb:truth-table}).
+A corresponding Karnaugh map was subsequently constructed from the values (Figure \ref{diag:kmap}).
+As can be seen, $F$ can be constructed by simply getting the exclusive-or summation of the terms, $F = A \oplus B \oplus C$,
+and $C_{out}$ can be constructed by minterm implicants: $C_{out} = AB + BC_{in} + AC_{in}$.
+For a 2-bit adder, the previous expressions can simply be applied to each bit to form each corresponding output bit, and the $C_{out}$ of the least significant bit must be connected to the $C_{in}$ of the most significant bit.
+
+This circuit was implemented in the RTL level in VHDL, as shown in the code in the appendix.
+Two instances of the adder were chained together to produce a ripple-carry 2-bit full adder, which produced a circuit with 3 inputs and 2 outputs: the 2-bit sum and the carry.
+
+\begin{figure}
+    \includegraphics{}
+\end{figure}
+
+
 % a. Calculations & Assumptions
 % b. Flow Chart 
 % c. Truth Table
