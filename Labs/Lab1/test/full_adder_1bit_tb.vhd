@@ -2,7 +2,7 @@
 -- Testbench for 1 bit Full Adder
 -- 
 -- Authors: Michael Kwok (mkwok1@ualberta.ca)
--- Create Date: 2021-06-10
+-- Create Date: 2021-10-01
 -- Target: GHDL, Quartus, Vivado
 -- 
 -- Written in VHDL 2008

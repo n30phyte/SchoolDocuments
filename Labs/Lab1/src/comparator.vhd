@@ -1,3 +1,13 @@
+--------------------------------------------------------------------------------
+-- Simple comparator implementation
+-- 
+-- Authors: Michael Kwok (mkwok1@ualberta.ca)
+-- Create Date: 2021-10-06
+-- Target: GHDL, Quartus, Vivado
+-- 
+-- Written in VHDL 2008
+--------------------------------------------------------------------------------
+
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
@@ -16,23 +26,9 @@ BEGIN
 
   PROCESS (a, b)
   BEGIN
-    IF A = B THEN
-      equal        <= '1';
-      greater_than <= '0';
-      less_than    <= '0';
-    ELSIF A < B THEN
-      equal        <= '0';
-      greater_than <= '0';
-      less_than    <= '1';
-    ELSIF A > B THEN
-      equal        <= '0';
-      greater_than <= '1';
-      less_than    <= '0';
-    ELSE
-      equal <= '1';
-      greater_than <= '1';
-      less_than <= '1';
-    END IF;
+    equal        <= '1' WHEN A = B ELSE '0';
+    greater_than <= '1' WHEN A > B ELSE '0';
+    less_than    <= '1' WHEN A < B ELSE '0';
   END PROCESS;
 
 END ARCHITECTURE;

@@ -1,3 +1,13 @@
+--------------------------------------------------------------------------------
+-- MUX implementation of S0 for 2 bit full adder
+-- 
+-- Authors: Michael Kwok (mkwok1@ualberta.ca)
+-- Create Date: 2021-10-06
+-- Target: GHDL, Quartus, Vivado
+-- 
+-- Written in VHDL 2008
+--------------------------------------------------------------------------------
+
 LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.NUMERIC_STD.ALL;
@@ -10,7 +20,6 @@ ENTITY S0_mux IS
 END ENTITY;
 
 ARCHITECTURE Behavioral OF S0_mux IS
-
 BEGIN
   PROCESS (cin, select_in)
   BEGIN
@@ -31,8 +40,7 @@ BEGIN
       WHEN "1101" => y_s0 <= cin;
       WHEN "1110" => y_s0 <= NOT cin;
       WHEN "1111" => y_s0 <= cin;
-      WHEN OTHERS => y_s0 <= '0';
+      WHEN OTHERS => y_s0 <= '-';
     END CASE;
   END PROCESS;
-
-END Behavioral;
+END ARCHITECTURE;

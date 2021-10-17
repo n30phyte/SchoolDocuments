@@ -1,3 +1,13 @@
+--------------------------------------------------------------------------------
+-- RTL implementation for 1 bit full adder
+-- 
+-- Authors: Michael Kwok (mkwok1@ualberta.ca)
+-- Create Date: 2021-10-06
+-- Target: GHDL, Quartus, Vivado
+-- 
+-- Written in VHDL 2008
+--------------------------------------------------------------------------------
+
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 

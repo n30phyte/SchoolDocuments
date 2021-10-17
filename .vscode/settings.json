@@ -26,5 +26,25 @@
   "[tex]": {
     "editor.wordWrapColumn": 80,
     "editor.wordWrap": "bounded",
-    }
+    },
+    "grammarly.overrides": [
+      {
+        "files": [
+          "**/Labs/Lab1/doc/report.tex"
+        ],
+        "config": {
+          "audience": "expert",
+          "dialect": "british",
+          "domain": "academic",
+          "emotions": [
+            "neutral",
+            "confident",
+            "analytical"
+          ],
+          "goals": [
+            "inform"
+          ]
+        }
+      }
+    ]
 }

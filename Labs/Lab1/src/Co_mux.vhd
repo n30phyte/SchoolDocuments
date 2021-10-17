@@ -1,3 +1,13 @@
+--------------------------------------------------------------------------------
+-- MUX implementation of C_out for 2 bit full adder
+-- 
+-- Authors: Michael Kwok (mkwok1@ualberta.ca)
+-- Create Date: 2021-10-06
+-- Target: GHDL, Quartus, Vivado
+-- 
+-- Written in VHDL 2008
+--------------------------------------------------------------------------------
+
 LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.NUMERIC_STD.ALL;
@@ -10,7 +20,6 @@ ENTITY Co_mux IS
 END Co_mux;
 
 ARCHITECTURE Behavioral OF Co_mux IS
-
 BEGIN
   PROCESS (cin, select_in)
   BEGIN
@@ -31,8 +40,7 @@ BEGIN
       WHEN "1101" => y_cout <= '1';
       WHEN "1110" => y_cout <= '1';
       WHEN "1111" => y_cout <= '1';
-      WHEN OTHERS => y_cout <= '0';
+      WHEN OTHERS => y_cout <= '-';
     END CASE;
   END PROCESS;
-
-END Behavioral;
+END ARCHITECTURE;
