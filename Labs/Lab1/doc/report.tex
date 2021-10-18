@@ -1,7 +1,10 @@
-\documentclass[12pt]{article}
+\RequirePackage[l2tabu, orthodox]{nag}
+
+\documentclass{article}
 
 \usepackage[margin=1.9cm, letterpaper]{geometry}
 \usepackage[utf8]{inputenc}
+\usepackage[a-1b]{pdfx}
 \usepackage{indentfirst}
 \usepackage{tikz}
 \usepackage{float}
@@ -11,32 +14,33 @@
 \usepackage{booktabs}
 \usepackage{siunitx}
 \usepackage{pdfpages}
-\usepackage{minted}
+\usepackage[outputdir=obj]{minted}
 \usepackage{fontspec}
 \usepackage{hyperref}
 \usepackage[style=ieee]{biblatex}
 \usepackage{karnaugh-map}
 
-\setmainfont{Noto Serif}
+\setmainfont{Cambria}
 \setsansfont{Segoe UI}
 \setmonofont{Consolas}
 
-\hypersetup{colorlinks}
+\usemintedstyle{xcode}
+\setminted{fontsize=\footnotesize, linenos=true, breaklines}
 
 \begin{document}
 \begin{titlepage}
     \begin{center}
         \vspace*{1cm}
 
-        \textbf{LAB 1}
+        \textbf{\Large{LAB 1}}
 
         \vspace{0.5cm}
 
-        Implementing Binary Adders in VHDL
+        \LARGE{Implementing Binary Adders in VHDL}
 
         \vspace{1.5cm}
 
-        \textbf{Michael Kwok (1548454)}
+        \textbf{\Large{Michael Kwok (1548454)}}
 
         \vfill
 
@@ -51,6 +55,7 @@
 \tableofcontents
 \listoffigures
 \listoftables
+
 \pagebreak
 
 \section{Abstract}
@@ -60,7 +65,7 @@ Two different implementations of a 2-bit full adder were designed, and the resou
 The VHDL feature of multiple architecture definitions was used to make testing and implementation easier,
 as the specific version was selected in the top-level configuration,
 avoiding commenting out code or modifying code before synthesis.
-The results of this lab show that the RTL-based design is more efficient compared to the MUX-based design for 2-bit adders.
+The results of this lab show that the RTL-based design is more efficient when compared to the MUX-based design for 2-bit adders.
 
 \section{Design}
 
@@ -114,28 +119,31 @@ The results of this lab show that the RTL-based design is more efficient compare
 \caption{Truth tables for 1-bit full adder}
 \end{table}
 
-Initially, a truth table for a 1-bit full adder was made (Table \ref{tab:truth-table-1b}).
-Corresponding Karnaugh maps were subsequently constructed from the values (Figures \ref{diag:kmap-f} \& \ref{diag:kmap-c}).
+Initially, a truth table for a 1-bit full adder was made (Table~\ref{tab:truth-table-1b}).
+Corresponding Karnaugh maps were subsequently constructed from the values (Figures~\ref{diag:kmap-f} \&~\ref{diag:kmap-c}).
 As can be seen, $F$ can be constructed by simply getting the xor of the terms, $F = A \oplus B \oplus C$,
 and $C_{out}$ can be constructed by minterm implicants: $C_{out} = AB + BC_{in} + AC_{in}$.
 For a 2-bit adder, the previous expressions can be applied to each bit to form each corresponding output bit,
 with the $C_{out}$ of the least significant bit connected to the $C_{in}$ of the most significant bit.
 
-This circuit was implemented at the RTL level in VHDL, as shown in the code in the appendix.
-Two instances of the adder were chained together to form a ripple-carry 2-bit full adder,
-which produced a circuit with three inputs and two outputs: two 2-bit vectors for the summands,
-a 1-bit input for the carry-in, a 1-bit carry out and a 2-bit vector sum output.
-The synthesized block diagram is shown in Figure \ref{fig:rtl-schematic}.
-
-\begin{figure}[h]
-    \includegraphics[width=\textwidth]{rtl-schematic.png}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.53\textwidth]{rtl-schematic.png}
     \caption{Block Diagram of RTL design}
     \label{fig:rtl-schematic}
 \end{figure}
 
-\pagebreak
+This circuit was implemented at the RTL level in VHDL, as shown in the code in the appendix.
+Two instances of the adder were chained together to form a ripple-carry 2-bit full adder,
+which produced a circuit with three inputs and two outputs: two 2-bit vectors for the summands,
+a 1-bit input for the carry-in, a 1-bit carry out and a 2-bit vector sum output.
+The synthesized block diagram is shown in Figure~\ref{fig:rtl-schematic}.
 
 \subsection{MUX Design}
+
+A second version of the circuit was created, using three 16x1 MUXes to try out MUX-based circuit design.
+Each MUX used the concatenated values of A and B as the selector.
+The output was based on either short circuit to ground, VDD, $C_{in}$ or $\overline{C_{in}}$.
 
 \begin{table}[H]
     \centering
@@ -212,30 +220,28 @@ The synthesized block diagram is shown in Figure \ref{fig:rtl-schematic}.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.6\linewidth]{mux-schematic.png}
+    \includegraphics[width=0.5\linewidth]{mux-schematic.png}
     \caption{Block Diagram of MUX design}
     \label{fig:mux-schematic}
 \end{figure}
 
-A second version of the circuit was created, using three 16x1 MUXes to try out MUX-based circuit design.
-Each MUX used the concatenated values of A and B as the selector.
-The output was based on either short circuit to ground, VDD, $C_{in}$ or $\overline{C_{in}}$.
-
-As part of this process, a 32 entry truth table was constructed (Table \ref{tab:truth-table-mux}).
-The values for $C_{out}$, $S_1$ and $S_0$ were then simplified by hand to be defined in terms of $C_{in}$ for each MUX input.
-The result of simplification is shown in Table \ref{tab:mux-simplified}.
-This all resulted in the synthesis of 3 MUXes for the circuit (Figure \ref{fig:mux-schematic}), as expected.
+As part of this process, a 32 entry truth table was constructed (Table~\ref{tab:truth-table-mux}).
+This was extremely time consuming and error prone, as the work was ``monotonous'', and it quickly became hard to keep track
+of the binary numbers that were being written. While a Karnaugh Map was not required,
+the values for $C_{out}$, $S_1$ and $S_0$ had to be simplified by hand to and redefined in terms of $C_{in}$ for each MUX input.
+The result of simplification is shown in Table~\ref{tab:mux-simplified}.
+This all resulted in the synthesis of 3 MUXes for the circuit (Figure~\ref{fig:mux-schematic}), as expected.
 
 \subsection{Comparator}
 
 For the comparator, a behavioural implementation was done. This was to allow the synthesis and implementation tools to
 optimize the design as best as possible by providing it with semantically as much information as possible.
 
-The schematic generated by the tool can be seen in Figure \ref{fig:comp-schematic}.
+The schematic generated by the tool can be seen in Figure~\ref{fig:comp-schematic}.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.5\linewidth]{comp-schematic.png}
+    \includegraphics[width=0.6\linewidth]{comp-schematic.png}
     \caption{Block Diagram of Comparator design}
     \label{fig:comp-schematic}
 \end{figure}
@@ -245,11 +251,11 @@ The schematic generated by the tool can be seen in Figure \ref{fig:comp-schemati
 \subsection{FPGA Implementation}
 
 In terms of implementation, the MUX design produced a less efficient circuit resource utilization-wise,
-with 3 LUTs required to implement the adder as compared to 2 for RTL.
+with 3 LUTs required to implement the adder as compared to 2 for RTL.\@
 A possible explanation for this could be that each 1-bit full adder was implemented as a LUT for the RTL Design,
 instead of a single LUT for each output bit for the MUX Design.
 
-\begin{figure}[hbtp]
+\begin{figure}[h]
     \centering
     \begin{subfigure}{0.45\linewidth}
         \centering
@@ -259,16 +265,15 @@ instead of a single LUT for each output bit for the MUX Design.
     \begin{subfigure}{0.45\linewidth}
         \centering
         \includegraphics[width=\textwidth]{rtl-resource.png}
-        \caption{MUX Design}
+        \caption{RTL Design}
     \end{subfigure}
     \caption{Resource utilization of both designs}
     \label{fig:resource}
 \end{figure}
 
-The MUX design might be faster than the RTL Design,
-since there is no need to wait for the result of the addition of the first bit,
-and the entire 2 bit output is produced at the same time. To prove this, timing analysis must be done.
-However for a 2-bit adder, this is unecessary as any delay due to ripple carry is likely to be below margin of error.
+The MUX design might be faster than the RTL design since there is no need to wait for the result of the addition of the first bit,
+and the entire 2-bit output is produced at the same time. In order to prove this, timing analysis must be done,
+which is unnecessary for a 2-bit adder as any delay due to ripple carry is likely to be below the margin of error.
 
 \section{Testing \& Simulation}
 
@@ -280,16 +285,24 @@ However for a 2-bit adder, this is unecessary as any delay due to ripple carry i
 \end{figure}
 
 For the testing and simulation of the components, a testbench was written and ran for both implementations of the device.
-The resulting waveforms were compared to ensure proper operation of the design, and the waveform can be seen in Figure \ref{fig:tb-result}.
+The resulting waveforms were compared to ensure proper operation of the design, and the waveform can be seen in Figure~\ref{fig:tb-result}.
 
 The designed testbench was written to loop through all possible values of $A$, $B$ and $C_{in}$.
 As shown, the adders worked as expected.
 
-The designs were also tested on the Zybo board provided, and the expected results were able to be obtained by manipulating the buttons and switches on the board.
+The designs were tested on the Zybo board provided, and the expected results were obtained by manipulating the buttons and switches on the board.
 
 \section{Conclusion}
 
+In this lab we have shown two different methods of obtaining the same result, with each having their own advantages and disadvantages.
+The RTL method of defining the circuit led to shorter and easier to understand code, while the MUX method is potentially faster if
+extended to more than 2-bit addition, since it's an implicit ``carry-lookahead'' adder.
+The difference in resource utilization was also shown, with the RTL implementation leading by using less resources than the MUX.\@
+The comparator implementation shows that behavioural VHDL can be simpler and as effecient as RTL or Structural VHDL.\@
 
+The importance of writing extensive testbenches was made apparent, as it helped caught a lot of possible errors in the
+implementation of the MUX by stopping whenever there was an error, allowing iterative improvement and fixing.
+Modularity of the MUX design also helped with debugging as each bit had a corresponding module, so it was very easy to track where the issue was.
 
 % \section{References}
 
@@ -321,7 +334,7 @@ The designs were also tested on the Zybo board provided, and the expected result
 
 \pagebreak
 \subsection{Comparator}
-\inputminted{vhdl}{../src/comparator.vhd}
+\inputminted{vhdl}{../src/Comparator.vhd}
 
 \pagebreak
 \subsection{Testbench}

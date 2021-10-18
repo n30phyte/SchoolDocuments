@@ -35,7 +35,7 @@
         "config": {
           "audience": "expert",
           "dialect": "british",
-          "domain": "academic",
+          "domain": "technical",
           "emotions": [
             "neutral",
             "confident",
