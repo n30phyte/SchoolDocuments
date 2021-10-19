@@ -23,15 +23,6 @@
       "tools": ["lualatex"]
     }
   ],
-  "spellright.language": [
-    "en", "en_GB"
-  ],
-  "spellright.documentTypes": [
-    "markdown",
-    "latex",
-    "plaintext",
-    "jsonc"
-  ],
   "editor.wordWrap": "on",
   "editor.wordWrapColumn": 100
 }

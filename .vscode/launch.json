@@ -39,6 +39,14 @@
       "args": ["--testinstances", "--plots", "--tex"],
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}/Assignment1"
+    },
+    {
+      "name": "Assignment 2",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/Assignment2/main.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/Assignment2"
     }
   ]
 }
