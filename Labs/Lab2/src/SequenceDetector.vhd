@@ -1,63 +1,78 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+
 ENTITY SequenceDetector IS
   PORT (
-    CLK   : IN STD_LOGIC;
-    RESET : IN STD_LOGIC;
-    X     : IN STD_LOGIC;
-    Z     : OUT STD_LOGIC);
+    clk          : IN STD_LOGIC;
+    reset        : IN STD_LOGIC;
+    seq_in       : IN STD_LOGIC;
+    detector_out : OUT STD_LOGIC := '0');
 END ENTITY;
 
 ARCHITECTURE Behavioural OF SequenceDetector IS
-  TYPE SEQUENCE_STATE IS (A, B, C, D, E, F);
+  TYPE SEQUENCE_STATE IS (A, B, C, D, E);
+  SIGNAL state_current : SEQUENCE_STATE;
+  SIGNAL state_next    : SEQUENCE_STATE;
 BEGIN
 
   PROCESS (clk, reset)
-    VARIABLE current_state : SEQUENCE_STATE := A;
   BEGIN
-
-    IF RESET = '1' THEN
-      current_state := A;
-      Z <= '0';
+    IF reset = '1' THEN
+      state_current <= A;
     ELSIF rising_edge(clk) THEN
-      CASE current_state IS
-        WHEN A =>
-          IF X = '0' THEN
-            current_state := B;
-          ELSE
-            current_state := A;
-          END IF;
-        WHEN B =>
-          IF X = '1' THEN
-            current_state := C;
-          ELSE
-            current_state := A;
-          END IF;
-        WHEN C =>
-          IF X = '1' THEN
-            current_state := D;
-          ELSE
-            current_state := A;
-          END IF;
-        WHEN D =>
-          IF X = '0' THEN
-            current_state := E;
-          ELSE
-            current_state := A;
-          END IF;
-        WHEN E =>
-          IF X = '1' THEN
-            current_state := F;
-          ELSE
-            current_state := A;
-          END IF;
-        WHEN F =>
-          Z <= '1';
-          current_state                := A;
-        WHEN OTHERS => current_state := A;
-      END CASE;
+      state_current <= state_next;
     END IF;
+  END PROCESS;
 
+  PROCESS (state_current, seq_in)
+  BEGIN
+    CASE state_current IS
+      WHEN A =>
+        IF seq_in = '0' THEN
+          state_next   <= A;
+          detector_out <= '0';
+        ELSE
+          state_next   <= B;
+          detector_out <= '0';
+        END IF;
+      WHEN B =>
+        IF seq_in = '0' THEN
+          state_next   <= A;
+          detector_out <= '0';
+        ELSE
+          state_next   <= C;
+          detector_out <= '0';
+        END IF;
+      WHEN C =>
+        IF seq_in = '0' THEN
+          state_next   <= D;
+          detector_out <= '0';
+        ELSE
+          state_next   <= C;
+          detector_out <= '0';
+        END IF;
+      WHEN D =>
+        IF seq_in = '0' THEN
+          state_next   <= A;
+          detector_out <= '0';
+        ELSE
+          state_next   <= E;
+          detector_out <= '0';
+        END IF;
+      WHEN E =>
+        IF seq_in = '0' THEN
+          state_next   <= A;
+          detector_out <= '0';
+        ELSE
+          state_next   <= C;
+          detector_out <= '1';
+        END IF;
+      WHEN OTHERS =>
+        state_next   <= A;
+        detector_out <= '0';
+    END CASE;
   END PROCESS;
 END ARCHITECTURE;

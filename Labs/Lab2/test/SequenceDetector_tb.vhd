@@ -6,28 +6,28 @@ END ENTITY;
 
 ARCHITECTURE Behavioural OF SequenceDetector_tb IS
   COMPONENT SequenceDetector IS PORT (
-    CLK   : IN STD_LOGIC;
-    RESET : IN STD_LOGIC;
-    X     : IN STD_LOGIC;
-    Z     : OUT STD_LOGIC);
+    clk          : IN STD_LOGIC;
+    reset        : IN STD_LOGIC;
+    seq_in       : IN STD_LOGIC;
+    detector_out : OUT STD_LOGIC);
   END COMPONENT;
 
-  SIGNAL clk_tb   : STD_LOGIC;
-  SIGNAL reset_tb : STD_LOGIC := '1';
-  SIGNAL x_tb     : STD_LOGIC;
-  SIGNAL z_tb     : STD_LOGIC;
+  SIGNAL clk_tb          : STD_LOGIC;
+  SIGNAL reset_tb        : STD_LOGIC := '1';
+  SIGNAL seq_in_tb       : STD_LOGIC := '0';
+  SIGNAL detector_out_tb : STD_LOGIC;
 
-  CONSTANT input_stimulus  : STD_LOGIC_VECTOR(0 TO 7) := "01101011";
-  CONSTANT clock_period_tb : TIME                     := 40 ns; --1/25MHz => 40ns
+  CONSTANT input_stimulus  : STD_LOGIC_VECTOR(0 TO 22) := "01101101110110001101011";
+  CONSTANT clock_period_tb : TIME                      := 40 ns; --1/25MHz => 40ns
 
 BEGIN
 
   detector : SequenceDetector
   PORT MAP(
-    clk   => clk_tb,
-    reset => reset_tb,
-    x     => x_tb,
-    z     => z_tb);
+    clk          => clk_tb,
+    reset        => reset_tb,
+    seq_in       => seq_in_tb,
+    detector_out => detector_out_tb);
 
   clock :
   PROCESS
@@ -44,7 +44,7 @@ BEGIN
     reset_tb <= '0';
     IF rising_edge(clk_tb) THEN
       IF current_idx < input_stimulus'length THEN
-        x_tb <= input_stimulus(current_idx);
+        seq_in_tb <= input_stimulus(current_idx);
         current_idx := current_idx + 1;
       ELSE
         std.env.finish;
@@ -52,5 +52,4 @@ BEGIN
     END IF;
 
   END PROCESS;
-
 END ARCHITECTURE;
