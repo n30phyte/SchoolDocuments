@@ -7,13 +7,13 @@ ENTITY VendingMachine IS
   PORT (
     clk            : IN STD_LOGIC;
     reset          : IN STD_LOGIC;
-    item_sel       : IN STD_LOGIC;                             -- 0 for Soft Drink ($2), 1 for Granola ($4)
-    coins_in       : IN STD_LOGIC_VECTOR(1 DOWNTO 0);          -- "00" - 0$, "01" - 1$, "10" - 2$, "11" - 3$
-    change_out     : OUT STD_LOGIC_VECTOR(1 DOWNTO 0) := "00"; -- changeout is displayed on two leds - "00" - 0$ "01" - 1$, "10" - 2$ and "11" - 3$
-    display_sum    : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);         -- display the current sum of inserted money on the seven segment
-    select_segment : OUT STD_LOGIC := '0';                     -- select the left or right segment
-    soft_drink     : OUT STD_LOGIC := '0';                     -- turn on the LED to dispense soft drink
-    granola_bar    : OUT STD_LOGIC := '0');                    -- turn on the LED to dispense granola bar
+    item_sel       : IN STD_LOGIC;                     -- 0 for Soft Drink ($2), 1 for Granola ($4)
+    coins_in       : IN STD_LOGIC_VECTOR(1 DOWNTO 0);  -- "00" - 0$, "01" - 1$, "10" - 2$, "11" - 3$
+    change_out     : OUT STD_LOGIC_VECTOR(1 DOWNTO 0); -- changeout is displayed on two leds - "00" - 0$ "01" - 1$, "10" - 2$ and "11" - 3$
+    display_sum    : OUT STD_LOGIC_VECTOR(6 DOWNTO 0); -- display the current sum of inserted money on the seven segment
+    select_segment : OUT STD_LOGIC;                    -- select the left or right segment
+    soft_drink     : OUT STD_LOGIC;                    -- turn on the LED to dispense soft drink
+    granola_bar    : OUT STD_LOGIC);                   -- turn on the LED to dispense granola bar
 
 END ENTITY;
 
@@ -21,9 +21,7 @@ ARCHITECTURE Behavioral OF VendingMachine IS
   TYPE state_type IS (sum_0, sum_1, sum_2, sum_3, sum_4, sum_5, sum_6, dispense);
   SIGNAL present_state, next_state : state_type;
 
-  VARIABLE selected_item : STD_LOGIC := '0';
-
-  FUNCTION UNSIGNED_TO_SSD(num : POSITIVE RANGE 0 TO 9)
+  FUNCTION UNSIGNED_TO_SSD(num : NATURAL RANGE 0 TO 9)
     RETURN STD_LOGIC_VECTOR IS
   BEGIN
     CASE num IS
@@ -41,6 +39,8 @@ ARCHITECTURE Behavioral OF VendingMachine IS
   END FUNCTION;
 BEGIN
 
+  select_segment <= '0';
+
   PROCESS (clk, reset)
   BEGIN
     IF reset = '1' THEN
@@ -50,7 +50,8 @@ BEGIN
     END IF;
   END PROCESS;
 
-  PROCESS (present_state, coins_in)
+  PROCESS (present_state, coins_in, item_sel)
+    VARIABLE selected_item : STD_LOGIC := '0';
   BEGIN
     CASE present_state IS
       WHEN sum_0 =>
@@ -62,49 +63,73 @@ BEGIN
 
         selected_item := item_sel; -- Capture currently selected item into register
 
-        WITH coins_in SELECT
-          next_state <= sum_1 WHEN "01",
-          next_state <= sum_2 WHEN "10",
-          next_state <= sum_3 WHEN "11",
-          next_state <= sum_0 WHEN OTHERS;
+        CASE coins_in IS
+          WHEN "01"   => next_state   <= sum_1;
+          WHEN "10"   => next_state   <= sum_2;
+          WHEN "11"   => next_state   <= sum_3;
+          WHEN OTHERS => next_state <= sum_0;
+        END CASE;
 
       WHEN sum_1 =>
+        soft_drink  <= '0';
+        granola_bar <= '0';
+        change_out  <= "00";
+
         display_sum <= UNSIGNED_TO_SSD(1);
 
-        WITH coins_in SELECT
-          next_state <= sum_2 WHEN "01",
-          next_state <= sum_3 WHEN "10",
-          next_state <= sum_4 WHEN "11",
-          next_state <= sum_0 WHEN OTHERS;
+        CASE coins_in IS
+          WHEN "01"   => next_state   <= sum_2;
+          WHEN "10"   => next_state   <= sum_3;
+          WHEN "11"   => next_state   <= sum_4;
+          WHEN OTHERS => next_state <= sum_1;
+        END CASE;
 
       WHEN sum_2 =>
+        soft_drink  <= '0';
+        granola_bar <= '0';
+        change_out  <= "00";
+
         display_sum <= UNSIGNED_TO_SSD(2);
 
         IF selected_item = '0' THEN
           next_state <= dispense;
           change_out <= "00";
         ELSE
-          WITH coins_in SELECT
-            next_state <= sum_3 WHEN "01",
-            next_state <= sum_4 WHEN "10",
-            next_state <= sum_5 WHEN "11",
-            next_state <= sum_0 WHEN OTHERS;
+
+          CASE coins_in IS
+            WHEN "01"   => next_state   <= sum_3;
+            WHEN "10"   => next_state   <= sum_4;
+            WHEN "11"   => next_state   <= sum_5;
+            WHEN OTHERS => next_state <= sum_2;
+          END CASE;
+
         END IF;
 
       WHEN sum_3 =>
+        soft_drink  <= '0';
+        granola_bar <= '0';
+        change_out  <= "00";
+
         display_sum <= UNSIGNED_TO_SSD(3);
 
         IF selected_item = '0' THEN
           next_state <= dispense;
           change_out <= "01";
         ELSE
-          WITH coins_in SELECT
-            next_state <= sum_4 WHEN "01",
-            next_state <= sum_5 WHEN "10",
-            next_state <= sum_6 WHEN "11",
-            next_state <= sum_0 WHEN OTHERS;
+
+          CASE coins_in IS
+            WHEN "01"   => next_state   <= sum_4;
+            WHEN "10"   => next_state   <= sum_5;
+            WHEN "11"   => next_state   <= sum_6;
+            WHEN OTHERS => next_state <= sum_3;
+          END CASE;
+
         END IF;
       WHEN sum_4 =>
+        soft_drink  <= '0';
+        granola_bar <= '0';
+        change_out  <= "00";
+
         display_sum <= UNSIGNED_TO_SSD(4);
 
         IF selected_item = '0' THEN
@@ -113,9 +138,15 @@ BEGIN
         ELSIF selected_item = '1' THEN
           next_state <= dispense;
           change_out <= "00";
+        ELSE
+          next_state <= sum_0;
         END IF;
 
       WHEN sum_5 =>
+        soft_drink  <= '0';
+        granola_bar <= '0';
+        change_out  <= "00";
+
         display_sum <= UNSIGNED_TO_SSD(5);
 
         IF selected_item = '0' THEN
@@ -124,16 +155,29 @@ BEGIN
         ELSIF selected_item = '1' THEN
           next_state <= dispense;
           change_out <= "01";
+        ELSE
+          next_state <= sum_0;
         END IF;
+
       WHEN sum_6 =>
+        soft_drink  <= '0';
+        granola_bar <= '0';
+        change_out  <= "00";
+
         display_sum <= UNSIGNED_TO_SSD(6);
 
         IF selected_item = '1' THEN
           next_state <= dispense;
           change_out <= "10";
+        ELSE
+          next_state <= sum_0;
         END IF;
 
       WHEN dispense =>
+        soft_drink  <= '0';
+        granola_bar <= '0';
+        change_out  <= "00";
+
         display_sum <= "0111101";
 
         IF selected_item = '0' THEN

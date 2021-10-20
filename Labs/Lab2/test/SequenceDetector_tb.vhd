@@ -1,6 +1,8 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
+use std.env.finish;
+
 ENTITY SequenceDetector_tb IS
 END ENTITY;
 
@@ -47,7 +49,7 @@ BEGIN
         seq_in_tb <= input_stimulus(current_idx);
         current_idx := current_idx + 1;
       ELSE
-        std.env.finish;
+        finish;
       END IF;
     END IF;
 
