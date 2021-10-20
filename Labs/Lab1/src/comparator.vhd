@@ -23,12 +23,7 @@ END ENTITY;
 
 ARCHITECTURE Behavioral OF comparator IS
 BEGIN
-
-  PROCESS (a, b)
-  BEGIN
-    equal        <= '1' WHEN A = B ELSE '0';
-    greater_than <= '1' WHEN A > B ELSE '0';
-    less_than    <= '1' WHEN A < B ELSE '0';
-  END PROCESS;
-
+  equal        <= '1' WHEN A = B ELSE '0';
+  greater_than <= '1' WHEN A > B ELSE '0';
+  less_than    <= '1' WHEN A < B ELSE '0';
 END ARCHITECTURE;
