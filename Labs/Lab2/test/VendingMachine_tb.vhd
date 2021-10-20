@@ -53,9 +53,10 @@ BEGIN
     WAIT FOR clk_period/2;
   END PROCESS;
 
-  stim_proc : PROCESS
+  stim_proc : PROCESS(clk)
   BEGIN
-
-    rst <= '0';
+    rst   <= '0';
+    coins <= "10";
+    WAIT;
   END PROCESS;
 END ARCHITECTURE;

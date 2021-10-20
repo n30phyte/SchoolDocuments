@@ -14,7 +14,6 @@ ENTITY VendingMachine IS
     select_segment : OUT STD_LOGIC;                    -- select the left or right segment
     soft_drink     : OUT STD_LOGIC;                    -- turn on the LED to dispense soft drink
     granola_bar    : OUT STD_LOGIC);                   -- turn on the LED to dispense granola bar
-
 END ENTITY;
 
 ARCHITECTURE Behavioral OF VendingMachine IS
@@ -41,17 +40,18 @@ BEGIN
 
   select_segment <= '0';
 
-  PROCESS (clk, reset)
+  clk_proc : PROCESS (clk, reset)
   BEGIN
-    IF reset = '1' THEN
-      present_state <= sum_0;
-    ELSIF rising_edge(clk) THEN
-      present_state <= next_state;
+    IF rising_edge(clk) THEN
+      IF reset = '1' THEN
+        present_state <= sum_0;
+      ELSE
+        present_state <= next_state;
+      END IF;
     END IF;
   END PROCESS;
 
-  PROCESS (present_state, coins_in, item_sel)
-    VARIABLE selected_item : STD_LOGIC := '0';
+  state_proc : PROCESS (present_state, coins_in, item_sel)
   BEGIN
     CASE present_state IS
       WHEN sum_0 =>
@@ -60,8 +60,6 @@ BEGIN
         change_out  <= "00";
 
         display_sum <= UNSIGNED_TO_SSD(0);
-
-        selected_item := item_sel; -- Capture currently selected item into register
 
         CASE coins_in IS
           WHEN "01"   => next_state   <= sum_1;
@@ -91,18 +89,16 @@ BEGIN
 
         display_sum <= UNSIGNED_TO_SSD(2);
 
-        IF selected_item = '0' THEN
-          next_state <= dispense;
+        IF item_sel = '0' THEN
           change_out <= "00";
+          next_state <= dispense;
         ELSE
-
           CASE coins_in IS
             WHEN "01"   => next_state   <= sum_3;
             WHEN "10"   => next_state   <= sum_4;
             WHEN "11"   => next_state   <= sum_5;
             WHEN OTHERS => next_state <= sum_2;
           END CASE;
-
         END IF;
 
       WHEN sum_3 =>
@@ -112,19 +108,18 @@ BEGIN
 
         display_sum <= UNSIGNED_TO_SSD(3);
 
-        IF selected_item = '0' THEN
-          next_state <= dispense;
+        IF item_sel = '0' THEN
           change_out <= "01";
+          next_state <= sum_2;
         ELSE
-
           CASE coins_in IS
             WHEN "01"   => next_state   <= sum_4;
             WHEN "10"   => next_state   <= sum_5;
             WHEN "11"   => next_state   <= sum_6;
             WHEN OTHERS => next_state <= sum_3;
           END CASE;
-
         END IF;
+
       WHEN sum_4 =>
         soft_drink  <= '0';
         granola_bar <= '0';
@@ -132,14 +127,12 @@ BEGIN
 
         display_sum <= UNSIGNED_TO_SSD(4);
 
-        IF selected_item = '0' THEN
-          next_state <= dispense;
+        IF item_sel = '0' THEN
           change_out <= "10";
-        ELSIF selected_item = '1' THEN
-          next_state <= dispense;
+          next_state <= sum_2;
+        ELSIF item_sel = '1' THEN
           change_out <= "00";
-        ELSE
-          next_state <= sum_0;
+          next_state <= dispense;
         END IF;
 
       WHEN sum_5 =>
@@ -149,14 +142,12 @@ BEGIN
 
         display_sum <= UNSIGNED_TO_SSD(5);
 
-        IF selected_item = '0' THEN
-          next_state <= dispense;
+        IF item_sel = '0' THEN
           change_out <= "11";
-        ELSIF selected_item = '1' THEN
-          next_state <= dispense;
+          next_state <= sum_2;
+        ELSIF item_sel = '1' THEN
           change_out <= "01";
-        ELSE
-          next_state <= sum_0;
+          next_state <= sum_4;
         END IF;
 
       WHEN sum_6 =>
@@ -166,11 +157,12 @@ BEGIN
 
         display_sum <= UNSIGNED_TO_SSD(6);
 
-        IF selected_item = '1' THEN
-          next_state <= dispense;
+        IF item_sel = '0' THEN
+          change_out <= "11";
+          next_state <= sum_3;
+        ELSIF item_sel = '1' THEN
           change_out <= "10";
-        ELSE
-          next_state <= sum_0;
+          next_state <= sum_4;
         END IF;
 
       WHEN dispense =>
@@ -180,7 +172,7 @@ BEGIN
 
         display_sum <= "0111101";
 
-        IF selected_item = '0' THEN
+        IF item_sel = '0' THEN
           soft_drink <= '1';
         ELSE
           granola_bar <= '1';
@@ -190,4 +182,5 @@ BEGIN
 
     END CASE;
   END PROCESS;
+
 END Behavioral;

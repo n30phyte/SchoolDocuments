@@ -1,7 +1,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
-use std.env.finish;
+USE std.env.finish;
 
 ENTITY SequenceDetector_tb IS
 END ENTITY;

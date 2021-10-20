@@ -66,7 +66,10 @@
 **/*.runs/impl*/*.sh
 **/*.runs/impl*/*.tcl
 **/*.runs/impl*/*.bat
+**/*.runs/impl*/*.bit
 !**/*.runs/impl*/*utilization*.rpt
+
+**/*.sim/*
 
 *.runs/impl*/*.xml
 *.runs/impl*/*.html
@@ -74,7 +77,9 @@
 *.runs/impl*/*.sh
 *.runs/impl*/*.tcl
 *.runs/impl*/*.bat
+*.runs/impl*/*.bit
 !*.runs/impl*/*utilization*.rpt
+
 
 ### block design
 */*/bd/*/hdl
