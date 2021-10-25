@@ -1,4 +1,7 @@
-from typing import Optional
+import heapq
+
+from time import perf_counter
+from typing import Optional, Set
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -201,7 +204,6 @@ class FirstAvailable(VarSelector):
             for j in range(grid.get_width()):
                 if len(grid.get_cells()[i][j]) > 1:
                     return (i, j)
-        return (-1, -1)
 
 
 class MRV(VarSelector):
@@ -210,8 +212,16 @@ class MRV(VarSelector):
     """
 
     def select_variable(self, grid: Grid) -> tuple[int, int]:
-        # Implement here the mrv heuristic
-        pass
+        potential_variables = []
+
+        for i in range(grid.get_width()):
+            for j in range(grid.get_width()):
+                if len(grid.get_cells()[i][j]) > 1:
+                    heapq.heappush(
+                        potential_variables, (len(grid.get_cells()[i][j]), (i, j))
+                    )
+
+        return heapq.heappop(potential_variables)[1]
 
 
 class AC3:
@@ -300,10 +310,17 @@ class AC3:
         The method runs AC3 for the arcs involving the variables whose values are
         already assigned in the initial grid.
         """
-        # Implement here the code for making the CSP arc consistent as a pre-processing step; this method should be called once before search
-        pass
 
-    def consistency(self, grid, Q):
+        initial_variables = set()
+
+        for i in range(grid.get_width()):
+            for j in range(grid.get_width()):
+                if len(grid.get_cells()[i][j]) == 1:
+                    initial_variables.add((i, j))
+
+        self.consistency(grid, initial_variables)
+
+    def consistency(self, grid, Q: Set[tuple[int, int]]) -> bool:
         """
         This is a domain-specific implementation of AC3 for Sudoku.
 
@@ -322,8 +339,34 @@ class AC3:
         The method returns True if AC3 detected that the problem can't be solved with the current
         partial assignment; the method returns False otherwise.
         """
-        # Implement here the domain-dependent version of AC3.
-        pass
+
+        while Q:
+
+            variable = Q.pop()
+            column_changed, column_failure = self.remove_domain_column(
+                grid, variable[0], variable[1]
+            )
+
+            if column_failure:
+                return False
+
+            row_changed, row_failure = self.remove_domain_row(
+                grid, variable[0], variable[1]
+            )
+
+            if row_failure:
+                return False
+
+            unit_changed, unit_failure = self.remove_domain_unit(
+                grid, variable[0], variable[1]
+            )
+
+            if unit_failure:
+                return False
+
+            Q.update(column_changed + row_changed + unit_changed)
+
+        return True
 
 
 class Backtracking:
@@ -375,11 +418,15 @@ class Backtracking:
 
         variable = var_selector.select_variable(grid)
 
-        for value in grid.get_cells()[variable[0]][variable[1]]:
-            if self.check_consistency(grid, variable, value):
-                cloned_grid = grid.copy()
-                cloned_grid.get_cells()[variable[0]][variable[1]] = value
+        ac = AC3()
 
+        domain = grid.get_cells()[variable[0]][variable[1]]
+
+        for value in domain:
+            grid.get_cells()[variable[0]][variable[1]] = value
+
+            cloned_grid = grid.copy()
+            if ac.consistency(cloned_grid, set([variable])):
                 rb = Backtracking().search(cloned_grid, var_selector)
 
                 if rb is not None:
@@ -389,19 +436,40 @@ class Backtracking:
 
 
 if __name__ == "__main__":
-    file = open("tutorial_problem.txt", "r")
-    # file = open('top95.txt', 'r')
+    # file = open("tutorial_problem.txt", "r")
+    file = open("top95.txt", "r")
     problems = file.readlines()
+
+    MRVTimes = []
+    FATimes = []
 
     for p in problems:
         # Read problem from string
         g = Grid()
         g.read_file(p)
 
-        print("Currently solving puzzle: ")
-        g.print()
-        print()
+        ac = AC3()
+        ac.pre_process_consistency(g)
 
-        solved = Backtracking().search(g, var_selector=FirstAvailable())
+        back = Backtracking()
 
-        solved.print()
+        MRV_start = perf_counter()
+        MRV_soln = back.search(g, var_selector=MRV())
+        MRV_end = perf_counter()
+
+        FA_start = perf_counter()
+        FA_soln = back.search(g, var_selector=FirstAvailable())
+        FA_end = perf_counter()
+
+        MRVTimes.append(MRV_end - MRV_start)
+        FATimes.append(FA_end - FA_start)
+
+        if not (MRV_soln and FA_soln):
+            print("ERROR: NO SOLN FOUND")
+
+    plotter = PlotResults()
+
+    plotter.plot_results(MRVTimes, FATimes, "MRV (s)", "FA (s)", "asd")
+
+    print(MRVTimes)
+    print(FATimes)
