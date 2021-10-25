@@ -25,7 +25,7 @@
   ],
   "[tex]": {
     "editor.wordWrapColumn": 80,
-    "editor.wordWrap": "bounded",
+    "editor.wordWrap": "wordWrapColumn",
     },
     "grammarly.overrides": [
       {
