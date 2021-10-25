@@ -1,0 +1,33 @@
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.5cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikzscale}
+
+\pgfplotsset{compat=1.17}
+
+\begin{filecontents}{runtime.tikz}
+  \begin{tikzpicture}
+    \begin{axis}[
+        ylabel = MRV,
+        xlabel = First Available,
+    ]
+    
+    \addplot[only marks, scatter]table{cost.dat};
+    \addplot [black, mark=none] coordinates {(0,0) (250, 250)};
+    \end{axis}
+    \end{tikzpicture}
+\end{filecontents}
+
+\title{CMPUT 366 Assignment 1}
+\author{Michael Kwok}
+
+\begin{document}
+\maketitle
+
+\end{document}
