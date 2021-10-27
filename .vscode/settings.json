@@ -1,9 +1,17 @@
 {
-  "editor.rulers": [120],
+  "editor.rulers": [
+    120
+  ],
+  "[latex]": {
+    "editor.wordWrapColumn": 120,
+    "editor.wordWrap": "wordWrapColumn",
+  },
   "latex-workshop.latex.recipes": [
     {
       "name": "latexmk",
-      "tools": ["latexmk"]
+      "tools": [
+        "latexmk"
+      ]
     }
   ],
   "latex-workshop.latex.rootFile.useSubFile": false,
@@ -23,28 +31,15 @@
       ]
     }
   ],
-  "[tex]": {
-    "editor.wordWrapColumn": 80,
-    "editor.wordWrap": "wordWrapColumn",
-    },
-    "grammarly.overrides": [
-      {
-        "files": [
-          "**/Labs/Lab1/doc/report.tex"
-        ],
-        "config": {
-          "audience": "expert",
-          "dialect": "british",
-          "domain": "technical",
-          "emotions": [
-            "neutral",
-            "confident",
-            "analytical"
-          ],
-          "goals": [
-            "inform"
-          ]
-        }
-      }
-    ]
+  "grammarly.audience": "expert",
+  "grammarly.dialect": "british",
+  "grammarly.domain": "technical",
+  "grammarly.emotions": [
+    "neutral",
+    "confident",
+    "analytical"
+  ],
+  "grammarly.goals": [
+    "inform"
+  ]
 }

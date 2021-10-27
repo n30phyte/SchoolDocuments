@@ -1,31 +1,4 @@
-# gitignore template for Xilinx Vivado Design Suite
-# website: https://www.xilinx.com/support/download.html
-
-# [home]
-*.jou
-*.log
-*.debug
-*.str
-*.zip
-*.tmp
-*.rst
-*.os
-*.js
-*.pb
-*.dcp
-*.hwdef
-*.vds
-*.veo
-*.wdf
-*.vdi
-*.dmp
-*.rpx
-*.rpt
-*_stub.v
-*_stub.vhdl
-*_funcsim.v
-*_funcsim.vhdl
-.project
+# Vivado
 
 # [dir]
 *.cache
@@ -39,129 +12,25 @@
 
 ### IP synth
 *_synth_*
-
 .jobs
 
 ### project synth
-**/*.runs/synth*/*.xml
-**/*.runs/synth*/*.txt
-**/*.runs/synth*/*.sh
-**/*.runs/synth*/*.tcl
-**/*.runs/synth*/*.bat
-**/*.runs/synth*/*.xdc
+**/*.runs/synth*/**
 !**/*.runs/synth*/*utilization*.rpt
-
-**.runs/synth*/*.xml
-**.runs/synth*/*.txt
-**.runs/synth*/*.sh
-**.runs/synth*/*.tcl
-**.runs/synth*/*.bat
-**.runs/synth*/*.xdc
-!**.runs/synth*/*utilization*.rpt
+__synthesis_is_complete__
+**/timing_analyses/**
 
 ### project impl
-**/*.runs/impl*/*.xml
-**/*.runs/impl*/*.html
-**/*.runs/impl*/*.txt
-**/*.runs/impl*/*.sh
-**/*.runs/impl*/*.tcl
-**/*.runs/impl*/*.bat
-**/*.runs/impl*/*.bit
+**/*.runs/impl*/**
 !**/*.runs/impl*/*utilization*.rpt
 
 **/*.sim/*
 
-*.runs/impl*/*.xml
-*.runs/impl*/*.html
-*.runs/impl*/*.txt
-*.runs/impl*/*.sh
-*.runs/impl*/*.tcl
-*.runs/impl*/*.bat
-*.runs/impl*/*.bit
-!*.runs/impl*/*utilization*.rpt
-
-
 ### block design
-*/*/bd/*/hdl
-*/*/*/bd/*/hdl
-
-*/*/bd/*/*.xdc
-*/*/*/bd/*/*.xdc
-
-*/*/bd/*/ip/*/*.xdc
-*/*/*/bd/*/ip/*/*.xdc
-
-*/*/bd/*/ip/*/*/
-*/*/*/bd/*/ip/*/*/
-
-*/*/bd/*/ip/*/*.vhd
-*/*/*/bd/*/ip/*/*.vhd
-
-*/*/bd/*/ip/*/*.xml
-*/*/*/bd/*/ip/*/*.xml
-
-*.c
-*.h
-*.vho
-*.html
-*/*/bd/*/ip/*/*.tcl
-*/*/*/bd/*/ip/*/*.tcl
 hw_handoff
 ipshared
 
-# ignore ModelSim generated files and directories (temp files and so on)
-[_@]*
-
-# ignore compilation output of ModelSim
-*.mti
-*.dat
-*.dbs
-*.psm
-*.bak
-*.cmp
-*.jpg
-*.html
-*.bsf
-
-# ignore simulation output of ModelSim
-wlf*
-*.wlf
-*.vstf
-*.ucdb
-cov*/
-transcript*
-sc_dpiheader.h
-vsim.dbg
-
-# Working with Altera Quartus II (Q2) and do proper versioning is not that easy
-# but if you follow some rules it can be accomplished. :)
-# This file should be placed into the main directory where the .qpf file is
-# found. Generally Q2 throws all entities and so on in the main directory, but
-# you can place all stuff also in separate folders. This approach is followed
-# here. So when you create a new design create one or more folders where your
-# entities will be located and put a .gitignore in there that overrides the
-# ignores of this file, e.g. one single rule stating "!*" which allows now all
-# type of files. When you add a MegaFunction or another entity to your design,
-# simply add it to one of your private folders and Q2 will be happy and manage
-# everything quite good. When you want to do versioning of your generated
-# SOF/POF files, you can do this by redirecting the generated output to an own
-# folder. To do this go to:
-# "Assignments"
-# -> "Settings
-# -> "Compilation Process Settings"
-# -> "Save project output files in specified directory"
-# Now you can either place a .gitignore in the directory and allow the following
-# list of types:
-# !*.sof
-# !*.pof
-# or you create an own submodule in the folder to keep binary files out of your
-# design.
-
-# Need to keep all HDL files
-# *.vhd
-# *.v
-
-# ignore Quartus II generated files
+# Quartus generated files
 *_generation_script*
 *_inst.vhd
 *.bak
@@ -172,7 +41,7 @@ vsim.dbg
 *.html
 *.jdi
 *.jpg
-# *.mif
+*.mif
 *.pin
 *.pof
 *.ptf.*
@@ -188,18 +57,14 @@ vsim.dbg
 *~
 *example*
 *sopc_*
-# *.sdc # I want those timing files
 
-# ignore Quartus II generated folders
-*/db/
-*/incremental_db/
-*/simulation/
-*/timing/
-*/testbench/
-*/*_sim/
-incremental_db/
-db/
-output_files/
+**/db/
+**/incremental_db/
+**/simulation/
+**/timing/
+**/testbench/
+**/*_sim/
+**/output_files/
 PLLJ_PLLSPE_INFO.txt
 
 # GHDL outputs
