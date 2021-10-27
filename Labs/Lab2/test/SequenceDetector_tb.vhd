@@ -19,8 +19,10 @@ ARCHITECTURE Behavioural OF SequenceDetector_tb IS
   SIGNAL seq_in_tb       : STD_LOGIC := '0';
   SIGNAL detector_out_tb : STD_LOGIC;
 
-  CONSTANT input_stimulus  : STD_LOGIC_VECTOR(0 TO 22) := "01101101110110001101011";
-  CONSTANT clock_period_tb : TIME                      := 40 ns; --1/25MHz => 40ns
+  CONSTANT input_stimulus : STD_LOGIC_VECTOR(0 TO 22) := "01101101110110001101011";
+
+  --1/25MHz => 40ns
+  CONSTANT clock_period_tb : TIME := 40 ns;
 
 BEGIN
 

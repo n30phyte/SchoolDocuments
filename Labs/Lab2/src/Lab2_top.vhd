@@ -15,13 +15,13 @@ ENTITY lab2_top IS
   PORT (
     global_clk     : IN STD_LOGIC;
     reset          : IN STD_LOGIC;
-    item_sel       : IN STD_LOGIC;                     -- 0 for Soft Drink ($2), 1 for Granola ($4)
-    coins_in       : IN STD_LOGIC_VECTOR(1 DOWNTO 0);  -- "00" - 0$, "01" - 1$, "10" - 2$, "11" - 3$
-    change_out     : OUT STD_LOGIC_VECTOR(1 DOWNTO 0); -- changeout is displayed on two leds - "00" - 0$ "01" - 1$, "10" - 2$ and "11" - 3$
-    display_sum    : OUT STD_LOGIC_VECTOR(6 DOWNTO 0); -- display the current sum of inserted money on the seven segment
-    select_segment : OUT STD_LOGIC;                    -- select the left or right segment
-    soft_drink     : OUT STD_LOGIC;                    -- turn on the LED to dispense soft drink
-    granola_bar    : OUT STD_LOGIC);                   -- turn on the LED to dispense granola bar
+    item_sel       : IN STD_LOGIC;
+    coins_in       : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+    change_out     : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
+    display_sum    : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
+    select_segment : OUT STD_LOGIC;
+    soft_drink     : OUT STD_LOGIC;
+    granola_bar    : OUT STD_LOGIC);
 END ENTITY;
 
 ARCHITECTURE Structural OF lab2_top IS

@@ -1,3 +1,12 @@
+--------------------------------------------------------------------------------
+-- Vending Machine with Mealy FSM
+-- 
+--TODO: Describe
+-- Authors: Michael Kwok (mkwok1@ualberta.ca)
+-- Create Date: 2021-10-20
+-- 
+-- Written in VHDL 2008
+--------------------------------------------------------------------------------
 
 LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
@@ -5,15 +14,16 @@ USE ieee.numeric_std.ALL;
 
 ENTITY VendingMachine IS
   PORT (
-    clk            : IN STD_LOGIC;
-    reset          : IN STD_LOGIC;
-    item_sel       : IN STD_LOGIC;                     -- 0 for Soft Drink ($2), 1 for Granola ($4)
-    coins_in       : IN STD_LOGIC_VECTOR(1 DOWNTO 0);  -- "00" - 0$, "01" - 1$, "10" - 2$, "11" - 3$
-    change_out     : OUT STD_LOGIC_VECTOR(1 DOWNTO 0); -- changeout is displayed on two leds - "00" - 0$ "01" - 1$, "10" - 2$ and "11" - 3$
-    display_sum    : OUT STD_LOGIC_VECTOR(6 DOWNTO 0); -- display the current sum of inserted money on the seven segment
-    select_segment : OUT STD_LOGIC;                    -- select the left or right segment
-    soft_drink     : OUT STD_LOGIC;                    -- turn on the LED to dispense soft drink
-    granola_bar    : OUT STD_LOGIC);                   -- turn on the LED to dispense granola bar
+    clk   : IN STD_LOGIC;
+    reset : IN STD_LOGIC;
+
+    item_sel       : IN STD_LOGIC;                     -- 0 for Soft Drink, 1 for Granola
+    coins_in       : IN STD_LOGIC_VECTOR(1 DOWNTO 0);  -- Represented in binary integers
+    change_out     : OUT STD_LOGIC_VECTOR(1 DOWNTO 0); -- Represented in binary integers
+    display_sum    : OUT STD_LOGIC_VECTOR(6 DOWNTO 0); -- Seven Segment output of current money in the system
+    select_segment : OUT STD_LOGIC;                    -- Seven Segment select side
+    soft_drink     : OUT STD_LOGIC;                    -- Soft Drink indicator
+    granola_bar    : OUT STD_LOGIC);                   -- Granola Bar Indicator
 END ENTITY;
 
 ARCHITECTURE Behavioral OF VendingMachine IS

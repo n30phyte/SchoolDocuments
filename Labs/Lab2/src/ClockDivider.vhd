@@ -1,3 +1,12 @@
+--------------------------------------------------------------------------------
+-- Clock Divider for ECE 410
+-- 
+-- Authors: Michael Kwok (mkwok1@ualberta.ca)
+-- Create Date: 2021-10-20
+-- 
+-- Written in VHDL 2008
+--------------------------------------------------------------------------------
+
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;

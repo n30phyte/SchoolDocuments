@@ -1,3 +1,12 @@
+--------------------------------------------------------------------------------
+-- Overlapping sequence detector for pattern '11011' with Mealy FSM
+-- 
+-- Authors: Michael Kwok (mkwok1@ualberta.ca)
+-- Create Date: 2021-10-20
+-- 
+-- Written in VHDL 2008
+--------------------------------------------------------------------------------
+
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
