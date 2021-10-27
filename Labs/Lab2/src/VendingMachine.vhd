@@ -17,13 +17,20 @@ ENTITY VendingMachine IS
     clk   : IN STD_LOGIC;
     reset : IN STD_LOGIC;
 
-    item_sel       : IN STD_LOGIC;                     -- 0 for Soft Drink, 1 for Granola
-    coins_in       : IN STD_LOGIC_VECTOR(1 DOWNTO 0);  -- Represented in binary integers
-    change_out     : OUT STD_LOGIC_VECTOR(1 DOWNTO 0); -- Represented in binary integers
-    display_sum    : OUT STD_LOGIC_VECTOR(6 DOWNTO 0); -- Seven Segment output of current money in the system
-    select_segment : OUT STD_LOGIC;                    -- Seven Segment select side
-    soft_drink     : OUT STD_LOGIC;                    -- Soft Drink indicator
-    granola_bar    : OUT STD_LOGIC);                   -- Granola Bar Indicator
+    -- 0 for Soft Drink, 1 for Granola
+    item_sel : IN STD_LOGIC;
+    -- Represented in binary integers
+    coins_in : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+    -- Represented in binary integers
+    change_out : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
+    -- Seven Segment output of current money in the system
+    display_sum : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
+    -- Seven Segment select side
+    select_segment : OUT STD_LOGIC;
+    -- Soft Drink indicator
+    soft_drink : OUT STD_LOGIC;
+    -- Granola Bar Indicator
+    granola_bar : OUT STD_LOGIC);
 END ENTITY;
 
 ARCHITECTURE Behavioral OF VendingMachine IS

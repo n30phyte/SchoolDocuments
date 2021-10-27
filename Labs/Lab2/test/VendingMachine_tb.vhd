@@ -94,7 +94,7 @@ BEGIN
     WAIT UNTIL falling_edge(clk_design);
 
     ASSERT change = "10"
-    REPORT "CHANGE NOT DISPENSED"
+    REPORT "PROPER CHANGE NOT DISPENSED"
       SEVERITY failure;
     WAIT UNTIL falling_edge(clk_design);
     WAIT UNTIL falling_edge(clk_design);
@@ -103,6 +103,20 @@ BEGIN
     REPORT "GRANOLA BAR NOT DISPENSED"
       SEVERITY failure;
 
+    WAIT UNTIL falling_edge(clk_design);
+
+    item_select <= '1';
+    coins       <= "11";
+    WAIT UNTIL falling_edge(clk_design);
+
+    coins <= "10";
+    WAIT UNTIL falling_edge(clk_design);
+
+    ASSERT change = "01"
+    REPORT "PROPER CHANGE NOT DISPENSED"
+      SEVERITY failure;
+    WAIT UNTIL falling_edge(clk_design);
+    WAIT UNTIL falling_edge(clk_design);
     WAIT UNTIL falling_edge(clk_design);
 
     finish;
