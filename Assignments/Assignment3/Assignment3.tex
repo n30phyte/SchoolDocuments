@@ -24,7 +24,22 @@
 \begin{document}
 \maketitle
 \begin{enumerate}
-  \item
+    \item The synthesis tool goes through each condition of the \textit{if-generate} statement until the first valid condition or the (optional) else block is reached during the elaboration step. For the \textit{case-generate} statement, an expression that is computable during elaboration will be calculated to find the matching \textit{when} arm, and that will be the netlist generated for that case.
+          %TODO: Add examples
+
+          if-generate:
+          \begin{minted}{vhdl}
+
+  \end{minted}
+
+    \item
+
+    \item
+
+    \item By designing the datapath first from the algorithm, the control signals required for each step can be extracted and be used when designing the controller. If the controller was to be designed first, the designer would have to think ahead to avoid creating insufficient controller signals, and having to force the datapath's design around insufficient control signals. There might also be status signals that the controller assumes are required but the datapath might not need. Overall, it could cause an ineffecient final design.
+
+    \item
+
 
 \end{enumerate}
 \end{document}
