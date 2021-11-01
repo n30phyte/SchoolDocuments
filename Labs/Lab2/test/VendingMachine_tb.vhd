@@ -1,3 +1,11 @@
+--------------------------------------------------------------------------------
+-- Testbench for Vending Machine
+-- 
+-- Authors: Michael Kwok (mkwok1@ualberta.ca)
+-- Create Date: 2021-10-20
+-- 
+-- Written in VHDL 2008
+--------------------------------------------------------------------------------
 
 LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;

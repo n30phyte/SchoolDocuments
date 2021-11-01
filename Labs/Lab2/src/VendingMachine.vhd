@@ -1,7 +1,17 @@
 --------------------------------------------------------------------------------
 -- Vending Machine with Mealy FSM
 -- 
---TODO: Describe
+-- Inputs:
+-- item_sel: 0 for Soft Drink, 1 for Granola Bar
+-- coins_in: Binary integer for value of coin input
+-- Outputs:
+-- change_out: Binary integer for value of change returned
+-- display_sum: Seven segment specific output for money in machine.
+--              ABCDEF 6:0
+-- select_segment: Segment to display with, 0: left, 1: right
+-- soft_drink: Soft Drink output indicator
+-- granola_bar: Granola Bar output indicator
+--
 -- Authors: Michael Kwok (mkwok1@ualberta.ca)
 -- Create Date: 2021-10-20
 -- 
@@ -14,23 +24,15 @@ USE ieee.numeric_std.ALL;
 
 ENTITY VendingMachine IS
   PORT (
-    clk   : IN STD_LOGIC;
-    reset : IN STD_LOGIC;
-
-    -- 0 for Soft Drink, 1 for Granola
-    item_sel : IN STD_LOGIC;
-    -- Represented in binary integers
-    coins_in : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
-    -- Represented in binary integers
-    change_out : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
-    -- Seven Segment output of current money in the system
-    display_sum : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
-    -- Seven Segment select side
+    clk            : IN STD_LOGIC;
+    reset          : IN STD_LOGIC;
+    item_sel       : IN STD_LOGIC;
+    coins_in       : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+    change_out     : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
+    display_sum    : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
     select_segment : OUT STD_LOGIC;
-    -- Soft Drink indicator
-    soft_drink : OUT STD_LOGIC;
-    -- Granola Bar Indicator
-    granola_bar : OUT STD_LOGIC);
+    soft_drink     : OUT STD_LOGIC;
+    granola_bar    : OUT STD_LOGIC);
 END ENTITY;
 
 ARCHITECTURE Behavioral OF VendingMachine IS
