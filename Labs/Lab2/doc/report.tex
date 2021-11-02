@@ -14,6 +14,7 @@
 \usepackage{minted}
 \usepackage{fontspec}
 \usepackage{hyperref}
+\usepackage{pdflscape}
 \usepackage[style=ieee]{biblatex}
 
 \setmainfont{Noto Serif}
@@ -105,6 +106,8 @@ The system was required to stop accepting money as soon as the selected item can
 
 For the seven-segment display output, a lookup table-like pure function was made, to reduce the presence of ``magic strings'' in the implementation code.
 
+A state diagram and state change table is provided in the Appendix.
+
 \section{Testing \& Simulation}
 
 Both systems were initially tested with the XSim (Vivado) simulator before being implemented to hardware and then tested physically.
@@ -134,7 +137,81 @@ The use of a seven segment display was also demonstrated, along with learning to
 
 % \section{References}
 \pagebreak
-\section{Appendix}
+
+\begin{landscape}
+  \section{Appendix}
+  \subsection{Vending Machine State Diagram}
+  \begin{center}
+    \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm]
+      \node[state,initial] (sum0) {$sum_0$};
+      \node[state] (sum3) [right of=sum0] {$sum_3$};
+      \node[state] (sum2) [right of=sum3] {$sum_2$};
+      \node[state] (sum1) [right of=sum2] {$sum_1$};
+      \node[state] (sum4) [right of=sum1] {$sum_4$};
+      \node[state] (dispense) [right of=sum4] {$dispense$};
+      \node[state] (sum5) [right of=dispense] {$sum_5$};
+      \node[state] (sum6) [right of=sum5] {$sum_6$};
+
+      \path[->]
+      (sum0) edge [loop right] node {} ()
+      (sum0) edge [bend left] node {} (sum3)
+      (sum0) edge [bend left] node {} (sum2)
+      (sum0) edge [bend left] node {} (sum1)
+      (sum3) edge [loop right] node {} ()
+      (sum3) edge [bend left] node {} (sum2)
+      (sum3) edge [bend left] node {} (sum4)
+      (sum3) edge [bend left] node {} (sum5)
+      (sum3) edge [bend left] node {} (sum6)
+      (sum2) edge [loop right] node {} ()
+      (sum2) edge [bend left] node {} (sum4)
+      (sum2) edge [bend left] node {} (dispense)
+      (sum2) edge [bend left] node {} (sum5)
+      (sum1) edge [loop right] node {} ()
+      (sum1) edge [bend left] node {} (sum4)
+      (sum4) edge [bend left] node {} (dispense)
+      (sum5) edge [bend left] node {} (sum4)
+      (sum6) edge [bend left] node {} (sum4)
+      (dispense) edge [bend left] node {} (sum0)
+      (sum4) edge [bend left] node {} (sum2)
+      (sum1) edge [bend left] node {} (sum2)
+      (sum1) edge [bend left] node {} (sum3)
+      (sum2) edge [bend left] node {} (sum3);
+    \end{tikzpicture}
+  \end{center}
+\end{landscape}
+
+\begin{center}
+  \begin{tabular}{c c c c}
+    \toprule
+    Start State & End State & Condition (Coins In)/(Item Sel) & Output (Change)/(Soda)/(Granola) \\
+    \midrule
+    $sum_0$     & $sum_0$   & 00/x                            & 00/0/0                           \\
+    $sum_0$     & $sum_1$   & 01/x                            & 00/0/0                           \\
+    $sum_0$     & $sum_2$   & 10/x                            & 00/0/0                           \\
+    $sum_0$     & $sum_3$   & 11/x                            & 00/0/0                           \\
+    $sum_1$     & $sum_1$   & 00/x                            & 00/0/0                           \\
+    $sum_1$     & $sum_2$   & 01/x                            & 00/0/0                           \\
+    $sum_1$     & $sum_3$   & 10/x                            & 00/0/0                           \\
+    $sum_1$     & $sum_4$   & 11/x                            & 00/0/0                           \\
+    $sum_2$     & $sum_2$   & 00/1                            & 00/0/0                           \\
+    $sum_2$     & $sum_3$   & 01/1                            & 00/0/0                           \\
+    $sum_2$     & $sum_4$   & 10/1                            & 00/0/0                           \\
+    $sum_2$     & $sum_5$   & 11/1                            & 00/0/0                           \\
+    $sum_2$     & Dispense  & xx/0                            & 00/0/0                           \\
+    $sum_3$     & $sum_2$   & xx/0                            & 01/0/0                           \\
+    $sum_3$     & $sum_3$   & 00/1                            & 00/0/0                           \\
+    $sum_3$     & $sum_4$   & 01/1                            & 00/0/0                           \\
+    $sum_3$     & $sum_5$   & 10/1                            & 00/0/0                           \\
+    $sum_3$     & $sum_6$   & 11/1                            & 00/0/0                           \\
+    $sum_4$     & $sum_2$   & xx/0                            & 10/0/0                           \\
+    $sum_4$     & Dispense  & xx/1                            & 00/0/0                           \\
+    $sum_5$     & $sum_4$   & xx/x                            & 01/0/0                           \\
+    $sum_6$     & $sum_4$   & xx/x                            & 10/0/0                           \\
+    Dispense    & $sum_0$   & xx/x                            & 00/Item Sel/!Item Sel            \\
+    \bottomrule
+  \end{tabular}
+\end{center}
+\pagebreak
 
 \subsection{Top Level File}
 \inputminted{vhdl}{../src/Lab2_top.vhd}
