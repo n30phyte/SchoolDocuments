@@ -11,7 +11,7 @@ ENTITY Accumulator IS PORT (
 
 END ENTITY;
 
-ARCHITECTURE Behavioral OF Accumulator IS
+ARCHITECTURE Behavioural OF Accumulator IS
 
 BEGIN
 

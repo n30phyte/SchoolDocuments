@@ -1,62 +1,27 @@
-----------------------------------------------------------------------------------
--- Company: Department of Electrical and Computer Engineering, University of Alberta
--- Engineer: Shyama Gandhi and Bruce Cockburn
---
--- Create Date: 10/29/2020 07:18:24 PM
--- Design Name:
--- Module Name: cpu - structural(datapath)
--- Project Name:
--- Target Devices:
--- Tool Versions:
--- Description: CPU LAB 3 - ECE 410 (2020)
---
--- Dependencies:
---
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
---*********************************************************************************
--- This reg_file has 8 locations each of 8-bits. Address lines are used to select from 
--- R[0]:R[7]. A write enable port helps to write to respective location of register.
--- A given instruction will perform either read or write any given time and not both
--- at the same time.
------------------------------
-
-
 LIBRARY ieee;
-USE ieee.std_logic_1164.all;
+USE ieee.std_logic_1164.ALL;
 USE IEEE.STD_LOGIC_UNSIGNED.ALL;
 
-entity reg_file is PORT(
-            clk_rf          : IN std_logic;
-            wr_rf           : IN std_logic;
-            addr_rf         : IN std_logic_vector(2 DOWNTO 0); -- addresses 8 locations in the register file
-            input_rf        : IN std_logic_vector(7 DOWNTO 0);
-            output_rf       : OUT std_logic_vector(7 DOWNTO 0));
-end reg_file;
+ENTITY RegisterFile IS PORT (
+  clk_rf    : IN STD_LOGIC;
+  wr_rf     : IN STD_LOGIC;
+  addr_rf   : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+  input_rf  : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+  output_rf : OUT STD_LOGIC_VECTOR(7 DOWNTO 0));
+END ENTITY;
 
-architecture Behavior of reg_file is 
-    SUBTYPE reg IS STD_LOGIC_VECTOR(7 DOWNTO 0);
-    TYPE regArray IS array(0 to 7) OF reg;
-    SIGNAL RF: regArray; --register file contents
-    
-    BEGIN
-        PROCESS(clk_rf,wr_rf)
-        BEGIN
-            IF(clk_rf'event AND clk_rf = '1')THEN
-                IF(wr_rf = '1')THEN
-		-- ********************************************************
-		-- write one of line here
+ARCHITECTURE Behavioural OF RegisterFile IS
+  SUBTYPE reg IS STD_LOGIC_VECTOR(7 DOWNTO 0);
+  TYPE regArray IS ARRAY(0 TO 7) OF reg;
+  SIGNAL RF : regArray;
 
-		-----------------------------------------------------------
-                ELSE
-		-- ********************************************************
-		-- write one of line here
-
-		-----------------------------------------------------------
-                END IF;         
-            END IF;     
-        END PROCESS;
-        
-        
-end Behavior;            
+BEGIN
+  PROCESS (clk_rf, wr_rf)
+  BEGIN
+    IF (clk_rf'event AND clk_rf = '1') THEN
+      IF (wr_rf = '1') THEN
+      ELSE
+      END IF;
+    END IF;
+  END PROCESS;
+END ARCHITECTURE;
