@@ -32,7 +32,13 @@
 
   \end{minted}
 
-    \item
+    \item Available microcontrollers might not have the requisite speed to process the data the way the system needs it to, so a custom data processing hardware design might be required, such as navigation guidance systems where the data needs to be processed extremely quickly.
+
+          Power effeciency of more specialized hardware as compared to a general microcontroller is a reason to design bespoke hardware for the task. When the task is known, unused hardware can be disabled, such as turning off the multiplier circuit when the current phase of the task only needs integer rotation, which greatly reduces static power usage of the circuit.
+
+          A design done in hardware is likely to be more reliable. %TODO: Expand
+
+
 
     \item
 
