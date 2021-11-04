@@ -2,110 +2,131 @@ LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
 
 ENTITY CpuCore IS PORT (
-  clk_cpu      : IN STD_LOGIC;
-  rst_cpu      : IN STD_LOGIC;
-  entered_ip   : IN STD_LOGIC;
-  input_cpu    : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-  output_cpu   : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-  PC_output    : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
-  OPCODE_ouput : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-  done_cpu     : OUT STD_LOGIC);
+  clk             : IN STD_LOGIC;
+  reset           : IN STD_LOGIC;
+  enter           : IN STD_LOGIC;
+  user_input      : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+  datapath_output : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+  pc_output       : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
+  opcode_output   : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+  done            : OUT STD_LOGIC);
 END ENTITY;
 
 ARCHITECTURE Structural OF CpuCore IS
+  COMPONENT ControlUnit IS PORT (
+    clk   : IN STD_LOGIC;
+    reset : IN STD_LOGIC;
+    enter : IN STD_LOGIC;
 
-  COMPONENT controller PORT (
-    clk_ctrl      : IN STD_LOGIC;
-    rst_ctrl      : IN STD_LOGIC;
-    enter         : IN STD_LOGIC;
-    muxsel_ctrl   : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
-    imm_ctrl      : BUFFER STD_LOGIC_VECTOR(7 DOWNTO 0);
-    accwr_ctrl    : OUT STD_LOGIC;
-    rfaddr_ctrl   : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-    rfwr_ctrl     : OUT STD_LOGIC;
-    alusel_ctrl   : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-    outen_ctrl    : OUT STD_LOGIC;
-    zero_ctrl     : IN STD_LOGIC;
-    positive_ctrl : IN STD_LOGIC;
-    PC_out        : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
-    OP_out        : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+    -- Control Signals
+    sel_mux        : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
+    immediate      : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+    we_accumulator : OUT STD_LOGIC;
+    addr_regfile   : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+    we_regfile     : OUT STD_LOGIC;
+    sel_alu        : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+    out_en         : OUT STD_LOGIC;
+    flag_zero      : IN STD_LOGIC;
+    flag_positive  : IN STD_LOGIC;
+    nibble_sel     : OUT STD_LOGIC;
+    bit_shift_num  : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
 
-    bit_sel_ctrl    : OUT STD_LOGIC;
-    bits_shift_ctrl : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
+    -- Progmem Signals
+    pm_addr : OUT INTEGER RANGE 0 TO 31 := 0;
+    ram_in  : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-    done : OUT STD_LOGIC);
+    -- Debug Output
+    PC_out : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
+    OP_out : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+    done   : OUT STD_LOGIC);
   END COMPONENT;
 
-  COMPONENT datapath PORT (
-    clk_dp    : IN STD_LOGIC;
-    rst_dp    : IN STD_LOGIC;
-    muxsel_dp : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
-    imm_dp    : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-    input_dp  : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-    accwr_dp  : IN STD_LOGIC;
-    rfaddr_dp : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
-    rfwr_dp   : IN STD_LOGIC;
-    alusel_dp : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
-    outen_dp  : IN STD_LOGIC;
+  COMPONENT Datapath IS PORT (
+    clk   : IN STD_LOGIC;
+    reset : IN STD_LOGIC;
 
-    bits_sel_dp   : IN STD_LOGIC;
-    bits_shift_dp : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+    -- Control Signals
+    sel_mux        : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+    immediate      : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+    we_accumulator : IN STD_LOGIC;
+    addr_regfile   : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+    we_regfile     : IN STD_LOGIC;
+    sel_alu        : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+    out_en         : IN STD_LOGIC;
+    nibble_sel     : IN STD_LOGIC;
+    bit_shift_num  : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+    flag_zero      : OUT STD_LOGIC;
+    flag_positive  : OUT STD_LOGIC;
 
-    zero_dp     : OUT STD_LOGIC;
-    positive_dp : OUT STD_LOGIC;
-    output_dp   : OUT STD_LOGIC_VECTOR(7 DOWNTO 0));
+    -- Bus Signals
+    user_input      : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+    datapath_output : OUT STD_LOGIC_VECTOR(7 DOWNTO 0));
   END COMPONENT;
 
-  SIGNAL C_immediate                                           : STD_LOGIC_VECTOR(7 DOWNTO 0);
-  SIGNAL C_accwr, C_rfwr, C_outen, C_zero, C_positive, bit_sel : STD_LOGIC;
-  SIGNAL C_muxsel                                              : STD_LOGIC_VECTOR(1 DOWNTO 0);
-  SIGNAL bits_shift                                            : STD_LOGIC_VECTOR(1 DOWNTO 0);
-  SIGNAL C_rfaddr, C_alusel                                    : STD_LOGIC_VECTOR(2 DOWNTO 0);
+  COMPONENT ProgMem IS PORT (
+    pm_addr : IN INTEGER RANGE 0 TO 31 := 0;
+    data    : OUT STD_LOGIC_VECTOR(7 DOWNTO 0));
+  END COMPONENT;
 
+  SIGNAL sel_mux_wire        : STD_LOGIC_VECTOR(1 DOWNTO 0);
+  SIGNAL immediate_wire      : STD_LOGIC_VECTOR(7 DOWNTO 0);
+  SIGNAL we_accumulator_wire : STD_LOGIC;
+  SIGNAL addr_regfile_wire   : STD_LOGIC_VECTOR(2 DOWNTO 0);
+  SIGNAL we_regfile_wire     : STD_LOGIC;
+  SIGNAL sel_alu_wire        : STD_LOGIC_VECTOR(2 DOWNTO 0);
+  SIGNAL out_en_wire         : STD_LOGIC;
+  SIGNAL nibble_sel_wire     : STD_LOGIC;
+  SIGNAL bit_shift_num_wire  : STD_LOGIC_VECTOR(1 DOWNTO 0);
+  SIGNAL flag_zero_wire      : STD_LOGIC;
+  SIGNAL flag_positive_wire  : STD_LOGIC;
+
+  SIGNAL pm_addr_wire : INTEGER RANGE 0 TO 31;
+  SIGNAL ram_wire     : STD_LOGIC_VECTOR(7 DOWNTO 0);
 BEGIN
-  U0 : controller PORT MAP(
-    clk_ctrl    => clk_cpu,
-    rst_ctrl    => rst_cpu,
-    enter       => entered_ip,
-    muxsel_ctrl => C_muxsel,
-    imm_ctrl    => C_immediate,
-    accwr_ctrl  => C_accwr,
 
-    -- *****************************
-    -- port map the remaining signals here...
+  cu : COMPONENT ControlUnit PORT MAP(
+    clk    => clk,
+    reset  => reset,
+    enter  => enter,
+    PC_out => pc_output,
+    OP_out => opcode_output,
+    done   => done,
 
-    -- *****************************
+    pm_addr => pm_addr_wire,
+    ram_in  => ram_wire,
 
-    alusel_ctrl   => C_alusel,
-    outen_ctrl    => C_outen,
-    zero_ctrl     => C_zero,
-    positive_ctrl => C_positive,
-    PC_out        => PC_output,
-    OP_out        => OPCODE_ouput,
+    sel_mux        => sel_mux_wire,
+    immediate      => immediate_wire,
+    we_accumulator => we_accumulator_wire,
+    addr_regfile   => addr_regfile_wire,
+    we_regfile     => we_regfile_wire,
+    sel_alu        => sel_alu_wire,
+    out_en         => out_en_wire,
+    nibble_sel     => nibble_sel_wire,
+    bit_shift_num  => bit_shift_num_wire,
+    flag_zero      => flag_zero_wire,
+    flag_positive  => flag_positive_wire);
 
-    -- *****************************
-    -- port map the remaining signals here...
+  dp : COMPONENT Datapath PORT MAP(
+    clk             => clk,
+    reset           => reset,
+    user_input      => user_input,
+    datapath_output => datapath_output,
 
-    -- *****************************
+    sel_mux        => sel_mux_wire,
+    immediate      => immediate_wire,
+    we_accumulator => we_accumulator_wire,
+    addr_regfile   => addr_regfile_wire,
+    we_regfile     => we_regfile_wire,
+    sel_alu        => sel_alu_wire,
+    out_en         => out_en_wire,
+    nibble_sel     => nibble_sel_wire,
+    bit_shift_num  => bit_shift_num_wire,
+    flag_zero      => flag_zero_wire,
+    flag_positive  => flag_positive_wire);
 
-    done => done_cpu);
+  ram : COMPONENT ProgMem PORT MAP(
+    pm_addr => pm_addr_wire,
+    data    => ram_wire);
 
-  U1 : datapath PORT MAP(
-    clk_dp    => clk_cpu,
-    rst_dp    => rst_cpu,
-    muxsel_dp => C_muxsel,
-    imm_dp    => C_immediate,
-    input_dp  => input_cpu,
-    accwr_dp  => C_accwr,
-    rfaddr_dp => C_rfaddr,
-    rfwr_dp   => C_rfwr,
-    alusel_dp => C_alusel,
-    outen_dp  => C_outen,
-
-    -- *****************************
-    -- port map the remaining signals here...
-
-    -- *****************************
-
-    output_dp => output_cpu);
 END ARCHITECTURE;

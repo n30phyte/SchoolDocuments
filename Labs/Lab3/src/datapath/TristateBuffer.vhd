@@ -9,11 +9,11 @@ END ENTITY;
 
 ARCHITECTURE Behavioural OF TriStateBuffer IS
 BEGIN
-  PROCESS
+  PROCESS (enable)
   BEGIN
     IF enable = '1' THEN
       Y <= D;
-    ELSE
+      ELSE
       Y <= (OTHERS => 'Z');
     END IF;
   END PROCESS;

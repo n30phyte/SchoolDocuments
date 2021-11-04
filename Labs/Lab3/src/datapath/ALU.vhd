@@ -12,7 +12,7 @@ END ENTITY;
 
 ARCHITECTURE Behavioural OF ALU IS
 BEGIN
-  PROCESS
+  PROCESS(A, B, rot_num, op)
   BEGIN
     CASE op IS
       WHEN "000" =>
@@ -20,9 +20,9 @@ BEGIN
       WHEN "001" =>
         Y <= A AND B;
       WHEN "010" =>
-        Y <= shift_left(SIGNED(A), rot_num);
+        Y <= shift_left(A, rot_num);
       WHEN "011" =>
-        Y <= shift_right(SIGNED(A), rot_num);
+        Y <= shift_right(A, rot_num);
       WHEN "100" =>
         Y <= A + B;
       WHEN "101" =>

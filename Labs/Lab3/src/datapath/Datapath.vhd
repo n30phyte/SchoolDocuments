@@ -17,7 +17,7 @@
 --  sel_alu        : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
 --  out_en         : IN STD_LOGIC;
 --  bit_sel        : IN STD_LOGIC;
---  bit_shift_amt : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+--  bit_shift_num : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
 --  flag_zero : OUT STD_LOGIC;
 --  flag_positive : OUT STD_LOGIC;
 --  datapath_output  : OUT STD_LOGIC_VECTOR(7 DOWNTO 0));
@@ -40,7 +40,7 @@ ENTITY Datapath IS PORT (
   sel_alu         : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
   out_en          : IN STD_LOGIC;
   nibble_sel      : IN STD_LOGIC;
-  bit_shift_amt   : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+  bit_shift_num   : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
   flag_zero       : OUT STD_LOGIC;
   flag_positive   : OUT STD_LOGIC;
   datapath_output : OUT STD_LOGIC_VECTOR(7 DOWNTO 0));
@@ -81,17 +81,17 @@ ARCHITECTURE Structural OF Datapath IS
 
   COMPONENT ALU IS PORT (
     op      : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
-    A       : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-    B       : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-    rot_num : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
-    Y       : OUT STD_LOGIC_VECTOR (7 DOWNTO 0));
+    A       : IN SIGNED(7 DOWNTO 0);
+    B       : IN SIGNED(7 DOWNTO 0);
+    rot_num : IN INTEGER RANGE 0 TO 3;
+    Y       : OUT SIGNED (7 DOWNTO 0));
   END COMPONENT;
 
   SIGNAL shifted_user_input : STD_LOGIC_VECTOR(7 DOWNTO 0);
   SIGNAL mux_output         : STD_LOGIC_VECTOR(7 DOWNTO 0);
   SIGNAL accumulator_output : STD_LOGIC_VECTOR(7 DOWNTO 0);
   SIGNAL regfile_output     : STD_LOGIC_VECTOR(7 DOWNTO 0);
-  SIGNAL alu_output         : STD_LOGIC_VECTOR(7 DOWNTO 0);
+  SIGNAL alu_output         : SIGNED(7 DOWNTO 0);
 BEGIN
 
   mux : COMPONENT MUX4 PORT MAP(
@@ -99,7 +99,7 @@ BEGIN
     D   => immediate,
     C   => shifted_user_input,
     B   => regfile_output,
-    A   => alu_output,
+    A   => STD_LOGIC_VECTOR(alu_output),
     Y   => mux_output);
 
   accu : COMPONENT Accumulator PORT MAP(
@@ -120,9 +120,9 @@ BEGIN
 
   arith : COMPONENT ALU PORT MAP(
     op      => sel_alu,
-    A       => accumulator_output,
-    B       => regfile_output,
-    rot_num => bit_shift_amt,
+    A       => SIGNED(accumulator_output),
+    B       => SIGNED(regfile_output),
+    rot_num => TO_INTEGER(UNSIGNED(bit_shift_num)),
     Y       => alu_output);
 
   tristate_buffer : COMPONENT TristateBuffer PORT MAP(
@@ -145,15 +145,9 @@ BEGIN
   PROCESS (clk)
   BEGIN
     IF rising_edge(clk) THEN
-
-      IF to_integer(signed(mux_output)) = 0 THEN
-        flag_zero <= '1';
-        ELSE
-        flag_zero <= '0';
-      END IF;
-
+      flag_zero     <= NOR mux_output;
+      flag_positive <= NOT mux_output(7);
     END IF;
-    flag_positive <= NOT mux_output(7);
   END PROCESS;
 
 END ARCHITECTURE;

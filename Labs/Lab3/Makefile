@@ -19,34 +19,10 @@ all: clean build run
 clean:
 	@rm -rf $(WORK_DIR)
 
+datapath:
+	@$(GHDL) -i $(GHDL_FLAGS) --workdir=$(WORK_DIR) --work=work datapath/*.vhdl
+
 build:
 	@mkdir -p $(WORK_DIR)
 
-ifeq ($(strip $(TESTBENCH)),)
-	@echo "TESTBENCH not set. Use TESTBENCH=<value> to set it."
-	@echo "Example: make TESTBENCH=adder"
-	@exit 1
-endif
-
 	@$(GHDL) -i $(GHDL_FLAGS) --workdir=$(WORK_DIR) --work=work $(TB_DIR)/$(TESTBENCH)_tb$(VHDL_EXT) $(SRC_DIR)
-	@$(GHDL) -m $(GHDL_FLAGS) --workdir=$(WORK_DIR) --work=work $(TESTBENCH)_tb
-
-run:
-	@mkdir -p $(SIM_DIR)
-
-ifeq ($(strip $(TESTBENCH)),)
-	@echo "TESTBENCH not set. Use TESTBENCH=<value> to set it."
-	@echo "Example: make TESTBENCH=adder"
-	@exit 1
-endif
-
-	@$(GHDL) -r $(GHDL_FLAGS) --workdir=$(WORK_DIR) $(TESTBENCH)_tb --vcd=$(SIM_DIR)/$(TESTBENCH)_tb.vcd
-
-# diagram:
-# 	@mkdir -p doc
-
-# ifeq ($(strip $(TOP_LEVEL)),)
-# 	@echo "TOP_LEVEL not set. Use TOP_LEVEL=<value> to set it."
-# 	@echo "Example: make TOP_LEVEL=adder"
-# 	@exit 1
-# endif

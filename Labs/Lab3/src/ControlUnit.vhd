@@ -3,36 +3,43 @@ USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.NUMERIC_STD.ALL;
 
 ENTITY ControlUnit IS PORT (
-  clk_ctrl      : IN STD_LOGIC;
-  rst_ctrl      : IN STD_LOGIC;
-  enter         : IN STD_LOGIC;
-  muxsel_ctrl   : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
-  imm_ctrl      : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-  accwr_ctrl    : OUT STD_LOGIC;
-  rfaddr_ctrl   : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-  rfwr_ctrl     : OUT STD_LOGIC;
-  alusel_ctrl   : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-  outen_ctrl    : OUT STD_LOGIC;
-  zero_ctrl     : IN STD_LOGIC;
-  positive_ctrl : IN STD_LOGIC;
-  PC_out        : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
-  OP_out        : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-  ---------------------------------------------------
-  bit_sel_ctrl    : OUT STD_LOGIC;
-  bits_shift_ctrl : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
-  ---------------------------------------------------
-  done : OUT STD_LOGIC);
+  clk   : IN STD_LOGIC;
+  reset : IN STD_LOGIC;
+  enter : IN STD_LOGIC;
+
+  -- Control Signals
+  sel_mux        : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
+  immediate      : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+  we_accumulator : OUT STD_LOGIC;
+  addr_regfile   : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+  we_regfile     : OUT STD_LOGIC;
+  sel_alu        : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+  out_en         : OUT STD_LOGIC;
+  flag_zero      : IN STD_LOGIC;
+  flag_positive  : IN STD_LOGIC;
+  nibble_sel     : OUT STD_LOGIC;
+  bit_shift_num  : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
+
+  -- Progmem Signals
+  pm_addr : OUT INTEGER RANGE 0 TO 31 := 0;
+  ram_in  : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+
+  -- Debug Output
+  PC_out : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
+  OP_out : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+  done   : OUT STD_LOGIC);
 END ENTITY;
 
-ARCHITECTURE Behavioural OF controller IS
+ARCHITECTURE Behavioural OF ControlUnit IS
 
-  TYPE state_type IS (Fetch, Decode, LDA_execute, STA_execute, LDI_execute, ADD_execute, SUB_execute, SHFL_execute, SHFR_execute,
-    input_A, output_A, Halt_cpu, JZ_execute, flag_state, ADD_SUB_SL_SR_next);
+  TYPE cycle_state_t IS (FETCH, DECODE, EXECUTE, STOP_CPU);
 
-  SIGNAL state : state_type;
-  SIGNAL IR    : STD_LOGIC_VECTOR(7 DOWNTO 0);
-  SIGNAL PC    : INTEGER RANGE 0 TO 31;
-  -- Instructions and their opcodes (pre-decided)
+  TYPE instruction_t IS (OP_LDA, OP_STA, OP_LDI, OP_ALU, OP_INA, OP_OUTA, OP_HALT, OP_JZ);
+
+  SIGNAL controller_state : cycle_state_t;
+  SIGNAL IR               : STD_LOGIC_VECTOR(7 DOWNTO 0);
+  SIGNAL PC               : INTEGER RANGE 0 TO 31 := 0;
+
   CONSTANT LDA : STD_LOGIC_VECTOR(3 DOWNTO 0) := "0001";
   CONSTANT STA : STD_LOGIC_VECTOR(3 DOWNTO 0) := "0010";
   CONSTANT LDI : STD_LOGIC_VECTOR(3 DOWNTO 0) := "0011";
@@ -49,213 +56,183 @@ ARCHITECTURE Behavioural OF controller IS
 
   CONSTANT JZ : STD_LOGIC_VECTOR(3 DOWNTO 0) := "1100";
 
-  TYPE PM_BLOCK IS ARRAY(0 TO 31) OF STD_LOGIC_VECTOR(7 DOWNTO 0); -- program memory that will store the instructions sequentially from part 1 and part 2 test program
-
 BEGIN
 
-  --opcode is kept up-to-date
-  OP_out <= IR(7 DOWNTO 4);
+  OP_out  <= IR(7 DOWNTO 4);                       -- Hardwire opcode output to current instruction register
+  PC_out  <= STD_LOGIC_VECTOR(to_unsigned(PC, 5)); -- Hardwire PC output to current PC
+  pm_addr <= PC;
 
-  PROCESS (clk_ctrl) -- complete the sensitivity list ********************************************
-
-    -- "PM" is the program memory that holds the instructions to be executed by the CPU 
-    VARIABLE PM : PM_BLOCK;
-
-    -- To decode the 4 MSBs from the PC content
-    VARIABLE OPCODE : STD_LOGIC_VECTOR(3 DOWNTO 0);
-
-    -- Zero flag and positive flag
-    VARIABLE zero_flag, positive_flag : STD_LOGIC;
-
+  PROCESS (clk, controller_state)
+    VARIABLE OPCODE     : STD_LOGIC_VECTOR(3 DOWNTO 0);
+    VARIABLE OP_DECODED : instruction_t;
   BEGIN
-    IF (rst_ctrl = '1') THEN -- RESET initializes all the control signals to 0.
-      PC              <= 0;
-      muxsel_ctrl     <= "00";
-      imm_ctrl        <= (OTHERS => '0');
-      accwr_ctrl      <= '0';
-      rfaddr_ctrl     <= "000";
-      rfwr_ctrl       <= '0';
-      alusel_ctrl     <= "000";
-      outen_ctrl      <= '0';
-      done            <= '0';
-      bit_sel_ctrl    <= '0';
-      bits_shift_ctrl <= "00";
-      state           <= Fetch;
 
-      -- *************** assembly code for PART1/PART2 goes here
-      -- for example this is how the instructions will be stored in the program memory
-      --                PM(0) := "XXXXXXXX";    
-      -- **************
+    IF rising_edge(clk) THEN
+      IF reset = '1' THEN -- RESET initializes all the control signals to 0.
 
-    ELSIF (clk_ctrl'event AND clk_ctrl = '1') THEN
-      CASE state IS
-        WHEN Fetch => -- fetch instruction
-          IF (enter = '1') THEN
-            PC_out <= conv_std_logic_vector(PC, 5);
-            -- ****************************************
-            -- write one line of code to get the 8-bit instruction into IR                      
+        PC               <= 0;
+        sel_mux          <= "00";
+        immediate        <= (OTHERS => '0');
+        we_accumulator   <= '0';
+        addr_regfile     <= "000";
+        we_regfile       <= '0';
+        sel_alu          <= "000";
+        out_en           <= '0';
+        done             <= '0';
+        nibble_sel       <= '0';
+        bit_shift_num    <= "00";
+        controller_state <= Fetch;
 
-            -------------------------------------------
+        ELSE
 
-            PC          <= PC + 1;
-            muxsel_ctrl <= "00";
-            imm_ctrl    <= (OTHERS => '0');
-            accwr_ctrl  <= '0';
-            rfaddr_ctrl <= "000";
-            rfwr_ctrl   <= '0';
-            alusel_ctrl <= "000";
-            outen_ctrl  <= '0';
-            done        <= '0';
-            zero_flag     := zero_ctrl;
-            positive_flag := positive_ctrl;
-            state <= Decode;
-          ELSIF (enter = '0') THEN
-            state <= Fetch;
-          END IF;
+        CASE controller_state IS
 
-        WHEN Decode => -- decode instruction
+          WHEN Fetch => -- fetch instruction
+            IF enter = '1' THEN
+              IR               <= ram_in;          -- Load current instruction into register
+              PC               <= PC + 1;          -- Increment PC
+              sel_mux          <= "00";            -- Reset mux selection
+              immediate        <= (OTHERS => '0'); -- Reset immediate input
+              we_accumulator   <= '0';             -- No write enable for accumulator
+              addr_regfile     <= "000";           -- No address for reg file
+              we_regfile       <= '0';             -- Disable regfile write
+              sel_alu          <= "000";           -- Deselect ALU
+              out_en           <= '0';             -- Disable outut
+              done             <= '0';             -- Set not done
+              controller_state <= Decode;          -- Decode instruction
+            ELSIF enter = '0' THEN
+              controller_state <= Fetch;
+            END IF;
 
-          OPCODE := IR(7 DOWNTO 4);
+          WHEN Decode =>
 
-          CASE OPCODE IS
-            WHEN LDA    => state    <= LDA_execute;
-            WHEN STA    => state    <= STA_execute;
-            WHEN LDI    => state    <= LDI_execute;
-            WHEN ADD    => state    <= ADD_execute;
-            WHEN SUB    => state    <= SUB_execute;
-            WHEN SHFL   => state   <= SHFL_execute;
-            WHEN SHFR   => state   <= SHFR_execute;
-            WHEN INA    => state    <= input_A;
-            WHEN OUTA   => state   <= output_A;
-            WHEN HALT   => state   <= Halt_cpu;
-            WHEN JZ     => state     <= JZ_execute;
-            WHEN OTHERS => state <= Halt_cpu;
+            OPCODE := IR(7 DOWNTO 4);
 
-          END CASE;
+            controller_state <= EXECUTE;
 
-          muxsel_ctrl     <= "00";
-          imm_ctrl        <= PM(PC); --since the PC is incremented here, I am just doing the pre-fetching. Will relax the requirement for PM to be very fast for LDI to work properly.
-          accwr_ctrl      <= '0';
-          rfaddr_ctrl     <= IR(2 DOWNTO 0); --Decode pre-emptively sets up the register file, just to reduce the delay for waiting one more cycle
-          rfwr_ctrl       <= '0';
-          alusel_ctrl     <= "000";
-          outen_ctrl      <= '0';
-          done            <= '0';
-          bit_sel_ctrl    <= IR(0);
-          bits_shift_ctrl <= IR(1 DOWNTO 0);
-        WHEN flag_state => -- set zero and positive flags and then goto next instruction
-          muxsel_ctrl <= "00";
-          imm_ctrl    <= (OTHERS => '0');
-          accwr_ctrl  <= '0';
-          rfaddr_ctrl <= "000";
-          rfwr_ctrl   <= '0';
-          alusel_ctrl <= "000";
-          outen_ctrl  <= '0';
-          done        <= '0';
-          state       <= Fetch;
-          zero_flag     := zero_ctrl;
-          positive_flag := positive_ctrl;
+            CASE OPCODE IS
+              WHEN LDA =>
+                OP_DECODED := OP_LDA;
+              WHEN STA =>
+                OP_DECODED := OP_STA;
+              WHEN LDI =>
+                OP_DECODED := OP_LDI;
+              WHEN ADD | SUB | SHFL | SHFR =>
+                OP_DECODED := OP_ALU;
+              WHEN INA =>
+                OP_DECODED := OP_INA;
+              WHEN OUTA =>
+                OP_DECODED := OP_OUTA;
+                controller_state <= EXECUTE;
+              WHEN JZ =>
+                OP_DECODED := OP_JZ;
+                controller_state <= EXECUTE;
+              WHEN OTHERS =>
+                controller_state <= STOP_CPU;
+            END CASE;
 
-        WHEN ADD_SUB_SL_SR_next => -- next state TO add, sub,shfl, shfr
-          muxsel_ctrl <= "00";
-          imm_ctrl    <= (OTHERS => '0');
-          accwr_ctrl  <= '1';
-          rfaddr_ctrl <= "000";
-          rfwr_ctrl   <= '0';
-          alusel_ctrl <= "000";
-          outen_ctrl  <= '0';
-          state       <= flag_state;
+            sel_mux        <= "00";
+            immediate      <= ram_in; -- Prefetch next instruction as immediateediate
+            we_accumulator <= '0';
+            addr_regfile   <= IR(2 DOWNTO 0); -- Prefetch register file
+            we_regfile     <= '0';
+            sel_alu        <= "000";
+            out_en         <= '0';
+            done           <= '0';
+            nibble_sel     <= IR(0);
+            bit_shift_num  <= IR(1 DOWNTO 0);
 
-        WHEN LDA_execute => -- LDA 
-          -- *********************************
-          -- write the entire state for LDA_execute
+          WHEN EXECUTE =>
 
-          ------------------------------------
+            CASE OP_DECODED IS
+              WHEN OP_ALU =>
+                sel_mux        <= "00";
+                immediate      <= (OTHERS => '0');
+                we_accumulator <= '1';
+                addr_regfile   <= "000";
+                we_regfile     <= '0';
+                sel_alu        <= IR(5 DOWNTO 3);
+                out_en         <= '0';
 
-        WHEN STA_execute => -- STA 
-          muxsel_ctrl <= "00";
-          imm_ctrl    <= (OTHERS => '0');
-          accwr_ctrl  <= '0';
-          rfaddr_ctrl <= IR(2 DOWNTO 0);
-          rfwr_ctrl   <= '1';
-          alusel_ctrl <= "000";
-          outen_ctrl  <= '0';
-          done        <= '0';
-          state       <= Fetch;
+              WHEN OP_LDA => -- LDA 
+                sel_mux        <= "00";
+                immediate      <= (OTHERS => '0');
+                we_accumulator <= '1';
+                addr_regfile   <= "000";
+                we_regfile     <= '0';
+                sel_alu        <= IR(5 DOWNTO 3);
+                out_en         <= '0';
 
-        WHEN LDI_execute => -- LDI 
-          -- *********************************
-          -- write the entire state for LDI_execute
+              WHEN OP_STA => -- STA 
+                sel_mux          <= "00";
+                immediate        <= (OTHERS => '0');
+                we_accumulator   <= '0';
+                addr_regfile     <= IR(2 DOWNTO 0);
+                we_regfile       <= '1';
+                sel_alu          <= "000";
+                out_en           <= '0';
+                done             <= '0';
+                controller_state <= Fetch;
 
-          ------------------------------------
+              WHEN OP_LDI => -- LDI 
+                sel_mux          <= "00";
+                immediate        <= ram_in;
+                we_accumulator   <= '1';
+                addr_regfile     <= "000";
+                we_regfile       <= '0';
+                sel_alu          <= "000";
+                out_en           <= '0';
+                done             <= '0';
+                PC               <= PC + 1;
+                controller_state <= Fetch;
 
-        WHEN JZ_execute => -- JZ
-          -- *********************************
-          -- write the entire state for JZ_execute 
+              WHEN OP_JZ => -- JZ
+                -- *********************************
+                -- write the entire state for JZ_execute 
 
-          ------------------------------------
-        WHEN ADD_execute => -- ADD 
-          -- *********************************
-          -- write the entire state for ADD_execute 
+                ------------------------------------
+              WHEN OP_INA => -- INA
+                sel_mux        <= "10";
+                immediate      <= (OTHERS => '0');
+                we_accumulator <= '1';
+                addr_regfile   <= "000";
+                we_regfile     <= '0';
+                sel_alu        <= "000";
+                out_en         <= '0';
+                done           <= '0';
+                nibble_sel     <= IR(0);
 
-          ------------------------------------
+              WHEN OP_OUTA => -- OUTA
+                -- *********************************
+                -- write the entire state for output_A
 
-        WHEN SUB_execute => -- SUB 
-          -- *********************************
-          -- write the entire state for SUB_execute 
+                ------------------------------------
 
-          ------------------------------------
-        WHEN SHFL_execute => -- SHFL
-          -- *********************************
-          -- write the entire state for SHFL_execute 
+              WHEN OP_HALT =>
+                controller_state <= STOP_CPU;
+            END CASE;
+          WHEN STOP_CPU => -- HALT
+            sel_mux        <= "00";
+            immediate      <= (OTHERS => '0');
+            we_accumulator <= '0';
+            addr_regfile   <= "000";
+            we_regfile     <= '0';
+            sel_alu        <= "000";
+            out_en         <= '1';
+            done           <= '1';
 
-          ------------------------------------
-        WHEN SHFR_execute => -- SHFR 
-          -- *********************************
-          -- write the entire state for SHFR_execute 
-
-          ------------------------------------
-        WHEN input_A => -- INA
-          muxsel_ctrl  <= "10";
-          imm_ctrl     <= (OTHERS => '0');
-          accwr_ctrl   <= '1';
-          rfaddr_ctrl  <= "000";
-          rfwr_ctrl    <= '0';
-          alusel_ctrl  <= "000";
-          outen_ctrl   <= '0';
-          done         <= '0';
-          state        <= flag_state;
-          bit_sel_ctrl <= IR(0);
-
-        WHEN output_A => -- OUTA
-          -- *********************************
-          -- write the entire state for output_A
-
-          ------------------------------------
-
-        WHEN Halt_cpu => -- HALT
-          muxsel_ctrl <= "00";
-          imm_ctrl    <= (OTHERS => '0');
-          accwr_ctrl  <= '0';
-          rfaddr_ctrl <= "000";
-          rfwr_ctrl   <= '0';
-          alusel_ctrl <= "000";
-          outen_ctrl  <= '1';
-          done        <= '1';
-          state       <= Halt_cpu;
-
-        WHEN OTHERS =>
-          muxsel_ctrl <= "00";
-          imm_ctrl    <= (OTHERS => '0');
-          accwr_ctrl  <= '0';
-          rfaddr_ctrl <= "000";
-          rfwr_ctrl   <= '0';
-          alusel_ctrl <= "000";
-          outen_ctrl  <= '1';
-          done        <= '1';
-          state       <= Halt_cpu;
-      END CASE;
+          WHEN OTHERS =>
+            sel_mux          <= "00";
+            immediate        <= (OTHERS => '0');
+            we_accumulator   <= '0';
+            addr_regfile     <= "000";
+            we_regfile       <= '0';
+            sel_alu          <= "000";
+            out_en           <= '1';
+            done             <= '1';
+            controller_state <= STOP_CPU;
+        END CASE;
+      END IF;
     END IF;
-
   END PROCESS;
 END ARCHITECTURE;
