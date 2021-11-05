@@ -33,8 +33,3 @@ BEGIN
     Y => is_odd_parity);
 
 END ARCHITECTURE;
-
--- CLK           : IN STD_LOGIC;
--- RESETn        : IN STD_LOGIC;
--- CLEAR_RESULTS : IN STD_LOGIC;
--- LOAD          : IN STD_LOGIC;
