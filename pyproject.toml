@@ -5,10 +5,10 @@ description = ""
 authors = ["Michael Kwok <michael.kwok00@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = ">=3.9, <3.11"
+python = "~3.9.0"
 numpy = "^1.21.2"
 matplotlib = "^3.4.3"
-keras = "^2.7.0"
+tensorflow = "^2.7.0"
 
 [tool.poetry.dev-dependencies]
 black = { version = "^21.9b0", allow-prereleases = true }
