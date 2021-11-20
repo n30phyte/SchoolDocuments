@@ -142,7 +142,7 @@ BEGIN
 
   END PROCESS;
 
-  PROCESS (clk)
+  PROCESS (clk, mux_output)
   BEGIN
     IF rising_edge(clk) THEN
       flag_zero     <= NOR mux_output;
