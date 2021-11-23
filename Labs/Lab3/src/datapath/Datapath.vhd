@@ -131,23 +131,19 @@ BEGIN
     Y      => datapath_output
   );
 
-  PROCESS (nibble_sel)
+  PROCESS (user_input, nibble_sel)
   BEGIN
-
     IF nibble_sel = '1' THEN
       shifted_user_input <= user_input SLL 4;
       ELSE
       shifted_user_input <= user_input;
     END IF;
-
   END PROCESS;
 
-  PROCESS (clk, mux_output)
+  PROCESS (mux_output)
   BEGIN
-    IF rising_edge(clk) THEN
       flag_zero     <= NOR mux_output;
       flag_positive <= NOT mux_output(7);
-    END IF;
   END PROCESS;
 
 END ARCHITECTURE;

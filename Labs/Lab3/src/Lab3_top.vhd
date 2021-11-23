@@ -50,15 +50,14 @@ BEGIN
     clk_in  => clk,
     clk_out => clk_1Hz);
   cpu_core : cpu_ctrl_dp PORT MAP(
-    clk_cpu    => clk_1Hz,
-    rst_cpu    => rst_button,
-    entered_ip => entered_input,
-    input_cpu = >,  -- port map this signal
-    output_cpu = >, -- port map this signal
-    PC_output => PC,
-    OPCODE_ouput = >, -- port map this signal
-    done_cpu =>);     -- port map this signal
-
+    clk_cpu      => clk_1Hz,
+    rst_cpu      => rst_button,
+    entered_ip   => entered_input,
+    input_cpu    => in_modified,
+    output_cpu   => output_from_cpu,
+    PC_output    => PC,
+    OPCODE_ouput => OPcode_LED,
+    done_cpu     => done_signal);
   seven_seg : COMPONENT sev_segment PORT MAP(
     DispVal => PC,
     anode   => select_segment,

@@ -20,17 +20,17 @@ BEGIN
       WHEN "001" =>
         Y <= A AND B;
       WHEN "010" =>
-        Y <= shift_left(A, rot_num);
+        Y <= A + 1;
       WHEN "011" =>
-        Y <= shift_right(A, rot_num);
+        Y <= A - 1;
       WHEN "100" =>
         Y <= A + B;
       WHEN "101" =>
         Y <= A - B;
       WHEN "110" =>
-        Y <= A + 1;
+        Y <= shift_left(A, rot_num);
       WHEN "111" =>
-        Y <= A - 1;
+        Y <= shift_right(A, rot_num);
       WHEN OTHERS  =>
         Y <= (OTHERS => 'X');
     END CASE;

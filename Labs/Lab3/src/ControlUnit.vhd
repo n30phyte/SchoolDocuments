@@ -83,7 +83,7 @@ BEGIN
         bit_shift_num    <= "00";
         controller_state <= Fetch;
 
-        ELSE
+      ELSE
 
         CASE controller_state IS
 
@@ -100,8 +100,6 @@ BEGIN
               out_en           <= '0';             -- Disable outut
               done             <= '0';             -- Set not done
               controller_state <= Decode;          -- Decode instruction
-            ELSIF enter = '0' THEN
-              controller_state <= Fetch;
             END IF;
 
           WHEN Decode =>
@@ -132,7 +130,7 @@ BEGIN
             END CASE;
 
             sel_mux        <= "00";
-            immediate      <= ram_in; -- Prefetch next instruction as immediateediate
+            immediate      <= ram_in; -- Prefetch next instruction as immediate
             we_accumulator <= '0';
             addr_regfile   <= IR(2 DOWNTO 0); -- Prefetch register file
             we_regfile     <= '0';
@@ -146,25 +144,26 @@ BEGIN
 
             CASE OP_DECODED IS
               WHEN OP_ALU =>
-                sel_mux        <= "00";
-                immediate      <= (OTHERS => '0');
-                we_accumulator <= '1';
-                addr_regfile   <= IR(2 DOWNTO 0);
-                we_regfile     <= '0';
-                sel_alu        <= IR(6 DOWNTO 4);
-                out_en         <= '0';
+                sel_mux          <= "00";
+                immediate        <= (OTHERS => '0');
+                we_accumulator   <= '1';
+                addr_regfile     <= IR(2 DOWNTO 0);
+                we_regfile       <= '0';
+                sel_alu          <= IR(6 DOWNTO 4);
+                out_en           <= '0';
                 controller_state <= Fetch;
 
-              WHEN OP_LDA => -- LDA 
-                sel_mux        <= "00";
-                immediate      <= (OTHERS => '0');
-                we_accumulator <= '1';
-                addr_regfile   <= "000";
-                we_regfile     <= '0';
-                sel_alu        <= "000";
-                out_en         <= '0';
+              WHEN OP_LDA =>
+                sel_mux          <= "01";
+                immediate        <= (OTHERS => '0');
+                we_accumulator   <= '1';
+                addr_regfile     <= "000";
+                we_regfile       <= '0';
+                sel_alu          <= "000";
+                out_en           <= '0';
+                controller_state <= Fetch;
 
-              WHEN OP_STA => -- STA 
+              WHEN OP_STA =>
                 sel_mux          <= "00";
                 immediate        <= (OTHERS => '0');
                 we_accumulator   <= '0';
@@ -175,7 +174,7 @@ BEGIN
                 done             <= '0';
                 controller_state <= Fetch;
 
-              WHEN OP_LDI => -- LDI 
+              WHEN OP_LDI =>
                 sel_mux          <= "11";
                 immediate        <= ram_in;
                 we_accumulator   <= '1';
@@ -187,50 +186,52 @@ BEGIN
                 PC               <= PC + 1;
                 controller_state <= Fetch;
 
-              WHEN OP_JZ => -- JZ
-                -- *********************************
-                -- write the entire state for JZ_execute 
-
-                ------------------------------------
-              WHEN OP_INA => -- INA
-                sel_mux        <= "10";
+              WHEN OP_JZ =>
+                sel_mux        <= "11";
                 immediate      <= (OTHERS => '0');
-                we_accumulator <= '1';
+                we_accumulator <= '0';
                 addr_regfile   <= "000";
                 we_regfile     <= '0';
                 sel_alu        <= "000";
                 out_en         <= '0';
                 done           <= '0';
-                nibble_sel     <= IR(0);
+                IF flag_zero = '1' THEN
+                  PC <= to_integer(unsigned(ram_in(4 DOWNTO 0)));
+                ELSE
+                  PC <= PC + 1;
+                END IF;
+                controller_state <= Fetch;
 
-              WHEN OP_OUTA => -- OUTA
-                -- *********************************
-                -- write the entire state for output_A
+              WHEN OP_INA =>
+                sel_mux          <= "10";
+                immediate        <= (OTHERS => '0');
+                we_accumulator   <= '1';
+                addr_regfile     <= "000";
+                we_regfile       <= '0';
+                sel_alu          <= "000";
+                out_en           <= '0';
+                done             <= '0';
+                nibble_sel       <= IR(0);
+                controller_state <= Fetch;
 
-                ------------------------------------
+              WHEN OP_OUTA =>
+                out_en           <= '1';
+                controller_state <= Fetch;
 
               WHEN OP_HALT =>
                 controller_state <= STOP_CPU;
             END CASE;
-          WHEN STOP_CPU => -- HALT
+
+          WHEN STOP_CPU =>
             sel_mux        <= "00";
             immediate      <= (OTHERS => '0');
             we_accumulator <= '0';
             addr_regfile   <= "000";
             we_regfile     <= '0';
             sel_alu        <= "000";
-            out_en         <= '1';
+            out_en         <= 'X';
             done           <= '1';
-
           WHEN OTHERS =>
-            sel_mux          <= "00";
-            immediate        <= (OTHERS => '0');
-            we_accumulator   <= '0';
-            addr_regfile     <= "000";
-            we_regfile       <= '0';
-            sel_alu          <= "000";
-            out_en           <= '1';
-            done             <= '1';
             controller_state <= STOP_CPU;
         END CASE;
       END IF;
