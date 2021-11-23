@@ -1,5 +1,3 @@
-import heapq
-
 from time import perf_counter
 from typing import Optional, Set
 
@@ -42,6 +40,11 @@ class PlotResults:
         plt.ylabel(label2)
         plt.grid()
         plt.savefig(filename)
+
+        with open("runtime.dat", "w") as f_runtime:
+            f_runtime.write(f"{label1}\t{label2}\tlabel\n")
+            for i in range(len(data1)):
+                f_runtime.write(f"{data1[i]}\t{data2[i]}\tb\n")
 
 
 class Grid:
@@ -199,11 +202,10 @@ class FirstAvailable(VarSelector):
     """
 
     def select_variable(self, grid: Grid) -> tuple[int, int]:
-        # Implement here the first available heuristic
-        for i in range(grid.get_width()):
-            for j in range(grid.get_width()):
-                if len(grid.get_cells()[i][j]) > 1:
-                    return (i, j)
+        for i in enumerate(grid.get_cells()):
+            for j in enumerate(i[1]):
+                if len(j[1]) > 1:
+                    return (i[0], j[0])
 
 
 class MRV(VarSelector):
@@ -212,16 +214,17 @@ class MRV(VarSelector):
     """
 
     def select_variable(self, grid: Grid) -> tuple[int, int]:
-        potential_variables = []
+        potential_variable = (-1, -1)
+        current_min = 10
 
-        for i in range(grid.get_width()):
-            for j in range(grid.get_width()):
-                if len(grid.get_cells()[i][j]) > 1:
-                    heapq.heappush(
-                        potential_variables, (len(grid.get_cells()[i][j]), (i, j))
-                    )
+        for i in enumerate(grid.get_cells()):
+            for j in enumerate(i[1]):
+                domain_len = len(j[1])
+                if domain_len > 1 and domain_len < current_min:
+                    potential_variable = (i[0], j[0])
+                    current_min = domain_len
 
-        return heapq.heappop(potential_variables)[1]
+        return potential_variable
 
 
 class AC3:
@@ -303,7 +306,7 @@ class AC3:
                 grid.get_cells()[i][j] = new_domain
         return variables_assigned, False
 
-    def pre_process_consistency(self, grid):
+    def pre_process_consistency(self, grid: Grid):
         """
         This method enforces arc consistency for the initial grid of the puzzle.
 
@@ -313,10 +316,10 @@ class AC3:
 
         initial_variables = set()
 
-        for i in range(grid.get_width()):
-            for j in range(grid.get_width()):
-                if len(grid.get_cells()[i][j]) == 1:
-                    initial_variables.add((i, j))
+        for i in enumerate(grid.get_cells()):
+            for j in enumerate(i[1]):
+                if len(j[1]) == 1:
+                    initial_variables.add((i[0], j[0]))
 
         self.consistency(grid, initial_variables)
 
@@ -374,40 +377,7 @@ class Backtracking:
     Class that implements backtracking search for solving CSPs.
     """
 
-    def check_consistency(
-        self, grid: Grid, variable: tuple[int, int], domain: str
-    ) -> bool:
-        # Check column consistency
-        for i in range(grid.get_width()):
-            if i != variable[0]:
-                new_domain = grid.get_cells()[i][variable[1]].replace(domain, "")
-
-                if len(new_domain) == 0:
-                    return False
-
-        # Check row consistency
-        for j in range(grid.get_width()):
-            if j != variable[1]:
-                new_domain = grid.get_cells()[variable[0]][j].replace(domain, "")
-
-                if len(new_domain) == 0:
-                    return False
-
-        # Check unit consistency
-        row_init = (variable[0] // 3) * 3
-        column_init = (variable[1] // 3) * 3
-
-        for i in range(row_init, row_init + 3):
-            for j in range(column_init, column_init + 3):
-                if (i, j) == variable:
-                    continue
-
-                new_domain = grid.get_cells()[i][j].replace(domain, "")
-
-                if len(new_domain) == 0:
-                    return False
-
-        return True
+    ac = AC3()
 
     def search(self, grid: Grid, var_selector: VarSelector) -> Optional[Grid]:
         """
@@ -418,15 +388,13 @@ class Backtracking:
 
         variable = var_selector.select_variable(grid)
 
-        ac = AC3()
-
         domain = grid.get_cells()[variable[0]][variable[1]]
 
         for value in domain:
             grid.get_cells()[variable[0]][variable[1]] = value
 
             cloned_grid = grid.copy()
-            if ac.consistency(cloned_grid, set([variable])):
+            if self.ac.consistency(cloned_grid, set([variable])):
                 rb = Backtracking().search(cloned_grid, var_selector)
 
                 if rb is not None:
@@ -470,6 +438,3 @@ if __name__ == "__main__":
     plotter = PlotResults()
 
     plotter.plot_results(MRVTimes, FATimes, "MRV (s)", "FA (s)", "asd")
-
-    print(MRVTimes)
-    print(FATimes)
