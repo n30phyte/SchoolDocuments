@@ -11,26 +11,27 @@ END ENTITY;
 ARCHITECTURE rtl OF ProgMem IS
   TYPE rom_type IS ARRAY (0 TO 31) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
   SIGNAL ROM : rom_type := (
+    -- "10000001",            -- IN A (Upper)
+    -- "10000000",            -- IN A (lower)
+    -- "11000000",            -- JZ
+    -- "00000101",            -- 05
+    -- "01100010",            -- SHFL A, 2
+    -- "10010000",            -- OUT A
+    -- "00110000",            -- LDI A,
+    -- "00001010",            -- 10
+    -- "01110001",            -- SHFR A, 1
+    -- "10010000",            -- OUT A
+    -- "10100000",            -- HALT
+    -- OTHERS => "00000000"); -- NOP
     "10000001",            -- IN A (Upper)
-    "10000000",            -- IN A (lower)
-    "11000000",            -- JZ
-    "00000101",            -- 05
-    "01100010",            -- SHFL A, 2
-    "10010000",            -- OUT A
+    "10000000",            -- IN A (Lower)
+    "00100100",            -- STA R[4], A
     "00110000",            -- LDI A,
-    "00001010",            -- 10
-    "01110001",            -- SHFR A, 1
+    "00001111",            -- 15
+    "01010100",            -- SUB A, R[4]
     "10010000",            -- OUT A
-    OTHERS => "10100000"); -- HALT
-  -- SIGNAL ROM : rom_type := (
-  --   "10000001",            -- IN A (Upper)
-  --   "10000000",            -- IN A (Lower)
-  --   "00100100",            -- STA R[4], A
-  --   "00110000",            -- LDI A,
-  --   "00001111",            -- 15
-  --   "01000100",            -- ADD A, R[4]
-  --   "10010000",            -- OUT A
-  --   OTHERS => "10100000"); -- HALT
+    "10100000",            -- HALT
+    OTHERS => "00000000"); -- NOP
 BEGIN
   PROCESS (pm_addr)
   BEGIN

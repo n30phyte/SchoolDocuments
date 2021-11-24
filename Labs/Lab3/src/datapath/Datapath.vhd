@@ -134,16 +134,16 @@ BEGIN
   PROCESS (user_input, nibble_sel)
   BEGIN
     IF nibble_sel = '1' THEN
-      shifted_user_input <= user_input SLL 4;
-      ELSE
-      shifted_user_input <= user_input;
+      shifted_user_input <= accumulator_output(7 DOWNTO 4) & user_input(3 DOWNTO 0);
+    ELSE
+      shifted_user_input <= user_input(7 DOWNTO 4) & accumulator_output(3 DOWNTO 0);
     END IF;
   END PROCESS;
 
   PROCESS (mux_output)
   BEGIN
-      flag_zero     <= NOR mux_output;
-      flag_positive <= NOT mux_output(7);
+    flag_zero     <= NOR mux_output;
+    flag_positive <= NOT mux_output(7);
   END PROCESS;
 
 END ARCHITECTURE;

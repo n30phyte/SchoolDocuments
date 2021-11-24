@@ -215,6 +215,12 @@ BEGIN
                 controller_state <= Fetch;
 
               WHEN OP_OUTA =>
+                sel_mux          <= "00";
+                immediate        <= (OTHERS => '0');
+                we_accumulator   <= '0';
+                addr_regfile     <= "000";
+                we_regfile       <= '0';
+                sel_alu          <= "000";
                 out_en           <= '1';
                 controller_state <= Fetch;
 
@@ -229,7 +235,7 @@ BEGIN
             addr_regfile   <= "000";
             we_regfile     <= '0';
             sel_alu        <= "000";
-            out_en         <= 'X';
+            out_en         <= '0';
             done           <= '1';
           WHEN OTHERS =>
             controller_state <= STOP_CPU;

@@ -45,18 +45,25 @@ BEGIN
 
   clk_process : PROCESS
   BEGIN
-    clk_tb <= NOT clk_tb AFTER 4 ns WHEN done /= '1' ELSE '0';
+    IF done /= '1' THEN
+      clk_tb <= '0';
+      WAIT FOR clk_period/2;
+      clk_tb <= '1';
+      WAIT FOR clk_period/2;
+    ELSE
+      std.env.stop;
+    END IF;
   END PROCESS;
 
   -- Stimulus process
   stim_proc : PROCESS
   BEGIN
     rst_tb <= '1';
+    enter  <= '1';
+    in_tb  <= "00001101";
     WAIT FOR clk_period;
     rst_tb <= '0';
-    in_tb  <= "00001101";
     enter  <= '1';
-
     WAIT UNTIL done = '1';
   END PROCESS;
 END ARCHITECTURE;
