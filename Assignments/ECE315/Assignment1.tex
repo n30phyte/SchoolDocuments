@@ -1,0 +1,49 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage{booktabs}
+\usepackage[final]{pdfpages}
+
+\title{ECE 315 Assignment 1}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+    \item A deterministic response time allows specifications to be made, and no surprises when the system is used. This is extremely important for embedded systems where it might be deployed on oil rigs and other safety critical applications where you are required to know how the system will react.
+    \begin{enumerate}
+        \item An overly slow response time can be compensated by doing other tasks while waiting for the response or processing, increasing the perceived throughput of the system.
+        \item A task that is not very  deterministic can be compensated by handling the task deterministically, such as terminating it when it goes over a certain amount of time and trying again later.
+    \end{enumerate}
+    \item Cloud computing is using a group of computer systems hosted by other companies to be used on demand, instead of having to purchase and maintain your own servers in your datacenter. This allows for economies of scale to help improve pricing and service. The hosting company can focus on improving reliability and performance, while the client company can simply use the servers as required. Cloud computing also allows a company's server to be replicated closer to their customers anywhere around the world, improving perceived speed by the user.
+    
+5G is the next evolution for mobile celular connections, improving connection latencies and speeds. This allows for more applications to be web based applications, which are cheaper to make and mantain as the same code can be used on iOS, Android and traditional computers, as opposed to making a native program for each platform.
+
+These two can be potentially very useful for embedded systems. An embedded system with a 5G connection could have less processing power on device, relying on a server in the cloud to do the heavy calculations. This also can be used to improve the battery life on the device as a less powerful SoC can be embedded instead.
+\item Git operations
+\begin{enumerate}
+    \item git add: Adds new files to get tracked by the repository.
+    \item git commit: Commits the changes in the files into the repository.
+    \item git push: Pushes changes to a remote repository.
+    \item git pull: Pulls all changes from remote repository into local.
+    \item git checkout: Checkout or switch to a specified branch.
+    \item git merge: Merges a branch into another one.
+\end{enumerate}
+\item Pointers
+\begin{enumerate}
+    \item Wrap the raw pointer in a data structure that keeps track of whether or not it has been initialized.
+    \item Treating the pointer as an iterator for array accesses, with bounds checking on increment and decrement or during modification of the values.
+    \item Use a data structure with automatic reference counting like \verb|std::shared_ptr<>| in C++.
+    \item Similar to the previous answer, a structure that handles deletion and contains tracking information to only allow it to get \verb|free| once, when it goes out of scope.
+\end{enumerate}
+In an embedded system, computing power tends to be a scarce resource. All previous solutions add a layer of abstraction on the code, which means that they need more computing resources to use compared to plain pointers.
+\item FreeRTOS is written mostly in C, allowing it to be easily ported to whatever platform has a C compiler. C's syntactical simplicity allows it to be ported to many different platforms. It's age and inertia also helps with having compilers exist for it basically everywhere. Features in the kernel are also modular, allowing systems that can support the base features ignore certain others. Having an open source license also allows anyone with knowledge of a new platform to port it and contribute that code back to the maintainers.
+\item The CRITICAL functions counts the depth of the nesting, while the INTERRUPTS functions do not. This means that interrupts will be disabled until the last \verb|taskEXIT_CRITICAL()| function is called, while calling \verb|taskENABLE_INTERRUPTS()| inside a nested critical section might cause unexpected behavior.
+\item In FreeRTOS, a mutex has priority semantics, while a binary semaphore does not. They act similarly otherwise, with the semaphore being taken or not taken. A binary semaphore is generally global, while a mutex has an "owner". A mutex has priority inheritance, which reduces the effect of priority inversion, while a binary semaphore does not. According to the FreeRTOS documentation, binary semaphores are suited to be used for access synchronization, while mutexes are for guarding access to a resource.
+
+A binary semaphore may be "blocked" to indicate to an IO task that causes interrupts to idle while the input is not being used, while a mutex can be used for tasks that require access to the Ethernet port, only allowing one to access the port at any time.
+\item A single-threaded bare metal application might have to manually manage the timings and usage of resources, which increases the coupling between different parts of the code, making optimization and adjustments difficult. Code that is written for a multitasking operating system allows for tasks to be written more independently of each other, which in turn allows each part to be simpler and focus on a single thing. The operating system also has built in mechanisms for priority levels and resource handling, which allows developers to use well tested existing APIs instead of rewriting their own.
+\end{enumerate}
+\end{document}

@@ -1,0 +1,108 @@
+\documentclass[letterpaper]{article}
+
+\usepackage[margin=0.5in]{geometry}
+\usepackage{mathtools}
+
+\begin{document}
+
+\title{ECE 240 Assignment 6}
+
+\author{Michael Kwok\\1548454\\mkwok1@ualberta.ca}
+
+\date{March 15, 2020}
+\maketitle
+\newpage
+\subsection*{1a.}
+\begin{align*}
+    f(t) = \frac{1}{2\pi} \int_{-\omega_0}^{\omega_0} \omega^2 e^{j \omega t} d\omega \\
+\end{align*}
+\begin{align*}
+    u = \omega^2, dv = e^{j\omega t}\,d\omega \\
+    du = 2 \omega \, d\omega, v = \frac{1}{jt} e^{j\omega t}
+\end{align*}
+\begin{align*}
+ \int \omega^2 e^{j \omega t} d\omega &= \frac{e^{j\omega t}}{jt} \omega^2 - \frac{2}{jt} \int \omega e^{j\omega t} d\omega \\
+ &= \frac{e^{j\omega t}}{jt} \omega^2 - \frac{2}{jt} \left( \frac{\omega}{jt} - \frac{1}{\left(jt\right) ^ 2} \right) \\
+ &= \left( \frac{\omega ^2}{jt} - \frac{2\omega}{j^2 t^2} + \frac{2}{j^3 t^3}\right) e^{j\omega t} \\
+ &= \left( \frac{\omega ^2 j^2 t^2 - 2\omega jt + 2}{j^3 t^3}\right) e^{j\omega t}
+\end{align*}
+
+\begin{align*}
+f(t) &= \frac{1}{2\pi} \left[ \left( \frac{\omega ^2 j^2 t^2 - 2\omega jt + 2}{j^3 t^3}\right) e^{j\omega t} \right]_{-\omega_0}^{\omega_0}\\
+&= \frac{1}{2\pi} \left[ \left( \frac{\omega_0 ^2 j^2 t^2 - 2\omega_0 jt + 2}{j^3 t^3}\right) e^{j\omega_0 t} - \left( \frac{\omega_0 ^2 j^2 t^2 + 2\omega_0 jt + 2}{j^3 t^3}\right) e^{-j\omega_0 t} \right]\\
+&= \frac{1}{2\pi} \left[\left( \frac{4\omega_0 t}{ t^3}\right) \cos{\omega_0 t} + \left( \frac{4\omega_0 ^2 j^2 t^2 + 4}{j^3 t^3}\right) \sin{\omega_0 t}  \right] \\
+&=\frac{2\omega_0 t\cos{\omega_0 t} + \left( \omega_0 ^2 t^2 - 2\right) \sin{\omega_0 t}}{ \pi t^3}
+\end{align*}
+
+\subsection*{1b.}
+
+\begin{align*}
+    F(\omega) &= u(\omega+2) - u(\omega-2) + u(\omega+1) - u(\omega-1)\\
+    f(t) &= \frac{1}{2\pi} \int_{-\infty}^{\infty} \left[ u(\omega+2) - u(\omega-2) + u(\omega+1) - u(\omega-1) \right] d\omega\\
+    &= \frac{1}{2\pi}\left(\int_{-2}^{\infty}e^{j\omega t} d\omega - \int_{2}^{\infty}e^{j\omega t} d\omega + \int_{-1}^{\infty}e^{j\omega t} d\omega - \int_{1}^{\infty}e^{j\omega t} d\omega \right)\\
+    & = \frac{1}{2\pi}\left(\int_{-2}^{2}e^{j\omega t} d\omega + \int_{-1}^{1}e^{j\omega t} d\omega \right)\\
+    & = \frac{1}{2\pi}\left( \left.\frac{1}{jt} e^{j \omega t} \right\rvert_{-2}^{2} + \left.\frac{1}{jt} e^{j \omega t} \right\rvert_{-1}^{1} \right)\\
+    &=\frac{1}{2\pi} \left( \frac{e^{2jt}-e^{-2jt}}{jt} + \frac{e^{jt}-e^{-jt}}{jt} \right)\\
+    &=\frac{1}{2\pi} \left( \frac{2j\sin{2jt}}{jt} + \frac{2j\sin{jt}}{jt} \right)\\0
+    &= \frac{\sin{2t}+\sin{t}}{\pi t}
+\end{align*}
+\newpage
+\subsection*{2a.}
+
+\begin{align*}
+    f(t) &=\cos(t)\left[\mathrm{u}\left(t\right) - \mathrm{u}\left(t - T\right)\right]\\
+    &= \cos(t) \mathrm{u}(t) - \cos(t)\mathrm{u}\left(t-\frac{\pi}{2}\right)\\
+    &= \cos(t) \mathrm{u}(t) + \sin\left(t-\frac{\pi}{2}\right)\mathrm{u}\left(t-\frac{\pi}{2}\right)\\
+    \omega_0 = 1
+\end{align*}
+
+
+\begin{align*}
+    \mathcal{F}\left\{\cos(t)\mathrm{u}(t)\right\} &= \frac{\pi}{2} \left[\delta(\omega - 1)+\delta(\omega +1)\right] + \frac{j\omega}{1-\omega^2}\\
+    \mathcal{F}\left\{\sin(t)\mathrm{u}(t)\right\} &= \frac{\pi}{2j} \left[\delta(\omega - 1)-\delta(\omega +1)\right] + \frac{1}{1-\omega^2}\\
+    \mathcal{F}\left\{ \sin\left(t-\frac{\pi}{2}\right)\mathrm{u}\left(t-\frac{\pi}{2}\right) \right\} &= \mathcal{F}\left\{\sin(t)\mathrm{u}(t)\right\} e^{-j\omega \frac{\pi}{2}}\\
+    &= \left( \frac{\pi}{2j} \left[\delta(\omega - 1)-\delta(\omega +1)\right] + \frac{1}{1-\omega^2} \right) e^{-j\omega \frac{\pi}{2}}
+\end{align*}
+
+\begin{align*}
+    F(\omega) &= \frac{\pi}{2} \left[\delta(\omega - 1)+\delta(\omega +1)\right] + \frac{j\omega}{1-\omega^2} + \left( \frac{\pi}{2j} \left[\delta(\omega - 1)-\delta(\omega +1)\right] + \frac{1}{1-\omega^2} \right) e^{-j\omega \frac{\pi}{2}}
+\end{align*}
+
+\subsection*{2b.}
+\begin{align*}
+    f(t) &=e^{-at}\left[\mathrm{u}\left(t\right) - \mathrm{u}\left(t - T\right)\right]\\
+    &=e^{-at}\mathrm{u}\left(t\right) - e^{-at}\mathrm{u}\left(t - T\right)\\
+    &=e^{-at}\mathrm{u}\left(t\right) - e^{-a(t-T)}e^{-aT}\mathrm{u}\left(t - T\right)\\
+    F(\omega)&=\frac{1}{a+j\omega}-\frac{e^{-aT}}{a+j\omega} e^{-j\omega T}
+\end{align*}
+\newpage
+\subsection*{4a.}
+\begin{align*}
+    f(t) &=\left[\mathrm{u}\left(t+T\right) - \mathrm{u}\left(t\right)\right] + \left[\mathrm{u}\left(t\right) - \mathrm{u}\left(t - T\right)\right]\\
+    &=\mathrm{u}\left(t+T\right) - 2 \mathrm{u}\left(t\right) + \mathrm{u}\left(t - T\right)\\
+    F(\omega)&=\frac{1}{2\pi}\int_{-\infty}^{\infty}\mathrm{u}\left(t+T\right) e^{-j \omega t} dt - \frac{1}{\pi}\int_{-\infty}^{\infty}\mathrm{u}\left(t\right) e^{-j \omega t} dt + \frac{1}{2\pi}\int_{-\infty}^{\infty}\mathrm{u}\left(t-T\right) e^{-j \omega t} dt\\
+    &=\frac{1}{2\pi}\int_{-T}^{\infty}e^{-j \omega t} dt - \frac{1}{\pi}\int_{0}^{\infty}e^{-j \omega t} dt + \frac{1}{2\pi}\int_{T}^{\infty}e^{-j \omega t} dt\\
+    &= \lim\limits_{x \to \infty} \left( - \left. \frac{e^{-j\omega t}}{2\pi j \omega} \right\rvert_{-T}^x + \left. \frac{e^{-j\omega t}}{\pi j \omega} \right\rvert_0^x - \left.\frac{e^{-j\omega t}}{2\pi j \omega} \right\rvert_T^x \right)\\
+    &= \frac{e^{j\omega T} - e^{-j \omega x} + 2 e^{-j \omega x} - 2 - e^{-j \omega x} + e^{-j \omega T}}{2\pi j \omega}\\
+    &= \frac{e^{j\omega T} + e^{-j\omega T} - 2}{2\pi j \omega}
+\end{align*}
+\subsection*{4b.}
+\begin{align*}
+    f_1(t) &=\mathrm{u}(t)\\
+    f(t)&=f_1\left(t+T\right) - 2 f_1\left(t\right) + f_1\left(t - T\right)\\
+    F(\omega) &= F_1(\omega) e^{-j\omega T} - 2 F_1(\omega) + F_1(\omega) e^{j\omega T}\\
+    F_1(\omega) &= \pi \delta(\omega) + \frac{1}{j\omega}\\
+    F(\omega) &= \left( \pi \delta(\omega) + \frac{1}{j\omega} \right) e^{-j\omega T} - 2\left( \pi \delta(\omega) + \frac{1}{j\omega} \right) + \left( \pi \delta(\omega) + \frac{1}{j\omega} \right) e^{j\omega T} \\
+    &= 2\pi \delta(\omega) \cos(\omega T) - 2 \pi \delta(\omega) + \frac{e^{j\omega T} + e^{-j\omega T} - 2}{2\pi j \omega} \\
+    &\delta(\omega)\cos(\omega T) = \delta(\omega)\cos(0) = \delta(\omega)\\
+    &= \frac{e^{j\omega T} + e^{-j\omega T} - 2}{2\pi j \omega}
+\end{align*}
+
+\subsection*{4c.}
+\begin{align*}
+    f'(t) &=\delta(t+T) - 2\delta(t) + \delta(t-T)\\
+    (j\omega)F(\omega) &= e^{-j\omega T} - 2 + e^{j\omega T}\\
+    F(\omega) &= \frac{e^{-j\omega T} - 2 + e^{j\omega T}}{j\omega}
+\end{align*}
+
+\end{document}

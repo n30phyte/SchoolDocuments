@@ -4,9 +4,7 @@
   "latex-workshop.latex.recipes": [
     {
       "name": "latexmk",
-      "tools": [
-        "latexmk"
-      ]
+      "tools": ["latexmk"]
     }
   ],
   "latex-workshop.latex.rootFile.useSubFile": false,
@@ -23,8 +21,7 @@
         "-interaction=nonstopmode",
         "-outdir=%OUTDIR%",
         "%DOC%"
-      ],
-      "env": {}
+      ]
     }
   ]
 }

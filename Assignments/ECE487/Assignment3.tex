@@ -1,0 +1,106 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage{booktabs}
+\usepackage{mathtools}
+\usepackage{multicol}
+
+\title{ECE 487 Assignment 3}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\begin{multicols}{2}
+\subsection*{Hamming Code}
+\begin{enumerate}
+    \item \verb|0101|
+    \begin{itemize}
+        \item \(r_2 = 0 + 0 + 1 = 1\)
+        \item \(r_1 = 0 + 1 + 0 = 1\)
+        \item \(r_0 = 1 + 0 + 1 = 0\)
+    \end{itemize}
+    \verb|0101110 -> 0011110|
+    \begin{itemize}
+        \item \(s_2 = 0 + 1 + 1 + 1 = 1\)
+        \item \(s_1 = 0 + 0 + 1 + 1 = 0\)
+        \item \(s_0 = 0 + 1 + 1 + 0 = 0\)
+        \item Error at q2
+        \item 0111
+    \end{itemize}
+    \item \verb|0110|
+    \begin{itemize}
+        \item \(r_2 = 0 + 1 + 0 = 1\)
+        \item \(r_1 = 0 + 1 + 1 = 0\)
+        \item \(r_0 = 1 + 1 + 0 = 0\)
+    \end{itemize}
+    \verb|0110100 -> 1110101|
+    \begin{itemize}
+        \item \(s_2 = 1 + 1 + 0 + 1 = 1\)
+        \item \(s_1 = 1 + 1 + 1 + 0 = 1\)
+        \item \(s_0 = 1 + 1 + 0 + 1 = 1\)
+        \item Error at b1
+        \item 1100
+    \end{itemize}
+    \item \verb|1110|
+    \begin{itemize}
+        \item \(r_2 = 1 + 1 + 0 = 0\)
+        \item \(r_1 = 1 + 1 + 1 = 1\)
+        \item \(r_0 = 1 + 1 + 0 = 0\)
+    \end{itemize}
+    \verb|1110010 -> 0100011|
+    \begin{itemize}
+        \item \(s_2 = 0 + 0 + 0 + 0 = 0\)
+        \item \(s_1 = 0 + 1 + 0 + 1 = 0\)
+        \item \(s_0 = 1 + 0 + 0 + 1 = 0\)
+        \item No error detected
+        \item 0100
+    \end{itemize}
+    \item \verb|0001|
+    \begin{itemize}
+        \item \(r_2 = 0 + 0 + 1 = 1\)
+        \item \(r_1 = 0 + 0 + 0 = 0\)
+        \item \(r_0 = 0 + 0 + 1 = 1\)
+    \end{itemize}
+    \verb|0001101 -> 1100101|
+    \begin{itemize}
+        \item \(s_2 = 1 + 0 + 0 + 1 = 0\)
+        \item \(s_1 = 1 + 1 + 0 + 0 = 0\)
+        \item \(s_0 = 1 + 0 + 0 + 1 = 0\)
+        \item No error detected
+        \item 1100
+    \end{itemize}
+\end{enumerate}
+\subsection*{CRC}
+\[
+\begin{array}{r}
+      \underline{1110\phantom{000}} \\
+      [-2pt] 1011 | 1100000 \\
+      \underline{1011\phantom{000}} \\
+        1110\phantom{00} \\
+        \underline{1011\phantom{00}} \\
+         1010\phantom{0}\\
+         \underline{1011\phantom{0}}\\
+         010
+\end{array} \quad \begin{array}{r} \underline{1000\phantom{000}} \\
+      [-2pt] 1011 | 1011010 \\
+      \underline{1011\phantom{000}} \\
+        010
+\end{array} \quad \begin{array}{r}
+      \underline{1100\phantom{000}} \\
+      [-2pt] 1011 | 1110100 \\
+      \underline{1011\phantom{000}} \\
+        1011\phantom{00} \\
+        \underline{1011\phantom{00}} \\
+         000\\
+         \end{array}
+\]
+\begin{enumerate}
+    \item \verb|1100 000/1011 = 1110 R 010, 1100 010|
+    \item \verb|1011 010/1011 = 1000 R 010|, Syndrome not 0, rejected.
+    \item \verb|1110 100/1011 = 1100 R 000|, Syndrome 0, accepted.
+\end{enumerate}
+\subsection*{Checksum}
+\[-(5+12+45+0+9+23) = -94\]
+\end{multicols}
+\end{document}

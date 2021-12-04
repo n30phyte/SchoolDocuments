@@ -1,0 +1,33 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+\usepackage{pgfplots}
+\usepackage[letterpaper]{geometry}
+\usepackage{booktabs}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+
+\usepgfplotslibrary{external} 
+\tikzexternalize[prefix=tikz/]
+\pgfplotsset{compat=1.17}
+
+
+\title{CMPUT 379 Assignment 3}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[enlargelimits=false]
+            \addplot+[only marks, scatter, mark=halfcircle*, mark size=2.9pt] table[y index=0]{heapsort_4k_1k.txt};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Heapsort with 4096 page size and 1000 window size}
+    \label{fig:4k1k}
+\end{figure}
+
+\end{document}

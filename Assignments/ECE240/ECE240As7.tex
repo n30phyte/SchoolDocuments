@@ -1,0 +1,91 @@
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{multicol}
+
+\title{ECE 240 Assignment 7}
+\author{Michael Kwok}
+\begin{document}
+
+\maketitle
+\begin{multicols}{2}
+\section*{1}
+
+$$f(t) = e^{-1} t \left[ u(t)-u(t-1) \right] + e^{-t}[u(t-1)]$$
+
+\begin{align*}
+    F(\omega) &= \int_{-\infty}^{\infty}\left[ e^{-1} t \left[ u(t)-u(t-1) \right] + e^{-t}[u(t-1)]\right]e^{-j\omega t}dt\\
+    &= \int_0^1 e^{-1} t e^{-j\omega t} dt + \int_1^\infty e^{-t} e^{-j\omega t} dt\\
+    &= e^{-1}\left.\left(\frac{t}{-j\omega} + \frac{1}{\omega^2}\right) e^{-j\omega t}\right\rvert^1_0 + \int_1^\infty e^{-t (1 +j\omega)} dt\\
+    &= e^{-1}\left[\left(\frac{1}{-j\omega} + \frac{1}{\omega^2}\right) e^{-j\omega}-\frac{1}{\omega ^2}\right] - \left.\frac{e^{-t (1 +j\omega)}}{1+j\omega} \right\rvert^\infty_0\\
+    &= \frac{(j\omega +1) e^{-1-j\omega}-e^{-1}}{\omega ^2} + \frac{e^{-1 -j\omega}}{1+j\omega}\\
+    \end{align*}
+$$
+\boxed{F(\omega) = \frac{(j\omega +1) e^{-1-j\omega}-e^{-1}}{\omega ^2} + \frac{e^{-1 -j\omega}}{1+j\omega}}
+$$
+\section*{2}
+\subsection*{a}
+Unit impulse response = $h(t) = \mathcal{F}^{-1}\{H(\omega)\}$
+$$
+\boxed{h(t) = e^{-2t}u(t)}
+$$
+\subsection*{b}
+$$
+Y\{\delta(t)\} = h(t)
+$$
+\begin{align*}
+    Y\{f(t)\} &= y(t)\\
+    &= \delta(t)*h(t)
+\end{align*}
+Using the convolution property of Fourier Transforms,
+\begin{align*}
+    Y(\omega) &= F(\omega) H(\omega)\\
+    &= \left( \frac{1}{2+j\omega} \right) \left( \frac{1}{2+j\omega} \right)
+\end{align*}
+\begin{align*}
+    y(t) &= \int_{-\infty}^{\infty} e^{-2\tau} u(\tau) e^{-2(t-\tau)} u(t-\tau)d\tau\\
+    &=\int_0^t e^{-2\tau}e^{2\tau} e^{-2t}d\tau\\
+    &= e^{-2t}\int_0^t d\tau\\
+    &= \boxed{e^{-2t} t}
+\end{align*}
+\section*{3}
+\begin{align*}
+\int_{-\infty}^\infty f_1(t)f_2(t)dt &= \int_{-\infty}^\infty f_1(t)\left[ \int_{-\infty}^\infty F_2(\omega)e^{-j\omega t} d\omega \right]dt\\
+&= \frac{1}{2\pi} \int_{-\infty}^\infty F_2(\omega)\left[\int_{-\infty}^\infty f_1(t)e^{-j\omega t}dt\right]d\omega\\
+&= \boxed{\frac{1}{2\pi} \int_{-\infty}^\infty F_2(\omega)F_1(-\omega)d\omega}
+\end{align*}
+
+OR
+
+\begin{align*}
+\int_{-\infty}^\infty f_1(t)f_2(t)dt &= \int_{-\infty}^\infty f_2(t)\left[ \int_{-\infty}^\infty F_1(\omega)e^{-j\omega t} d\omega \right]dt\\
+&= \frac{1}{2\pi} \int_{-\infty}^\infty F_1(\omega)\left[\int_{-\infty}^\infty f_2(t)e^{-j\omega t}dt\right]d\omega\\
+&= \boxed{\frac{1}{2\pi} \int_{-\infty}^\infty F_1(\omega)F_2(-\omega)d\omega}
+\end{align*}
+\section*{4}
+By duality,
+\begin{align*}
+    F(\omega) &=2\pi e^{-a|-\omega|}\\
+    &= 2\pi e^{-a|\omega|}
+\end{align*}
+99\% of $E_f$ using $E_f = \int_{-\infty}^\infty|f(t)|^2 dt \rightarrow \frac{1}{2\pi}\int_{-\infty}^\infty |F(\omega)|^2 d\omega$
+
+\begin{align*}
+    &\frac{1}{\pi}\int_0^{\omega_B} |F(\omega)|^2 d\omega\\
+    =&2\int_0^{\omega_B}e^{-2a\omega}
+\end{align*}
+\begin{align*}
+\int_0^{\omega_B} e^{-2a\omega} &\geq 0.99 \int_0^{\infty} e^{-2a\omega}\\
+\frac{2}{a}-\frac{2e^{-2a\omega_B}}{a} &\geq 0.99\cdot\frac{2}{a}\\
+1-e^{-2a\omega_B} &\geq 0.99\\
+e^{-2a\omega_B} &\leq 0.01\\
+2a\omega_B &= 4.6051\\
+\omega_B &= \boxed{\frac{2.303}{a}}
+\end{align*}
+
+\end{multicols}
+\end{document}
+=
