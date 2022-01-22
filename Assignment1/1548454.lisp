@@ -102,5 +102,10 @@
       (list (get-odd L) (get-even L))))
 
 ; QUESTION 5
-(defun find-subset (L))
-(defun allsubsets (L))
+(defun find-subset (L)
+  (declare (optimize (debug 3)))
+  (if (not (null L))
+      (cons (cons (cdr L) (find-subset (cdr L))) (find-subset (cdr L)))))
+
+(defun allsubsets (L)
+  (find-subset (remove-duplicate L)))
