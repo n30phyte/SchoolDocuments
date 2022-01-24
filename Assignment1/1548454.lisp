@@ -1,39 +1,3 @@
-;; Allowed functions:
-;; (atom x)
-;; (null x)
-;; (eq x y)
-;; (equal x y)
-;; (numberp x)
-;; (append x y)
-;; (car x)
-;; (cdr x)
-;; (cons x y)
-;; (if x y z)
-;; (cond ...)
-;; (let ((x y)      (u v))   z)
-;; (let* ((x y)        (u v))  z)
-;; (defun ...)
-;; (quote x) and its short form 'x
-;; (list x1 x2 ...)
-;; (print ...)
-;; (sort L fun) this is useful for the last problem
-;; and numeric operators and comparisons, and logic connectives such as
-;; (+ x y)
-;; (- x y)
-;; (* x y)
-;; (/ x y)
-;; (< x y)
-;; (> x y)
-;; (= x y)
-;; (<= x y)
-;; (>= x y)
-;; (and x y)
-;; (or x y)
-;; (not x)
-;; You may also use a combination of car and cdr, such as
-;; (cadr ...), (cdaar ...)
-
-
 ; QUESTION 1
 ; Returns the number of atoms appearing in a possibly nested list L.
 (defun xcount (L)
