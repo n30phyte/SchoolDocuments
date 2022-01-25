@@ -1,0 +1,24 @@
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+
+ENTITY TripletChecker IS
+  PORT (
+    A : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+    Y : OUT STD_LOGIC);
+END ENTITY;
+
+ARCHITECTURE RTL OF TripletChecker IS
+BEGIN
+
+  PROCESS (A)
+  BEGIN
+    Y <=
+      (A(7) AND A(6) AND A(5)) OR
+      (A(6) AND A(5) AND A(4)) OR
+      (A(5) AND A(4) AND A(3)) OR
+      (A(4) AND A(3) AND A(2)) OR
+      (A(3) AND A(2) AND A(1)) OR
+      (A(2) AND A(1) AND A(0));
+  END PROCESS;
+
+END ARCHITECTURE;
