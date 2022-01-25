@@ -1,0 +1,4 @@
+Bug 1: Did not set input character set. Fixed by declaring that default system character set is used.
+Bug 2,3: br.readLine() might error with an IOException and input would still be null. Null strings are replaced with an empty one.
+Bug 4: String::replace() does not mutate original String. Input has to be reassigned to the result.
+Bug 5: Comparison `==` compares references. Code was changed to use String::equals to compare strings instead.
