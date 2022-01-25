@@ -36,7 +36,17 @@
 
   \item A rectangular mesh network could be easier to manufacture than an H-tree clock network due to using simple lines as the mesh. A disadvantage would be that due to the shape, the propagation delay for the clock might not be as uniform as the H-tree, and different devices will get clocked slightly off relative to each other.
   
-  \item
+  \item The leaf nodes will be a ``population counter'' or ``Hamming weight counter'' for the input bits, where it will count how many bits are set to 1 in the input. For simplification purposes, when the bit count is 4, the output value will be \verb|1XX| as our target is to find if values are equal to, lower than or larger than 3, so knowing how much larger than 3 the number of bits set to 1 at the input is irrelevant.
+  
+  For the internal nodes, a construct similar to saturating adders will be used, where any output larger than 3 will be represented by \verb|1XX|, again to simplify the circuit for similar reasons to the above. The precision loss is not an issue as the setup does not care as long as it's larger than 3 always.
+  
+  For the root node, a circuit specifically to detect each output was made instead.
+
+  Diagrams and derivations attached at the end of the document.
+
+  \item Attached at the end of the document.
 \end{enumerate}
+
+\includepdf[pages={-},fitpaper,rotateoversize]{Diagrams.pdf}
 
 \end{document}
