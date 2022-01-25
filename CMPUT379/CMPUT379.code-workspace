@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "mem_layout"
+		},
+		{
+			"path": "notapp"
+		},
+		{
+			"path": "valws"
+		},
+		{
+			"path": "."
+		}
+	],
+}
