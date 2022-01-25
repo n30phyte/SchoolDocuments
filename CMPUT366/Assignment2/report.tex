@@ -1,0 +1,29 @@
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.5cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikzscale}
+
+\pgfplotsset{compat=1.17}
+
+\title{CMPUT 366 Assignment 2}
+\author{Michael Kwok}
+
+\begin{document}
+\maketitle
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.45\linewidth, height=0.45\linewidth]{runtime.tikz}
+  \caption{Algorithm Runtimes in seconds. Black line is when $x=y$.}
+\end{figure}
+
+As can be seen in the graph, the solver runs much faster on average with the Minimum Remaining Values (MRV) heuristic as compared to the naïve heurstic which simply picks the first unsolved domain. There are a few edge cases where it does not run as quickly, but the maximum value of the MRV heuristic is much lower than the First Available one.
+
+With the First Available heuristic, bigger domains will be tried before failing, while MRV tries to fail as soon as possible by picking smaller domains to test. This allows the search to go faster as the recursion stack can start unwinding earlier and allow the backtracking algorithm to move onto the next possible value.
+
+\end{document}

@@ -1,0 +1,52 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Assignment 1 Test",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/Assignment1/main.py",
+      "args": ["--testinstances"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/Assignment1"
+    },
+    {
+      "name": "Assignment 1 Plot",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/Assignment1/main.py",
+      "args": ["--testinstances", "--plots"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/Assignment1"
+    },
+    {
+      "name": "Assignment 1 Tex",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/Assignment1/main.py",
+      "args": ["--testinstances", "--tex"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/Assignment1"
+    },
+    {
+      "name": "Assignment 1 Data",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/Assignment1/main.py",
+      "args": ["--testinstances", "--plots", "--tex"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/Assignment1"
+    },
+    {
+      "name": "Assignment 2",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/Assignment2/main.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/Assignment2"
+    }
+  ]
+}
