@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo Arduino project setup script
+echo What would you want to name the folder?
+
+read pname
+
+mkdir $pname
+touch $pname/$pname.cpp
+cp $HOME/arduino-ua/Makefile_Example/Makefile $pname
+
+echo "void setup(){} int main(){}" > $pname/$pname.cpp

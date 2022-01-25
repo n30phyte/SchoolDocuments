@@ -1,0 +1,13 @@
+Name: Michael Kwok
+ID: 1548454
+CMPUT 274, Fall 2019
+
+Weekly Exercise 3: Word Frequency
+
+Running instructions:
+  1. Execute `python3 freq.py <filename>` in the command line, where `filename` is the name of the file with the content that is to be counted
+
+Notes and Assumptions:
+  - Code is run with at least Python 3.6 to support 'f-strings' https://docs.python.org/3/whatsnew/3.6.html
+  - Input file is plaintext.
+  - Output file does not exist, can be overwritten, and is not the name of a directory.

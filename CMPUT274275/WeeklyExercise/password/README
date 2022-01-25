@@ -1,0 +1,16 @@
+Name: Michael Kwok
+ID: 1548454
+CMPUT 274, Fall 2019
+
+Weekly Exercise 1: Password Validator
+
+List flattening using list comprehension was taken from
+https://stackoverflow.com/questions/952914/how-to-make-a-flat-list-out-of-list-of-lists
+
+Running instructions:
+  1. Fill out the main function with whatever code that uses the generator or validator
+  2. Execute `python3 validator.py` in the command line
+
+Notes and Assumptions:
+  The file contains 2 functions called `validate` and `generate`. `validate` can be called with any string, `generate` is always called with an integer that is larger than or equal to 8
+  The functions assume that all strings are ASCII, no Unicode. Unicode might work, but is untested. Maximum values should be the same as python maximum values.

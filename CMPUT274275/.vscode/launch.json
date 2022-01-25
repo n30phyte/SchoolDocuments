@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Weekly Exercise",
+      "type": "cppdbg",
+      "request": "launch",
+      "preLaunchTask": "g++ build active file",
+      "program": "${fileDirname}/${fileBasenameNoExtension}",
+      "stopAtEntry": false,
+      "cwd": "${fileDirname}",
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    },
+  ]
+}

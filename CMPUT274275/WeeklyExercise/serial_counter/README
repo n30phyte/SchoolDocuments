@@ -1,0 +1,33 @@
+Name: Michael Kwok
+ID: 1548454
+CMPUT 274, Fall 2019
+
+Weekly Exercise 6: Serial Counter
+
+Included Files:
+- README
+- Makefile
+- serial_counter.cpp
+
+Accessories:
+- Arduino Mega 2560
+- 5 LEDs
+- 5 560 Ohm Resistors
+- Breakout wires
+
+Wiring instructions:
+- Arduino Pin 9 <-> Long LED lead |LED| Short LED lead <-> 560 Ohm Resistor <-> GND
+- Repeat above for pin 10 until 13
+
+Running instructions:
+1. Connect the Arduino to the PC using an A-B USB cable. Ensure that the Arduino is on the right port.
+2. In the folder with counting.cpp, Makefile and README, execute `make upload && serial-mon`
+3. Wait until "Ready for input." shows up in the terminal.
+4. Input any number and any character from A-F, case insensitive, to produce a running count on the screen and output to LED.
+4. Use space or enter to reset the count.
+
+Notes and Assumptions:
+- Global constants were used in this project.
+- Keys that get read as control codes in minicom will affect the total incorrectly.
+  - Up/Down/Left/Right, function keys.
+- Tabs were not mentioned as a reset in the instructions. It will be ignored.

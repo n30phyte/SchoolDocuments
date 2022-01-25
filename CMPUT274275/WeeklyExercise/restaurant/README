@@ -1,0 +1,27 @@
+Name: Michael Kwok
+ID: 1548454
+CMPUT 275, Winter 2020
+
+Weekly Exercise 2: Restaurants and Pointers
+
+Included Files:
+- README
+- Makefile
+- get_restaurant.cpp
+
+Accessories:
+- Arduino Mega 2560
+- SD Card with correct data.
+
+Wiring instructions:
+- None
+
+Running instructions:
+1. Connect the Arduino to the PC using an A-B USB cable. Ensure that the correct Arduino is selected with `arduino-port-select`.
+2. In the folder with get_restaurant.cpp, Makefile and README, run `make upload-0`
+3. Press the corresponding buttons to test the code.
+
+Notes and Assumptions:
+- Global constants were used in this project.
+- SD Card is properly flashed and working.
+- Starter code provided was used.

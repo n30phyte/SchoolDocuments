@@ -1,0 +1,17 @@
+Name: Michael Kwok
+ID: 1548454
+CMPUT 274, Fall 2019
+
+Assignment 1: Huffman Coding
+
+Running instructions:
+  - To use the decompressor:
+    - Execute `python3 ../webserver.py` in the command line from inside the wwwroot folder
+    - or call `util.decompress(compressed, uncompressed)` where compressed and uncompressed binary file streams
+  - To use the compressor:
+    - Execute `python3 ../compressor.py <file1> [file2] [file...]` in the command line from inside the wwwroot folder
+    - or call `util.compress(tree, uncompressed, compressed)` where compressed and uncompressed binary file streams and tree is the huffman tree of the file.
+
+Notes and Assumptions:
+  - Using Python iter() to replace a while loop to make code look cleaner. https://docs.python.org/3/library/functions.html#iter
+    - Idea to use lambda from: https://stackoverflow.com/a/9815824

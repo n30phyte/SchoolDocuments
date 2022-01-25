@@ -1,0 +1,19 @@
+Name: Michael Kwok
+ID: 1548454
+CMPUT 274, Fall 2019
+
+Weekly Exercise 7: Euler's Phi Function
+
+Included Files:
+- README
+- eulerphi.cpp
+
+Running instructions:
+1. Compile the eulerphi.cpp file by calling the C++ compiler like `$CC eulerphi.cpp -o eulerphi`.
+2. Run the program with `./eulerphi`.
+3. Type in the number.
+
+Notes and Assumptions:
+- Only numbers will be input into the program.
+- Compiler is C++ 11 compliant.
+- GCD algorithm is from RSA Key Generation presentation.

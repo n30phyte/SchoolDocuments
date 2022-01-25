@@ -1,0 +1,34 @@
+Name: Michael Kwok
+ID: 1548454
+CMPUT 275, Winter 2020
+
+Weekly Exercise 1: Display and Joystick
+
+Included Files:
+- README
+- Makefile
+- joy_cursor.cpp
+
+Accessories:
+- Arduino Mega 2560
+- 1 Joystick
+- Breakout wires
+- SD Card with correct data.
+
+Wiring instructions:
+- Arduino Pin A9 <-> Joystick VRx
+- Arduino Pin A8 <-> Joystick VRy
+- Arduino GND <-> Joystick GND
+- Arduino 5V <-> Joystick +5V
+
+Running instructions:
+1. Connect the Arduino to the PC using an A-B USB cable. Ensure that the correct Arduino is selected with `arduino-port-select`.
+2. In the folder with joy_cursor.cpp, Makefile and README, run `make upload-0`
+3. Wait until the map fully draws out with the cursor before using.
+
+Notes and Assumptions:
+- Global constants were used in this project.
+- VRx input was inverted in code due to my joystick having inverted axis (joystick left = map right)
+- Cursor glitchy during movement, but not when at rest.
+- SD Card is properly flashed and working.
+- Starter code provided was used.
