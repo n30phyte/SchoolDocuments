@@ -1,0 +1,35 @@
+@startuml Question 1
+
+title CCID: mkwok1
+
+participant TestDriver
+TestDriver -> RecursiveEvaluator : evaluate(exp)
+activate RecursiveEvaluator
+
+RecursiveEvaluator -> MulOp : exp.getValue()
+activate MulOp
+
+MulOp -> MulOp : left.getValue()
+activate MulOp
+
+MulOp -> Literal : left.getValue()
+activate Literal
+Literal -> MulOp : Integer
+
+MulOp -> Literal : right.getValue()
+Literal -> MulOp : Integer
+deactivate Literal
+
+MulOp -> MulOp : Integer
+deactivate MulOp
+
+MulOp -> Literal : right.getValue()
+activate Literal
+Literal -> MulOp : Integer
+deactivate Literal
+
+MulOp -> RecursiveEvaluator : Integer
+RecursiveEvaluator -> TestDriver : Integer
+deactivate MulOp
+
+@enduml

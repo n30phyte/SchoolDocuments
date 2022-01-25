@@ -1,0 +1,46 @@
+@startuml Cohesion
+
+Title: Coupling and Cohesion -- mkwok1
+
+skinparam classAttributeIconSize 0
+
+interface Font <<interface>> {}
+interface Point <<interface>> {}
+interface Country <<interface>> {}
+
+interface Shape <<interface>> {
+  + name() : String
+}
+
+class Address {
+  - street: String
+  - city: String
+  - state: String
+  - country: Country
+}
+
+class User {
+  - name: String
+  - font: Font
+  - fsize: Point
+  - address: Address
+}
+
+class Canvas {
+  + drawNamedShape(s: Shape, u: User)
+  + drawText(s: Shape, font: Font, size: Point)
+  + draw(s: Shape)
+}
+
+User "1" *-- "1" Address
+User "1" *-- "1" Point
+User "1" *-- "1" Font
+
+Canvas -- Shape
+Canvas -- Point
+Canvas -- Font
+
+Address "1" *-- Country
+
+
+@enduml

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">mkwok1-TrialBook</string>
+    <string name="saveExperimentText">Save Experiment</string>
+    <string name="newExperimentDescription">Experiment Description</string>
+    <string name="pass">Pass</string>
+    <string name="fail">Fail</string>
+</resources>

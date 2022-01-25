@@ -1,0 +1,53 @@
+CCID: mkwok1
+
+Class: Developer
+Collaborator: Software
+Collaborator: Source Files
+Collaborator: Repository
+Collaborator: Commit
+Collaborator: Branch
+Responsibility: Write to Source Files
+Responsibility: Develop Software
+Responsibility: Commits source files into repository
+Responsibility: Know about branches and which branch to use
+
+Class: Software
+Collaborator: Developer
+Collaborator: Source Files
+Responsibility: Get developed by developer
+Responsibility: Get compiled from source files
+
+Class: Commit
+Collaborator: Repository
+Collaborator: Developer
+Collaborator: Source Files
+Responsibility: Track list of changed source files in repository
+
+Class: Source Files
+Collaborator: Developer
+Responsibility: Get written by developer
+
+Class: Repository
+Collaborator: Commit
+Collaborator: Branch
+Collaborator: Server
+Responsibility: Handle history of commits
+Responsibility: Handle branching of repository
+Responsibility: Get pushed/pulled from the server
+
+Class: Branch
+Collaborator: Commit
+Responsibility: Store the differences between this branch and the branch this was forked from
+Responsibility: Store list of commits for this branch
+
+
+Class: Merge Conflicts
+Collaborator: Source Files
+Responsibility: Show the differences between the two conflicting source files
+
+Class: Server
+Collaborator: Repository
+Collaborator: Branch
+Collaborator: Source Files
+Responsibility: Storage of many repositories and branches of repositories
+Responsibility: Storage of Source Files

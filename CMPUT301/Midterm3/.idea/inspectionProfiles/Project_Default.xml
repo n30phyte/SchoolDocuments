@@ -1,0 +1,100 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="BooleanMethodNameMustStartWithQuestion" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoreBooleanMethods" value="false" />
+      <option name="ignoreInAnnotationInterface" value="true" />
+      <option name="onlyWarnOnBaseMethods" value="true" />
+      <option name="questionString" value="are,can,check,contains,could,endsWith,equals,has,is,matches,must,put,remove,shall,should,startsWith,was,were,will,would" />
+    </inspection_tool>
+    <inspection_tool class="ClassNamePrefixedWithPackageName" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ClassNameSameAsAncestorName" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ConfusingMainMethod" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="DollarSignInName" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <Languages>
+        <language minSize="50" name="Kotlin" />
+      </Languages>
+    </inspection_tool>
+    <inspection_tool class="ExceptionNameDoesntEndWithException" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="FieldNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
+      <extension name="InstanceVariableNamingConvention" enabled="true">
+        <option name="m_regex" value="[a-z][A-Za-z\d]*" />
+        <option name="m_minLength" value="5" />
+        <option name="m_maxLength" value="32" />
+      </extension>
+    </inspection_tool>
+    <inspection_tool class="HtmlTagCanBeJavadocTag" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="LambdaParameterNamingConvention" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="LocalVariableNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="m_ignoreForLoopParameters" value="false" />
+      <option name="m_ignoreCatchParameters" value="false" />
+      <option name="m_regex" value="[a-z][A-Za-z\d]*" />
+      <option name="m_minLength" value="1" />
+      <option name="m_maxLength" value="20" />
+    </inspection_tool>
+    <inspection_tool class="MethodNameSameAsParentName" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="MisspelledMethodName" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="NewClassNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
+      <extension name="AbstractClassNamingConvention" enabled="true">
+        <option name="inheritDefaultSettings" value="true" />
+        <option name="m_regex" value="[A-Z][A-Za-z\d]*" />
+        <option name="m_minLength" value="8" />
+        <option name="m_maxLength" value="64" />
+      </extension>
+      <extension name="AnnotationNamingConvention" enabled="true">
+        <option name="inheritDefaultSettings" value="true" />
+        <option name="m_regex" value="[A-Z][A-Za-z\d]*" />
+        <option name="m_minLength" value="8" />
+        <option name="m_maxLength" value="64" />
+      </extension>
+      <extension name="ClassNamingConvention" enabled="true" />
+      <extension name="EnumeratedClassNamingConvention" enabled="true">
+        <option name="inheritDefaultSettings" value="true" />
+        <option name="m_regex" value="[A-Z][A-Za-z\d]*" />
+        <option name="m_minLength" value="8" />
+        <option name="m_maxLength" value="64" />
+      </extension>
+      <extension name="InterfaceNamingConvention" enabled="true">
+        <option name="inheritDefaultSettings" value="true" />
+        <option name="m_regex" value="[A-Z][A-Za-z\d]*" />
+        <option name="m_minLength" value="8" />
+        <option name="m_maxLength" value="64" />
+      </extension>
+      <extension name="JUnitTestClassNamingConvention" enabled="true" />
+      <extension name="TypeParameterNamingConvention" enabled="true">
+        <option name="m_regex" value="[A-Z]" />
+        <option name="m_minLength" value="1" />
+        <option name="m_maxLength" value="1" />
+      </extension>
+    </inspection_tool>
+    <inspection_tool class="NewMethodNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
+      <extension name="InstanceMethodNamingConvention" enabled="true" />
+      <extension name="JUnit3MethodNamingConvention" enabled="true" />
+      <extension name="NativeMethodNamingConvention" enabled="true" />
+      <extension name="StaticMethodNamingConvention" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="NonBooleanMethodNameMayNotStartWithQuestion" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="questionString" value="are,can,check,contains,could,endsWith,equals,has,is,matches,must,put,remove,shall,should,startsWith,was,were,will,would" />
+      <option name="ignoreBooleanMethods" value="false" />
+      <option name="onlyWarnOnBaseMethods" value="true" />
+    </inspection_tool>
+    <inspection_tool class="NonExceptionNameEndsWithException" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ParameterNameDiffersFromOverriddenParameter" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="m_ignoreSingleCharacterNames" value="false" />
+      <option name="m_ignoreOverridesOfLibraryMethods" value="false" />
+    </inspection_tool>
+    <inspection_tool class="ParameterNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="m_regex" value="[a-z][A-Za-z\d]*" />
+      <option name="m_minLength" value="1" />
+      <option name="m_maxLength" value="20" />
+    </inspection_tool>
+    <inspection_tool class="QuestionableName" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="nameString" value="aa,abc,bad,bar,bar2,baz,baz1,baz2,baz3,bb,blah,bogus,bool,cc,dd,defau1t,dummy,dummy2,ee,fa1se,ff,foo,foo1,foo2,foo3,foobar,four,fred,fred1,fred2,gg,hh,hello,hello1,hello2,hello3,ii,nu11,one,silly,silly2,string,two,that,then,three,whi1e,var" />
+    </inspection_tool>
+    <inspection_tool class="StandardVariableNames" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoreParameterNameSameAsSuper" value="true" />
+    </inspection_tool>
+    <inspection_tool class="UpperCaseFieldNameNotConstant" enabled="true" level="WARNING" enabled_by_default="true" />
+  </profile>
+</component>

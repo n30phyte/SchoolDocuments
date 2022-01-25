@@ -1,0 +1,41 @@
+@startuml Trials
+
+skinparam classAttributeIconSize 0
+
+abstract class Result {
+  {abstract} getBinary() : Boolean
+  {abstract} getCount() : Integer
+  + isBinary() : Boolean
+}
+class Trial {
+  # result: Result
+
+  + Trial(r : Result)
+  + getResult() : Result
+}
+
+class BinaryResult {
+    success : Boolean
+
+    + BinaryResult(success : Boolean)
+    + getBinary() : Boolean
+    + getCount() : Integer
+    + isBinary() : Boolean
+}
+
+class MultiBinary {
+    - results: BinaryResult[]
+
+    + BinaryResult(results: BinaryResult[])
+    + getBinary() : Boolean
+    + getCount() : Integer
+}
+
+Trial "1" o-- "1" Result
+
+Result <|-- BinaryResult
+Result <|-- MultiBinary
+
+BinaryResult "1..*" o--"1  " MultiBinary
+
+@enduml

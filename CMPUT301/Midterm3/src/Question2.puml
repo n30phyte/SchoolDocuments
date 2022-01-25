@@ -1,0 +1,32 @@
+@startuml
+
+title CCID: mkwok1
+
+class WaterException extends Exception {
+    WaterException(s: String)
+}
+class TooMuchFlowException extends WaterException {
+    TooMuchFlowException(s: String)
+}
+interface WaterMeasurable {
+    litresPerSecond(pm: WaterMeter) throws WaterException: double
+}
+interface Valve {
+    void shutdown()
+}
+
+class TestWaterMeter implements WaterMeasurable {
+    litresPerSecond(pm: WaterMeter) throws TooMuchFlowException: double
+}
+
+class WaterMeter {
+    valves: Valve[]
+    shutdown: boolean
+    measureFlow(wm:  WaterMeasurable ) throws WaterException: double
+}
+
+Valve -> WaterMeter
+TestWaterMeter <- TooMuchFlowException
+
+WaterMeter <-- TestWaterMeter
+@enduml

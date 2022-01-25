@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/textInputContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentBottom="true"
+    android:gravity="center|top"
+    android:orientation="vertical"
+    tools:ignore="HardcodedText">
+
+    <EditText
+        android:id="@+id/input_city_name"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="16dp"
+        android:layout_marginBottom="8dp"
+
+        android:autofillHints=""
+
+        android:ems="10"
+        android:hint="City Name"
+        android:imeOptions="actionDone"
+        android:inputType="textCapWords" />
+
+    <EditText
+        android:id="@+id/input_province_name"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="16dp"
+        android:layout_marginTop="8dp"
+
+        android:autofillHints=""
+
+        android:ems="10"
+        android:hint="Province Name"
+        android:imeOptions="actionDone"
+        android:inputType="textCapWords" />
+</LinearLayout>

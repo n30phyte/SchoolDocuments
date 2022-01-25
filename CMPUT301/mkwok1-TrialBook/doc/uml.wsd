@@ -1,0 +1,64 @@
+@startuml TrialBook
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+class Experiment implements Parcelable {
+    - sdf: SimpleDateFormat
+    - description: String
+    - fails: Integer
+    - pass: Integer
+--
+    + Experiment(description: String, recordedDate: String)
+    .. Setters and Getters..
+    + getDescription(): String
+    + setDescription(newDescription: String)
+
+    + getRecordedDate(): Date
+    + setRecordedDate(recordedDate: Date)
+
+    + getDateAsString(): String
+    + setDateFromString(dateString: String)
+
+    + getTrials(): Integer
+    + getFails(): Integer
+    + incrementFails()
+    + getPass(): Integer
+    + incrementPass()
+    ==
+    Required to implement Parcelable
+    + {static} CREATOR: Parcelable.Creator<Experiment>
+
+    + Experiment(input: Parcel)
+
+    + describeContents(): Integer
+    + writeToParcel(dest: Parcel, flags: Integer)
+}
+
+class ExperimentAdapter {
+    - experiments: ArrayList<Experiment>
+    - context: Context
+
+    + ExperimentAdapter(context: Context, experimentList:  ArrayList<Experiment>)
+    + getView()
+}
+
+class ExperimentLog {
+    - {static} experiments: ArrayList<Experiment>
+    - ExperimentLog()
+    + {static} getInstance(): ArrayList<Experiment>
+    + {static} addExperiment(experiment: Experiment)
+    + {static} setExperiment(index: Integer, experiment: Experiment)
+
+}
+
+Experiment "0..1" --o "1 " ExperimentInfoActivity
+Experiment "*" --o "1" ExperimentAdapter
+Experiment "*" --* "1" ExperimentLog
+
+ExperimentAdapter "1" --* "1" MainActivity : <<creates>>
+ExperimentInfoActivity -- MainActivity
+ExperimentLog "1" --o "1" ExperimentAdapter
+
+ExperimentLog -- MainActivity
+
+@enduml

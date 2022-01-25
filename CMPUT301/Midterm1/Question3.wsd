@@ -1,0 +1,45 @@
+@startuml Liskov
+
+skinparam classAttributeIconSize 0
+
+interface Location
+
+note top of Movable : A new interface to define that an object\nis movable is created, with moveTo taken\nout of Boulder
+
+note bottom of MovableBoulder : A new specialization of Boulder\nthat can be moved
+
+interface Movable {
+  + moveTo(l: Location)
+}
+
+class Boulder {
+    # location: Location
+    + getLocation() : Location
+}
+class PermanentBoulder extends Boulder {
+    + PermanentBoulder(l : Location)
+}
+
+class MovableBoulder extends Boulder implements Movable {
+    + MovableBoulder(l : Location)
+}
+
+class Sisyphus {
+    # topOfTheHill : Location 
+    # bottomOfTheHill : Location 
+
+    + Sisyphus()
+    + push(b : Movable, l : Location)
+    + punishment(b : MovableBoulder)
+    # chalkHands()
+}
+note top : push takes a Movable object now\npunishment specifically takes\na movable boulder
+
+class MiniSisyphus extends Sisyphus {
+    # chalkHands()
+}
+
+Location --o Boulder
+Location --o Sisyphus
+Location --o Movable
+@enduml
