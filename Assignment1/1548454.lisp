@@ -22,6 +22,14 @@
 
 ; QUESTION 3
 ; Removes repeated atoms in list. Copy removed doesn't mater, order preserved.
+(defun remove-duplicate (x)
+  (if (null x)
+      nil
+      (if (<= 1 (count-atoms (cdr x) (car x)))
+          (remove-duplicate (cdr x))
+          (cons (car x) (remove-duplicate (cdr x))))))
+; Helper for question 3
+; Count the number of times atom x appears in list L
 (defun count-atoms (L x)
   "Helper function for question 3, counts the number of times atom x shows up in list L"
   (if (null L)
@@ -29,13 +37,6 @@
       (if (eq x (car L))
           (+ 1 (count-atoms (cdr L) x))
           (count-atoms (cdr L) x))))
-
-(defun remove-duplicate (x)
-  (if (null x)
-      nil
-      (if (<= 1 (count-atoms (cdr x) (car x)))
-          (remove-duplicate (cdr x))
-          (cons (car x) (remove-duplicate (cdr x))))))
 
 
 ; QUESTION 4 a
@@ -52,10 +53,17 @@
 ; QUESTION 4 b
 ; Returns two lists, the first is elements of input L at odd positions
 ; and the second is elements of input L at even positions
+(defun split (L)
+  (if (null L)
+      '(nil nil)
+      (list (get-odd L) (get-even L))))
+
+; Helper functions for Question 4 b
+; Returns the odd items in the list
 (defun get-odd (L)
   (if (and (not (null L)) (not (null (car L))))
       (cons (car L) (get-odd (cddr L)))))
-
+; Returns the even items in the list
 (defun get-even (L)
   (if (and (not (null L)) (not (null (cadr L))))
       (cons (cadr L) (get-even (cddr L)))))
