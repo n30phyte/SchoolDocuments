@@ -12,6 +12,7 @@
           (contains-atom (cdr L) x))))
 
 (defun func-map-aor (E P ctx)
+  "map each argument of the function to perform Applicative Order Reduction"
   (mapcar #'(lambda (f) (fl-interp-ctx f P ctx)) E))
 
 (defun make-kvp (Lk Lv)
@@ -19,7 +20,7 @@
   (mapcar #'(lambda (k v) (list k v)) Lk Lv))
 
 (defun get-value (kvp key)
-  "Return value stored in KVP list defined by key"
+  "Return value stored in KVP list defined by key. Can also be used to find function definitions"
   (if (null kvp)
       nil
       (if (eq key (caar kvp))
@@ -28,18 +29,20 @@
 
 (defun get-func-args (func-def)
   "Build a list of argument names"
-  (if (eq '= (car func-def))
+  (if (eq (car func-def) '=)
       ; Hit the end of the arg list
       ()
       (append (car func-def) (get-func-args (cdr func-def)))))
 
 (defun get-func-body (func-def)
-  (if (eq '= (car func-def))
+  "Return function body from function definition"
+  (if (eq (car func-def) '=)
       ; Hit the end of the arg list
       (cdr func-def)
       (get-func-body (cdr func-def))))
 
 (defun fl-interp (E P)
+  "Main interpreter function without context"
   (fl-interp-ctx E P nil))
 
 (defun fl-interp-ctx (E P C)
