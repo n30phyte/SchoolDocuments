@@ -53,9 +53,8 @@
    ((not (null (get-value C E))) (car (get-value C E)))
    ((atom E) E)
    (t
-    (let* ((funcname (car E))
-           (arg (cdr E))
-           (funcdef (get-value P funcname)))
+    (let ((funcname (car E))
+          (arg (cdr E)))
 
       (cond
        ;; handle built-in functions
@@ -82,10 +81,10 @@
                               (fl-interp-ctx (caddr arg) P C)))
 
        ; if f is a user-defined function,
-       ((not (null funcdef))
+       ((not (null (get-value P funcname)))
         (fl-interp-ctx
-         (car (get-func-body funcdef)) P
-         (append (make-kvp (get-func-args funcdef) (func-map-aor arg P C)) C))) ; add variables
+         (car (get-func-body (get-value P funcname))) P
+         (append (make-kvp (get-func-args (get-value P funcname)) (func-map-aor arg P C)) C))) ; add variables
 
        ; f is undefined
        (t E))))))
@@ -158,3 +157,5 @@
 ; (fl-interp '(and (> (+ 3 2) (- 4 2)) (or (< 3 (* 2 2)) (not (= 3 2)))) nil) ; > t
 ; (fl-interp '(or (= 5 (- 4 2)) (and (not (> 2 2)) (< 3 2))) nil) ; > nil
 ; (fl-interp '(if (not (null (first (a c e)))) (if (number (first (a c e))) (first (a c e)) (cons (a c e) d)) (rest (a c e))) nil) ; > ((a c e) . d)
+
+(fl-interp '(count (append (a b c) (1 2 3)) ) P)
