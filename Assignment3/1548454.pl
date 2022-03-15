@@ -8,7 +8,7 @@
 % S=[d,g]
 setDifference(LFirst, LSecond, LOut) :- setDifference(LFirst, LSecond, [], LOut).
 
-setDifference([], _, Out, Out).
+setDifference([], _, Out, Out) :- !.
 
 setDifference([Head|Tail], LSecond, Acc, LOut) :-
     (memberchk(Head, LSecond) ->
@@ -39,7 +39,18 @@ setDifference([Head|Tail], LSecond, Acc, LOut) :-
 % filter([3,4,[5,2],[1,7,3]],lessThan,3,W).
 % W= [2,1]
 
-filter(LIn, equal, N, LOut).
+% No items in list
+flattenList([], []) :- !.
+
+% Has items in list
+flattenList([H|T], LOut) :- 
+    !, 
+    flattenList(L ).
+
+% Only one item in list
+flattenList([H], [H]).
+
+filter(LIn, equal, N, LOut):- .
 
 filter(LIn, greaterThan, N, LOut).
 
