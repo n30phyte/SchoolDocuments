@@ -92,12 +92,32 @@ filter(LIn, lessThan, N, LOut) :-
 % countAll([a,b,e,c,c,b],N).
 % N = [[a,1],[e,1],[b,2],[c 2]]
 
-countAtom(A, L) :-
-    countAtom(A, L, 0).
+countAtom(_, [], 0).
 
-countAtom(H, [H|_], N+1).
+countAtom(H, [H|T], N) :- 
+    countAtom(H, T, M), 
+    N is M + 1, !.
 
-countAtom(A, [H|T], N) :-
-    countAtom(A, T, N).
+countAtom(A, [_|T], N) :-
+    countAtom(A, T, N), !.
+
+removeAtom(_, [], []).
+
+% Atom is head
+removeAtom(H, [H|T], L) :-
+    removeAtom(H, T, L), !.
+
+% Atom not head
+removeAtom(A, [H|T], [H|L]) :-
+    removeAtom(A, T, L), !.
+
+countAll([], L).
+
+countAll([H|T], LOut) :-
+    countAtom(H, T, N),
+    removeAtom(H, T, LTemp),
+    LOut is [[H, N + 1], LOut],
+    countAll(T, LTemp), !.
+
 
 
