@@ -10,7 +10,7 @@
 % Check if Item is in List
 
 % True when item is in head of list
-isMember(H, [H|T]).
+isMember(H, [H|_]).
 
 % Called when item is not in head of list
 isMember(H, [_|T]) :-
@@ -49,19 +49,38 @@ swap([A, B | Tin], [B, A | Tout]) :-
 % filter([3,4,[5,2],[1,7,3]],lessThan,3,W).
 % W= [2,1]
 
-% % No items in list
-% flattenList([], []) :- !.
+% appendList(+L1, +L2, -L1andL2)
 
-% % Has items in list
-% flattenList([H|T], LOut) :- 
-%     !, 
-%     flattenList(L ).
+% If L1 is empty, L2 is just L2.
+appendList([], L2, L2).
 
-% % Only one item in list
-% flattenList([H], [H]).
+% If L1 is not empty, append H from L1 to output list, and add in T3 from defined inside predicate
+appendList([H1 | T1], L2, [H1 | T3]) :-
+    % Append T1 to L2 and return value in T3
+    appendList(T1, L2, T3).
 
-% filter(LIn, equal, N, LOut):- .
+% No items in list
+flattenList([], []) :- !.
 
-% filter(LIn, greaterThan, N, LOut).
+% Has items in list
+flattenList([H|T], LOut) :-
+    !,
+    flattenList(H, Left),
+    flattenList(T, Right),
+    appendList(Left, Right, LOut).
 
-% filter(LIn, lessThan, N, LOut).
+% List is single atom.
+flattenList(H, [H]).
+
+filter(LIn, equal, N, LOut) :-
+    flattenList(LIn, LFlat),
+    !, findall(X, (isMember(X, LFlat), X == N), LOut).
+
+filter(LIn, greaterThan, N, LOut) :-
+    flattenList(LIn, LFlat),
+    !, findall(X, (isMember(X, LFlat), X > N), LOut).
+
+filter(LIn, lessThan, N, LOut) :-
+    flattenList(LIn, LFlat),
+    !, findall(X, (isMember(X, LFlat), X < N), LOut).
+
