@@ -6,15 +6,18 @@
 % Ex:
 % setDifference([a,b,c,d,e,g], [b,a,c,e,f,q], S).
 % S=[d,g]
-setDifference(LFirst, LSecond, LOut) :- setDifference(LFirst, LSecond, [], LOut).
 
-setDifference([], _, Out, Out) :- !.
+% Check if Item is in List
 
-setDifference([Head|Tail], LSecond, Acc, LOut) :-
-    (memberchk(Head, LSecond) ->
-    setDifference(Tail, LSecond, Acc, LOut);
-    setDifference(Tail, LSecond, [Head|Acc], LOut)).
+% True when item is in head of list
+isMember(H, [H|T]).
 
+% Called when item is not in head of list
+isMember(H, [_|T]) :-
+    isMember(H, T).
+
+setDifference(LFirst, LSecond, LOut) :- 
+    findall(X, (isMember(X, LFirst), \+ isMember(X, LSecond)), LOut).
 
 % Question 2
 % swap(+L, -R)
@@ -24,6 +27,13 @@ setDifference([Head|Tail], LSecond, Acc, LOut) :-
 % W = [1,a,2,b].
 % swap([a,1,b], W).
 % W = [1,a,b].
+
+swap([H], [H]) :- !.
+
+swap([A, B], [B, A]) :- !.
+
+swap([A, B | Tin], [B, A | Tout]) :-
+    swap(Tin, Tout).
 
 % Question 3
 % filter(+L,+OP,+N,-L1)
@@ -39,19 +49,19 @@ setDifference([Head|Tail], LSecond, Acc, LOut) :-
 % filter([3,4,[5,2],[1,7,3]],lessThan,3,W).
 % W= [2,1]
 
-% No items in list
-flattenList([], []) :- !.
+% % No items in list
+% flattenList([], []) :- !.
 
-% Has items in list
-flattenList([H|T], LOut) :- 
-    !, 
-    flattenList(L ).
+% % Has items in list
+% flattenList([H|T], LOut) :- 
+%     !, 
+%     flattenList(L ).
 
-% Only one item in list
-flattenList([H], [H]).
+% % Only one item in list
+% flattenList([H], [H]).
 
-filter(LIn, equal, N, LOut):- .
+% filter(LIn, equal, N, LOut):- .
 
-filter(LIn, greaterThan, N, LOut).
+% filter(LIn, greaterThan, N, LOut).
 
-filter(LIn, lessThan, N, LOut).
+% filter(LIn, lessThan, N, LOut).
