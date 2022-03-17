@@ -84,3 +84,20 @@ filter(LIn, lessThan, N, LOut) :-
     flattenList(LIn, LFlat),
     !, findall(X, (isMember(X, LFlat), X < N), LOut).
 
+% Question 4
+% countAll(+L, -N)
+% L is flat list of atoms
+% N is list of pairs, with the first entry being the atom and the second entry being the count of the atoms.
+% Ex:
+% countAll([a,b,e,c,c,b],N).
+% N = [[a,1],[e,1],[b,2],[c 2]]
+
+countAtom(A, L) :-
+    countAtom(A, L, 0).
+
+countAtom(H, [H|_], N+1).
+
+countAtom(A, [H|T], N) :-
+    countAtom(A, T, N).
+
+
