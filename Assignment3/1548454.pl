@@ -116,7 +116,7 @@ countUnsorted([H|T1], [[H, N]| L]) :-
 
 % Taken from https://kti.mff.cuni.cz/~bartak/prolog/sorting.html
 
-sortList(List,Sorted):-
+sortList(List,Sorted):-  
     i_sort(List,[],Sorted), !.
 
 i_sort([],Acc,Acc).
@@ -137,3 +137,39 @@ insert(X,[],[X]).
 countAll(LIn, LOut) :-
     countUnsorted(LIn, LTemp), 
     sortList(LTemp, LOut).
+
+% sub(+L,+S,-L1),
+% L is nested list of atoms, S is a list of pairs with substitutes, L1 is output
+
+kvFind(_, [], _).
+
+kvFind(K, [[K,V] | _], V).
+
+kvFind(K, [[_,_] | T1], V) :-
+    kvFind(K ,T1, V), !.
+
+% sub([], _, L2).
+
+% sub([H1|T1], L1, [H2|L2]) :-.
+
+% Question 7
+node(_).
+
+edge(_, _).
+
+% Define bidirectional connection
+connected(NameA, NameB) :-
+    edge(NameA, NameB);
+    edge(NameB, NameA).
+
+% Check if A certain node connects to all nodes in the list
+connects(_, []).
+connects(NameA, [NameH|T]) :-
+    connected(NameA, NameH),
+    connects(NameA, T).
+
+% True if all nodes in the list connected
+allConnected([]).
+allConnected([NameH|T]) :-
+    connects(NameH, T),
+    allConnected(T).
