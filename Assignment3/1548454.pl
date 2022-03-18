@@ -92,32 +92,48 @@ filter(LIn, lessThan, N, LOut) :-
 % countAll([a,b,e,c,c,b],N).
 % N = [[a,1],[e,1],[b,2],[c 2]]
 
-countAtom(_, [], 0).
-
-countAtom(H, [H|T], N) :- 
-    countAtom(H, T, M), 
-    N is M + 1, !.
-
-countAtom(A, [_|T], N) :-
-    countAtom(A, T, N), !.
-
-removeAtom(_, [], []).
+% countRemoveAtom(+A, +LIn -LOut, -N)
+% A: Atom to count and remove
+% LIn: List in
+% LOut: List out
+% N: Count of atom
+countRemoveAtom(_, [], [], 1).
 
 % Atom is head
-removeAtom(H, [H|T], L) :-
-    removeAtom(H, T, L), !.
+countRemoveAtom(H, [H|T], L, N) :-
+    countRemoveAtom(H, T, L, M),
+    N is M + 1, !.
 
 % Atom not head
-removeAtom(A, [H|T], [H|L]) :-
-    removeAtom(A, T, L), !.
+countRemoveAtom(A, [H|T], [H|L], N) :-
+    countRemoveAtom(A, T, L, N), !.
 
-countAll([], L).
+countUnsorted([], []).
 
-countAll([H|T], LOut) :-
-    countAtom(H, T, N),
-    removeAtom(H, T, LTemp),
-    LOut is [[H, N + 1], LOut],
-    countAll(T, LTemp), !.
+countUnsorted([H|T1], [[H, N]| L]) :-
+    countRemoveAtom(H, T1, T2, N),
+    countUnsorted(T2, L), !.
 
+% Taken from https://kti.mff.cuni.cz/~bartak/prolog/sorting.html
 
+sortList(List,Sorted):-
+    i_sort(List,[],Sorted), !.
 
+i_sort([],Acc,Acc).
+
+i_sort([H|T],Acc,Sorted):- 
+    insert(H,Acc,NAcc),
+    i_sort(T,NAcc,Sorted).
+
+insert([X, M],[[Y, N]|T],[[Y, N]|NT]) :- 
+    M > N,
+    insert([X, M],T,NT).
+
+insert([X, M],[[Y, N]|T],[[X, M],[Y, N]|T]) :-
+    M =< N.
+
+insert(X,[],[X]).
+
+countAll(LIn, LOut) :-
+    countUnsorted(LIn, LTemp), 
+    sortList(LTemp, LOut).
