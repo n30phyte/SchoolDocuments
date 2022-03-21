@@ -1,77 +1,31 @@
-% Spec: a parameter headed with + means it is an input parameter--it's bound when the predicate is called, and a parameter headed with - is an output parameter--it's a variable when the predicate is called and bound to a value when the predicate is proved. A parameter headed by ? means it can be either input or output parameter. 
-
-% Question 1
-% setDifference(+S1,+S2,-S3)
-% S1 and S2 are lists of atoms, S3 is list of atoms that are in S1 but not in S2. Assume S1 is a set.
-% Ex:
-% setDifference([a,b,c,d,e,g], [b,a,c,e,f,q], S).
-% S=[d,g]
-
-% Check if Item is in List
-
-% True when item is in head of list
-isMember(H, [H|_]).
-
-% Called when item is not in head of list
-isMember(H, [_|T]) :-
-    isMember(H, T).
-
+%%% Question 1
+%% setDifference(+S1,+S2,-S3)
+%% S1 and S2 are lists of atoms, S3 is list of atoms that are in S1 but not in S2. Assume S1 is a set.
 setDifference(LFirst, LSecond, LOut) :- 
     findall(X, (isMember(X, LFirst), \+ isMember(X, LSecond)), LOut).
 
-% Question 2
-% swap(+L, -R)
-% L is list of atoms, R is list of atoms from L swapped
-% Ex:
-% swap([a,1,b,2], W).
-% W = [1,a,2,b].
-% swap([a,1,b], W).
-% W = [1,a,b].
+%% Q1 Helpers
+%% isMember(+A, +L)
+%% True when atom is in list
+isMember(H, [H|_]). % True when item in head of list
 
+isMember(H, [_|T]) :- % True when item is not in head of list
+    isMember(H, T).
+
+%%% Question 2
+%% swap(+L, -R)
+%% L is list of atoms, R is list of atoms from L swapped
 swap([H], [H]) :- !.
-
 swap([A, B], [B, A]) :- !.
+swap([A, B | T1], [B, A | T2]) :-
+    swap(T1, T2).
 
-swap([A, B | Tin], [B, A | Tout]) :-
-    swap(Tin, Tout).
-
-% Question 3
-% filter(+L,+OP,+N,-L1)
-% L is possibly nested list of numbers
-% OP is either equal, greaterThan or lessThan
-% N is a number
-% L1 is a flat list of all numbers in L that satisfies condition formed by OP and N
-% Ex:
-% filter([3,4,[5,2],[1,7,3]],greaterThan,3,W).
-% W= [4,5,7]
-% filter([3,4,[5,2],[1,7,3]],equal,3,W).
-% W= [3,3]
-% filter([3,4,[5,2],[1,7,3]],lessThan,3,W).
-% W= [2,1]
-
-% appendList(+L1, +L2, -L1andL2)
-
-% If L1 is empty, L2 is just L2.
-appendList([], L2, L2).
-
-% If L1 is not empty, append H from L1 to output list, and add in T3 from defined inside predicate
-appendList([H1 | T1], L2, [H1 | T3]) :-
-    % Append T1 to L2 and return value in T3
-    appendList(T1, L2, T3).
-
-% No items in list
-flattenList([], []) :- !.
-
-% Has items in list
-flattenList([H|T], LOut) :-
-    !,
-    flattenList(H, Left),
-    flattenList(T, Right),
-    appendList(Left, Right, LOut).
-
-% List is single atom.
-flattenList(H, [H]).
-
+%%% Question 3
+%% filter(+L,+OP,+N,-L1)
+%% L is possibly nested list of numbers
+%% OP is either equal, greaterThan or lessThan
+%% N is a number
+%% L1 is a flat list of all numbers in L that satisfies condition formed by OP and N
 filter(LIn, equal, N, LOut) :-
     flattenList(LIn, LFlat),
     !, findall(X, (isMember(X, LFlat), X == N), LOut).
@@ -84,19 +38,29 @@ filter(LIn, lessThan, N, LOut) :-
     flattenList(LIn, LFlat),
     !, findall(X, (isMember(X, LFlat), X < N), LOut).
 
-% Question 4
-% countAll(+L, -N)
-% L is flat list of atoms
-% N is list of pairs, with the first entry being the atom and the second entry being the count of the atoms.
-% Ex:
-% countAll([a,b,e,c,c,b],N).
-% N = [[a,1],[e,1],[b,2],[c 2]]
+%% Q3 Helpers
+% appendList(+L1, +L2, -L1andL2)
+appendList([], L2, L2).
+appendList([H1 | T1], L2, [H1 | T3]) :-
+    appendList(T1, L2, T3).
 
-% countRemoveAtom(+A, +LIn -LOut, -N)
-% A: Atom to count and remove
-% LIn: List in
-% LOut: List out
-% N: Count of atom
+% flattenList(+L1, -L2)
+flattenList([], []) :- !.
+flattenList([H|T], LOut) :-
+    !, flattenList(H, Left),
+    flattenList(T, Right),
+    appendList(Left, Right, LOut).
+flattenList(H, [H]).
+
+%%% Question 4
+%% countAll(+L, -N)
+%% L is flat list of atoms
+%% N is list of pairs, with the first entry being the atom and the second entry being the count of the atoms.
+countAll(LIn, LOut) :-
+    countUnsorted(LIn, LTemp), 
+    sortList(LTemp, LOut).
+
+%% Q4 Helpers
 countRemoveAtom(_, [], [], 1).
 
 % Atom is head
@@ -115,60 +79,64 @@ countUnsorted([H|T1], [[H, N]| L]) :-
     countUnsorted(T2, L), !.
 
 % Taken from https://kti.mff.cuni.cz/~bartak/prolog/sorting.html
-
 sortList(List,Sorted):-  
-    i_sort(List,[],Sorted), !.
+    insertionSort(List,[],Sorted), !.
 
-i_sort([],Acc,Acc).
-
-i_sort([H|T],Acc,Sorted):- 
+insertionSort([],Acc,Acc).
+insertionSort([H|T],Acc,Sorted):- 
     insert(H,Acc,NAcc),
-    i_sort(T,NAcc,Sorted).
-
+    insertionSort(T,NAcc,Sorted).
 insert([X, M],[[Y, N]|T],[[Y, N]|NT]) :- 
     M > N,
     insert([X, M],T,NT).
-
 insert([X, M],[[Y, N]|T],[[X, M],[Y, N]|T]) :-
     M =< N.
-
 insert(X,[],[X]).
 
-countAll(LIn, LOut) :-
-    countUnsorted(LIn, LTemp), 
-    sortList(LTemp, LOut).
+%%% Question 5
+%% sub(+L,+S,-L1),
+%% L is nested list of atoms, S is a list of pairs with substitutes, L1 is output
+sub([], _, []).
+sub([H1|T1], L1, [H2|L2]) :- 
+    atom(H1),
+    replace(H1, L1, H2),
+    sub(T1, L1, L2), !.
 
-% Question 5
-% sub(+L,+S,-L1),
-% L is nested list of atoms, S is a list of pairs with substitutes, L1 is output
+sub([H1|T1], L1, [H2|L2]) :- 
+    \+ atom(H1),
+    sub(H1, L1, H2),
+    sub(T1, L1, L2).
 
+
+%% Q5 Helpers
 kvFind(_, [], _).
-
 kvFind(K, [[K,V] | _], V).
-
 kvFind(K, [[_,_] | T1], V) :-
     kvFind(K ,T1, V), !.
 
-replace(A, [], V).
+replace(A, [], A).
 
-replace(A, [[A, V]|T], V) :- 
-    replace(A, [], V), !.
+replace(A, [[A, V]|_], V) :- !.
 
 replace(A, [[_, _]|T], V) :-
     replace(A, T, V), !.
 
-sub([], _, L2).
 
-% sub([H1|T1], L1, [H2|L2]) :-.
 
-% Question 6
+%%% Question 6
+%% clique(-L)
+%% L is list of all nodes that are a clique
+clique(Nodes) :-
+    findall(X, node(X), AllNodes),
+    mkSubset(AllNodes, Nodes),
+    allConnected(Nodes).
 
-edge(a,b).
-edge(b,c).
-edge(c,a).
-node(a).
-node(b).
-node(c).
+%% Q6 Helpers
+mkSubset([],[]).
+mkSubset([X|S], [X|L]) :-
+    mkSubset(S, L).
+mkSubset([_|S], L) :-
+    mkSubset(S, L).
 
 % Define bidirectional connection
 connected(NameA, NameB) :-
@@ -187,38 +155,28 @@ allConnected([NameH|T]) :-
     connects(NameH, T),
     allConnected(T).
 
-mkSubset([],[]).
-mkSubset([X|S], [X|L]) :-
-    mkSubset(S, L).
-mkSubset([_|S], L) :-
-    mkSubset(S, L).
-
-clique(Nodes) :-
-    findall(X, node(X), AllNodes),
-    mkSubset(AllNodes, Nodes),
-    allConnected(Nodes).
-
-% Question 7
+%%% Question 7
+%% convert(+L1, -L2)
 convert([], []).
+convert([q|T1], [q|T2]) :-
+    betweenQuote(T1, T2), !.
 convert(L1, L2) :-
     preQuote(L1, L2), !.
 
+% Q7 Helpers
 preQuote([], []).
-preQuote([q|T], [q|L2]) :-
-    betweenQuote(T, L2), !.
 preQuote([e|T], L2) :-
     preQuote(T, L2), !.
-preQuote([H|T], [w|L2]) :-
-    preQuote(T, L2), !.
+preQuote([q|T], [q|L2]) :-
+    betweenQuote(T, L2).
+preQuote([_|T], [w|L2]) :-
+    preQuote(T, L2).
 
 betweenQuote([], []).
-betweenQuote([q|T], [H2|T2]) :-
-    splitAtQuote([q|T], H2, L2),
-    preQuote(T, L2), !. 
-betweenQuote([H|T], [H|L2]) :-
-    betweenQuote(T, L2), !.
+betweenQuote([H|T], [H|T2]) :-
+    member(q, [H|T]),
+    betweenQuote(T, T2), !.
 
-splitAtQuote([q], [q], []).
-splitAtQuote([q|T], [q], T).
-splitAtQuote([H|T1], [H|T2], T3) :-
-    splitAtQuote(T1, T2, T3).
+betweenQuote([H|T], T2) :-
+    \+ member(q, [H|T]),
+    preQuote([H|T], T2), !.
