@@ -138,6 +138,7 @@ countAll(LIn, LOut) :-
     countUnsorted(LIn, LTemp), 
     sortList(LTemp, LOut).
 
+% Question 5
 % sub(+L,+S,-L1),
 % L is nested list of atoms, S is a list of pairs with substitutes, L1 is output
 
@@ -148,14 +149,26 @@ kvFind(K, [[K,V] | _], V).
 kvFind(K, [[_,_] | T1], V) :-
     kvFind(K ,T1, V), !.
 
-% sub([], _, L2).
+replace(A, [], V).
+
+replace(A, [[A, V]|T], V) :- 
+    replace(A, [], V), !.
+
+replace(A, [[_, _]|T], V) :-
+    replace(A, T, V), !.
+
+sub([], _, L2).
 
 % sub([H1|T1], L1, [H2|L2]) :-.
 
-% Question 7
-node(_).
+% Question 6
 
-edge(_, _).
+edge(a,b).
+edge(b,c).
+edge(c,a).
+node(a).
+node(b).
+node(c).
 
 % Define bidirectional connection
 connected(NameA, NameB) :-
@@ -173,3 +186,39 @@ allConnected([]).
 allConnected([NameH|T]) :-
     connects(NameH, T),
     allConnected(T).
+
+mkSubset([],[]).
+mkSubset([X|S], [X|L]) :-
+    mkSubset(S, L).
+mkSubset([_|S], L) :-
+    mkSubset(S, L).
+
+clique(Nodes) :-
+    findall(X, node(X), AllNodes),
+    mkSubset(AllNodes, Nodes),
+    allConnected(Nodes).
+
+% Question 7
+convert([], []).
+convert(L1, L2) :-
+    preQuote(L1, L2), !.
+
+preQuote([], []).
+preQuote([q|T], [q|L2]) :-
+    betweenQuote(T, L2), !.
+preQuote([e|T], L2) :-
+    preQuote(T, L2), !.
+preQuote([H|T], [w|L2]) :-
+    preQuote(T, L2), !.
+
+betweenQuote([], []).
+betweenQuote([q|T], [H2|T2]) :-
+    splitAtQuote([q|T], H2, L2),
+    preQuote(T, L2), !. 
+betweenQuote([H|T], [H|L2]) :-
+    betweenQuote(T, L2), !.
+
+splitAtQuote([q], [q], []).
+splitAtQuote([q|T], [q], T).
+splitAtQuote([H|T1], [H|T2], T3) :-
+    splitAtQuote(T1, T2, T3).
