@@ -86,3 +86,53 @@ encrypt(Word1, Word2, Word3) :-
     Head2 #\= 0,
     Head3 #\= 0,
     label(Letters).
+
+% Question 4
+
+grid(N, L) :-
+    length(L, N),
+    maplist(same_length(L), L).
+
+not_in(List, Var) :-
+    delete(List, Var, List2),
+    maplist(#\=(Var), List2).
+
+sudoku(Rows) :-
+    grid(9, Rows),
+        % Rows now is a 9x9 grid of variables
+    append(Rows, Vs),
+        % Vs is a list of all 9*9 variables in Rows
+    Vs ins 1..9,
+    xall-distinct(Rows),
+            % Variables of each row get distinct values
+    transpose(Rows, Columns),
+        % get the columns of 9x9 grid
+    xall-distinct(Rows),
+    Rows = [As,Bs,Cs,Ds,Es,Fs,Gs,Hs,Is],
+        % need references to rows
+    blocks(As, Bs, Cs),
+        % deal with three rows at a time
+    blocks(Ds, Es, Fs),
+    blocks(Gs, Hs, Is).
+
+blocks([], [], []).
+blocks([N1,N2,N3|Ns1], [N4,N5,N6|Ns2], [N7,N8,N9|Ns3]) :-
+    all_distinct([N1,N2,N3,N4,N5,N6,N7,N8,N9]),
+    blocks(Ns1, Ns2, Ns3).
+
+problem(P) :-
+    P = [[1,_,_,8,_,4,_,_,_],
+	 [_,2,_,_,_,_,4,5,6],
+	 [_,_,3,2,_,5,_,_,_],
+	 [_,_,_,4,_,_,8,_,5],
+	 [7,8,9,_,5,_,_,_,_],
+	 [_,_,_,_,_,6,2,_,3],
+	 [8,_,1,_,_,_,7,_,_],
+	 [_,_,_,1,2,3,_,8,_],
+	 [2,_,5,_,_,_,_,_,9]].
+
+t(Rows) :-
+    problem(Rows),
+    sudoku(Rows),
+    maplist(labeling([ff]), Rows),
+    maplist(writeln, Rows).
