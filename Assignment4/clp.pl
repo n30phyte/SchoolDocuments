@@ -68,8 +68,6 @@ add_letters(Word, Sum) :-
     add_letters(RWord, 0, Sum).
 
 encrypt(Word1, Word2, Word3) :-
-    length(Word1, N),
-    length(Word2, N1),
     append([Word1, Word2, Word3], L),
     list_to_set(L, Letters),
     [Head1|_] = Word1,
@@ -89,13 +87,28 @@ encrypt(Word1, Word2, Word3) :-
 
 % Question 4
 
+xall_distinct2([]).
+
+xall_distinct2([H|T]) :-
+    maplist(#\=(H), T),
+    xall_distinct2(T).
+
+xall_distinct(L) :-
+    maplist(xall_distinct2, L).
+
 grid(N, L) :-
     length(L, N),
     maplist(same_length(L), L).
 
-not_in(List, Var) :-
-    delete(List, Var, List2),
-    maplist(#\=(Var), List2).
+xtranspose([[]|_], []).
+xtranspose(Original, [NewRow|RestRows]) :-
+    transpose_first_column(Original, NewRow, RestMatrix),
+    xtranspose(RestMatrix, RestRows).
+
+%% Take nested list in A, add to B and move the rest into C
+transpose_first_column([], [], []).
+transpose_first_column([[HInner | TInner] | TOuter], [HInner | HOther], [TInner | TOther]) :-
+    transpose_first_column(TOuter, HOther, TOther).
 
 sudoku(Rows) :-
     grid(9, Rows),
@@ -103,11 +116,11 @@ sudoku(Rows) :-
     append(Rows, Vs),
         % Vs is a list of all 9*9 variables in Rows
     Vs ins 1..9,
-    xall-distinct(Rows),
+    xall_distinct(Rows),
             % Variables of each row get distinct values
-    transpose(Rows, Columns),
+    xtranspose(Rows, Columns),
         % get the columns of 9x9 grid
-    xall-distinct(Rows),
+    xall_distinct(Columns),
     Rows = [As,Bs,Cs,Ds,Es,Fs,Gs,Hs,Is],
         % need references to rows
     blocks(As, Bs, Cs),
@@ -122,17 +135,42 @@ blocks([N1,N2,N3|Ns1], [N4,N5,N6|Ns2], [N7,N8,N9|Ns3]) :-
 
 problem(P) :-
     P = [[1,_,_,8,_,4,_,_,_],
-	 [_,2,_,_,_,_,4,5,6],
-	 [_,_,3,2,_,5,_,_,_],
-	 [_,_,_,4,_,_,8,_,5],
-	 [7,8,9,_,5,_,_,_,_],
-	 [_,_,_,_,_,6,2,_,3],
-	 [8,_,1,_,_,_,7,_,_],
-	 [_,_,_,1,2,3,_,8,_],
-	 [2,_,5,_,_,_,_,_,9]].
+    [_,2,_,_,_,_,4,5,6],
+    [_,_,3,2,_,5,_,_,_],
+    [_,_,_,4,_,_,8,_,5],
+    [7,8,9,_,5,_,_,_,_],
+    [_,_,_,_,_,6,2,_,3],
+    [8,_,1,_,_,_,7,_,_],
+    [_,_,_,1,2,3,_,8,_],
+    [2,_,5,_,_,_,_,_,9]].
 
 t(Rows) :-
     problem(Rows),
     sudoku(Rows),
     maplist(labeling([ff]), Rows),
     maplist(writeln, Rows).
+
+% Question 5
+
+paper(Id, CoAuthor1, CoAuthor2, Subject).
+reviewer(Name, Subject1, Subject2).
+
+paper(1,lily,xxx,ai).
+paper(2,peter,john,database).
+paper(3,ann,xxx,theory).
+paper(4,ken,lily,network).
+paper(5,kris,xxx,games).
+
+reviewer(lily,theory,network).
+reviewer(john,ai,theory).
+reviewer(peter,database,network).
+reviewer(ann,theory,network).
+reviewer(kris,theory,games).
+reviewer(ken,database,games).
+reviewer(bill,database,ai).
+reviewer(jim,theory,games).
+
+workLoadAtMost(2).
+
+assign(W1, W2) :-
+    
