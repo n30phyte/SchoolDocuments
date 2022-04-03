@@ -87,14 +87,14 @@ encrypt(Word1, Word2, Word3) :-
 
 % Question 4
 
-xall_distinct2([]).
+xalldistinct2([]).
 
-xall_distinct2([H|T]) :-
+xalldistinct2([H|T]) :-
     maplist(#\=(H), T),
-    xall_distinct2(T).
+    xalldistinct2(T).
 
-xall_distinct(L) :-
-    maplist(xall_distinct2, L).
+xall-distinct(L) :-
+    maplist(xalldistinct2, L).
 
 grid(N, L) :-
     length(L, N),
@@ -116,11 +116,11 @@ sudoku(Rows) :-
     append(Rows, Vs),
         % Vs is a list of all 9*9 variables in Rows
     Vs ins 1..9,
-    xall_distinct(Rows),
+    xall-distinct(Rows),
             % Variables of each row get distinct values
     xtranspose(Rows, Columns),
         % get the columns of 9x9 grid
-    xall_distinct(Columns),
+    xall-distinct(Columns),
     Rows = [As,Bs,Cs,Ds,Es,Fs,Gs,Hs,Is],
         % need references to rows
     blocks(As, Bs, Cs),
@@ -152,8 +152,8 @@ t(Rows) :-
 
 % Question 5
 
-paper(Id, CoAuthor1, CoAuthor2, Subject).
-reviewer(Name, Subject1, Subject2).
+% paper(Id, CoAuthor1, CoAuthor2, Subject).
+% reviewer(Name, Subject1, Subject2).
 
 paper(1,lily,xxx,ai).
 paper(2,peter,john,database).
@@ -172,5 +172,45 @@ reviewer(jim,theory,games).
 
 workLoadAtMost(2).
 
+assoc([],[],_).
+assoc([N|R],[E|W],Dom) :-
+   find0(N,Dom,E),
+   assoc(R,W,Dom).
+
+find0(1,[F|_],F) :- !.
+find0(N,[_|R],E) :- 
+    N1 is N-1,
+    find0(N1,R,E).
+
+
 assign(W1, W2) :-
-    
+    workLoadAtMost(N),
+    findall(X, reviewer(X, _, _), LReviewers),
+    findall(X, paper(X, _, _, _), LPapers),
+    length(LReviewers, ReviewersCount),
+    length(LPapers, PaperCount),
+    length(W1, PaperCount),
+    length(W2, PaperCount),
+    !,
+    W1 ins 1..ReviewersCount,
+    W2 ins 1..ReviewersCount,
+    allAssignable(W1, LReviewers),
+    allAssignable(W2, LReviewers),
+    not(hasDouble(W1, W2))
+
+hasDouble([H], [H]) :- !.
+hasDouble([H|_], [H|_]):- !.
+hasDouble([H1|T1], [H2|T2]) :- 
+    hasDouble(T1, T2).
+
+allAssignable(LDPersons, LReviewers) :-
+    assoc(LDPersons, LPersons, LReviewers),
+    assignable(LPersons, 1).
+
+assignable(Person, Paper) :-
+    reviewer(Person, PersonTopic1, PersonTopic2),
+    paper(Paper, PaperPerson1, PaperPerson2, PaperTopic),
+    Person \= PaperPerson1, Person \= PaperPerson2,
+    (PersonTopic1 = PaperTopic; PersonTopic2 = PaperTopic).
+
+
