@@ -155,42 +155,25 @@ t(Rows) :-
 % paper(Id, CoAuthor1, CoAuthor2, Subject).
 % reviewer(Name, Subject1, Subject2).
 
-paper(1,lily,xxx,ai).
-paper(2,peter,john,database).
-paper(3,ann,xxx,theory).
-paper(4,ken,lily,network).
-paper(5,kris,xxx,games).
-
-reviewer(lily,theory,network).
-reviewer(john,ai,theory).
-reviewer(peter,database,network).
-reviewer(ann,theory,network).
-reviewer(kris,theory,games).
-reviewer(ken,database,games).
-reviewer(bill,database,ai).
-reviewer(jim,theory,games).
-
-workLoadAtMost(2).
-
-assoc([],[],_).
-assoc([N|R],[E|W],Dom) :-
-   find0(N,Dom,E),
-   assoc(R,W,Dom).
-
-find0(1,[F|_],F) :- !.
-find0(N,[_|R],E) :- 
-    N1 is N-1,
-    find0(N1,R,E).
-
 split(L, A, B) :-
     append(A, B, L),
     length(A, N),
     length(B, N).
 
-makeCardinalityPair(N, N, W, [N-W]) :- !.
-makeCardinalityPair(N, StartN, W, [StartN-W|T]) :-
+indexOf(List, Item, Index) :-
+    nth1(Index, List, Item), !.
+
+indexOf(_, _, -1).
+
+makeCardinalityPair(N, N, [N-W]) :- 
+    workLoadAtMost(M),
+    W #=< M,
+    !.
+makeCardinalityPair(N, StartN, [StartN-W|T]) :-
     N1 is StartN + 1,
-    makeCardinalityPair(N, N1, W, T), !.
+    workLoadAtMost(M),
+    W #=< M,
+    makeCardinalityPair(N, N1, T), !.
 
 getAllReviewers(LReviewers) :-
     findall(X, reviewer(X, _, _), LReviewers).
@@ -198,39 +181,32 @@ getAllReviewers(LReviewers) :-
 getAllPapers(LPapers) :-
     findall(X, paper(X, _, _, _), LPapers).
 
-getAllTopics(LTopics) :-
-    findall(X, paper(_, _, _, X), LTopics1),
-    list_to_set(LTopics1, LTopics).
-
-indexFor(List, Item, Index) :-
-    indexOf(Index, List, Item).
-
-indexOf(Index, List, Item) :-
-    nth1(Index, List, Item), !.
-
-indexOf(-1, _, _).
+getReviewersForTopic(Topic, LEligible) :-
+    findall(X, (reviewer(X, Topic, _) ; reviewer(X, _, Topic)), LFound),
+    getAllReviewers(LReviewers),
+    maplist(indexOf(LReviewers), LFound, LEligible).
 
 assign(W1, W2) :-
     % Gather facts and domains
     getAllReviewers(LReviewers),
     getAllPapers(LPapers),
-    getAllTopics(LTopics),
-    workLoadAtMost(N),
     % Calculate lengths if necessary
     length(LReviewers, ReviewersCount),
     length(LPapers, PaperCount),
     N2 is PaperCount * 2,
     !,
     % Set reviewer workload constraints
-    M #=< N,
-    makeCardinalityPair(ReviewersCount, 1, M, ReviewPairs),
+    makeCardinalityPair(ReviewersCount, 1, ReviewPairs),
     length(AllMappings, N2),
     global_cardinality(AllMappings, ReviewPairs),
-    split(AllMappings, W1, W2),
-    % Set reviewer doubling constraint
-    maplist(#\=, W1, W2),
-    addConstraints(W1),
-    addConstraints(W2).
+    split(AllMappings, W1T, W2T),
+    maplist(#\=, W1T, W2T),
+    addConstraints(W1T),
+    addConstraints(W2T),
+    label(AllMappings),
+    maplist(indexOf(LReviewers), W1, W1T),
+    maplist(indexOf(LReviewers), W2, W2T).
+    % label(AllMappings).
 
 addConstraints(LAssignments) :-
     addConstraints(1, LAssignments).
@@ -241,25 +217,14 @@ addConstraints(N, [H|T]) :-
     N1 is N + 1,
     addConstraints(N1, T).
 
-getReviewersForTopic(Topic, LEligible) :-
-    findall(X, (reviewer(X, Topic, _) ; reviewer(X, _, Topic)), LEligible).
-
-mapReviewer(NumReviewer, [H]) :-
-    NumReviewer in H.
-
-mapReviewer(NumReviewer, [H|T]) :-
-    NumReviewer in H,
-    mapReviewer(NumReviewer, T).
-
 constrain(NumPaper, NumReviewer) :-
     % Constrain reviewers
     getAllReviewers(LReviewers),
     paper(NumPaper, Person1, Person2, Topic),
     getReviewersForTopic(Topic, LEligible),
-    maplist(indexFor(LReviewers), LEligible, LOut),
-    mapReviewer(NumReviewer, LOut), 
-    indexOf(NumPerson1, LReviewers, Person1),
-    indexOf(NumPerson2, LReviewers, Person2),
+    indexOf(LReviewers, Person1, NumPerson1),
+    indexOf(LReviewers, Person2, NumPerson2),
+    list_to_fdset(LEligible, SEligible),
+    NumReviewer in_set SEligible,
     NumReviewer #\= NumPerson1,
     NumReviewer #\= NumPerson2.
-
