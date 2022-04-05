@@ -202,11 +202,13 @@ getAllTopics(LTopics) :-
     findall(X, paper(_, _, _, X), LTopics1),
     list_to_set(LTopics1, LTopics).
 
-indexOf([H|_], H, 1) :- !.
+indexFor(List, Item, Index) :-
+    indexOf(Index, List, Item).
 
-indexOf([_|T], Item, Idx) :-
-    indexOf(T, Item, Idx1),
-    Idx1 is Idx + 1.
+indexOf(Index, List, Item) :-
+    nth1(Index, List, Item), !.
+
+indexOf(-1, _, _).
 
 assign(W1, W2) :-
     % Gather facts and domains
@@ -227,36 +229,37 @@ assign(W1, W2) :-
     split(AllMappings, W1, W2),
     % Set reviewer doubling constraint
     maplist(#\=, W1, W2),
-    allAssignable(W1),
-    allAssignable(W2).
+    addConstraints(W1),
+    addConstraints(W2).
 
-allAssignable(LAssignments) :-
-    allAssignable(1, LAssignments).
-
-allAssignable(N, [H]) :-
-    assignable(N, H).
-
-
-allAssignable(N, [H|T]) :-
-    assignable(N, H),
+addConstraints(LAssignments) :-
+    addConstraints(1, LAssignments).
+addConstraints(N, [H]) :-
+    constrain(N, H).
+addConstraints(N, [H|T]) :-
+    constrain(N, H),
     N1 is N + 1,
-    allAssignable(N1, T).
+    addConstraints(N1, T).
 
-assignable(Paper, PersonNum) :-
+getReviewersForTopic(Topic, LEligible) :-
+    findall(X, (reviewer(X, Topic, _) ; reviewer(X, _, Topic)), LEligible).
+
+mapReviewer(NumReviewer, [H]) :-
+    NumReviewer in H.
+
+mapReviewer(NumReviewer, [H|T]) :-
+    NumReviewer in H,
+    mapReviewer(NumReviewer, T).
+
+constrain(NumPaper, NumReviewer) :-
+    % Constrain reviewers
     getAllReviewers(LReviewers),
-    nth1(PersonNum, LReviewers, Person),
-    reviewer(Person, PersonTopic1, PersonTopic2),
-    paper(Paper, PaperPerson1, PaperPerson2, PaperTopic),
-    indexOf(PersonNum1, LReviewers, PaperPerson1),
-    (PaperPerson2 \= xxx -> 
-        (indexOf(PersonNum2, LReviewers, PaperPerson2), PersonNum #\= PersonNum2)
-        ),
-    getAllTopics(LTopics),
-    nth1(TopicNum1, LTopics, PersonTopic1),
-    nth1(TopicNum2, LTopics, PersonTopic2),
-    nth1(PaperTopicNum, LTopics, PaperTopic),
-    !,
-    PersonNum #\= PersonNum1,
-    (TopicNum1 #= PaperTopicNum; TopicNum2 #= PaperTopicNum).
-
+    paper(NumPaper, Person1, Person2, Topic),
+    getReviewersForTopic(Topic, LEligible),
+    maplist(indexFor(LReviewers), LEligible, LOut),
+    mapReviewer(NumReviewer, LOut), 
+    indexOf(NumPerson1, LReviewers, Person1),
+    indexOf(NumPerson2, LReviewers, Person2),
+    NumReviewer #\= NumPerson1,
+    NumReviewer #\= NumPerson2.
 
