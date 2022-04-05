@@ -51,6 +51,19 @@ query3(Semester, Name, final, NewMark) :-
 
 % Question 2
 
+%% When doing arc consistency checking for the A1 Variable
+%% (top left corner), the local (3x3 box) consistency
+%% checking will remove 9, 3 and 1 from the domain of A1.
+%% Column-wise AC for A1 will remove 9, 7 and 8
+%% Row-wise AC for A1 will remove 3, 2 and 6
+%% In A4 (top left corner of top middle box), the local AC
+%% checking will remove 2, 3, 5, 6 and 8.
+%% In E5 (middle box), local AC will remove 1, 2 7 and 8
+
+%% In example 2, when you pick E5 and do local AC, no
+%% values can be removed from the domain, as there are
+%% no other numbers in the neighbouring boxes within that 3x3.
+
 % Question 3
 
 add_letters([Head], Count, Sum) :-
