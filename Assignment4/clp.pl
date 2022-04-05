@@ -182,35 +182,81 @@ find0(N,[_|R],E) :-
     N1 is N-1,
     find0(N1,R,E).
 
+split(L, A, B) :-
+    append(A, B, L),
+    length(A, N),
+    length(B, N).
+
+makeCardinalityPair(N, N, W, [N-W]) :- !.
+makeCardinalityPair(N, StartN, W, [StartN-W|T]) :-
+    N1 is StartN + 1,
+    makeCardinalityPair(N, N1, W, T), !.
+
+getAllReviewers(LReviewers) :-
+    findall(X, reviewer(X, _, _), LReviewers).
+
+getAllPapers(LPapers) :-
+    findall(X, paper(X, _, _, _), LPapers).
+
+getAllTopics(LTopics) :-
+    findall(X, paper(_, _, _, X), LTopics1),
+    list_to_set(LTopics1, LTopics).
+
+indexOf([H|_], H, 1) :- !.
+
+indexOf([_|T], Item, Idx) :-
+    indexOf(T, Item, Idx1),
+    Idx1 is Idx + 1.
 
 assign(W1, W2) :-
+    % Gather facts and domains
+    getAllReviewers(LReviewers),
+    getAllPapers(LPapers),
+    getAllTopics(LTopics),
     workLoadAtMost(N),
-    findall(X, reviewer(X, _, _), LReviewers),
-    findall(X, paper(X, _, _, _), LPapers),
+    % Calculate lengths if necessary
     length(LReviewers, ReviewersCount),
     length(LPapers, PaperCount),
-    length(W1, PaperCount),
-    length(W2, PaperCount),
+    N2 is PaperCount * 2,
     !,
-    W1 ins 1..ReviewersCount,
-    W2 ins 1..ReviewersCount,
-    allAssignable(W1, LReviewers),
-    allAssignable(W2, LReviewers),
-    not(hasDouble(W1, W2))
+    % Set reviewer workload constraints
+    M #=< N,
+    makeCardinalityPair(ReviewersCount, 1, M, ReviewPairs),
+    length(AllMappings, N2),
+    global_cardinality(AllMappings, ReviewPairs),
+    split(AllMappings, W1, W2),
+    % Set reviewer doubling constraint
+    maplist(#\=, W1, W2),
+    allAssignable(W1),
+    allAssignable(W2).
 
-hasDouble([H], [H]) :- !.
-hasDouble([H|_], [H|_]):- !.
-hasDouble([H1|T1], [H2|T2]) :- 
-    hasDouble(T1, T2).
+allAssignable(LAssignments) :-
+    allAssignable(1, LAssignments).
 
-allAssignable(LDPersons, LReviewers) :-
-    assoc(LDPersons, LPersons, LReviewers),
-    assignable(LPersons, 1).
+allAssignable(N, [H]) :-
+    assignable(N, H).
 
-assignable(Person, Paper) :-
+
+allAssignable(N, [H|T]) :-
+    assignable(N, H),
+    N1 is N + 1,
+    allAssignable(N1, T).
+
+assignable(Paper, PersonNum) :-
+    getAllReviewers(LReviewers),
+    nth1(PersonNum, LReviewers, Person),
     reviewer(Person, PersonTopic1, PersonTopic2),
     paper(Paper, PaperPerson1, PaperPerson2, PaperTopic),
-    Person \= PaperPerson1, Person \= PaperPerson2,
-    (PersonTopic1 = PaperTopic; PersonTopic2 = PaperTopic).
+    indexOf(PersonNum1, LReviewers, PaperPerson1),
+    (PaperPerson2 \= xxx -> 
+        (indexOf(PersonNum2, LReviewers, PaperPerson2), PersonNum #\= PersonNum2)
+        ),
+    getAllTopics(LTopics),
+    nth1(TopicNum1, LTopics, PersonTopic1),
+    nth1(TopicNum2, LTopics, PersonTopic2),
+    nth1(PaperTopicNum, LTopics, PaperTopic),
+    !,
+    PersonNum #\= PersonNum1,
+    (TopicNum1 #= PaperTopicNum; TopicNum2 #= PaperTopicNum).
 
 
