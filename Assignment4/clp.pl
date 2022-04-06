@@ -52,13 +52,27 @@ query3(Semester, Name, final, NewMark) :-
 % Question 2
 
 %% When doing arc consistency checking for the A1 Variable
-%% (top left corner), the local (3x3 box) consistency
-%% checking will remove 9, 3 and 1 from the domain of A1.
-%% Column-wise AC for A1 will remove 9, 7 and 8
-%% Row-wise AC for A1 will remove 3, 2 and 6
-%% In A4 (top left corner of top middle box), the local AC
+%% (top left corner), the subunit (3x3 box) consistency
+%% checking will remove 1, 3 and 9 from the domain of A1.
+%% Column-wise AC for A1 will remove 7, 8 and 9
+%% Row-wise AC for A1 will remove 2, 3 and 6
+
+%% In A4 (top left corner of top middle box), the subunit
 %% checking will remove 2, 3, 5, 6 and 8.
-%% In E5 (middle box), local AC will remove 1, 2 7 and 8
+%% Column-wise AC will remove 1, 2, 3, 6, 7, 8
+%% Row-wise AC will remove 2, 3 and 6
+
+%% In E5 (middle box), subunit AC will remove 1, 2, 7 and 8
+%% Column-wise AC will remove 1 and 2
+%% Row-wise AC will remove 7 and 8
+
+%% In B5, subunit AC will remove 2, 3, 5, 6, 8
+%% Column-wise AC will remove 1, 2
+%% Row-wise AC will remove 1, 3, 5, 9
+
+%% In E2, subunit AC will remove 6, 7, 8
+%% Column-wise AC will remove nothing
+%% Row-wise AC will remove 7, 8
 
 %% In example 2, when you pick E5 and do local AC, no
 %% values can be removed from the domain, as there are
