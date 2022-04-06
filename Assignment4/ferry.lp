@@ -123,6 +123,9 @@ at(Car,Loc,T+1):-    %frame axiom
         at(Car,Loc,T),
         not board(Car,Loc,T).
 
+:- at(ferry, Loc, T), at(ferry, Loc1, T), Loc!=Loc1.
+:- board(Car, Loc, T), board(Car1, Loc, T), Car != Car1.
+
 goal(T+1):-  time(T), goal(T).
      %once goal is achieved, goal(T) is true for all T > k.
 
