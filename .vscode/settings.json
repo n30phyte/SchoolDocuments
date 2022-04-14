@@ -24,14 +24,7 @@
       ]
     }
   ],
-  "spellright.language": [
-    "en_CA",
-    "en_GB",
-    "en_US"
-  ],
-  "spellright.documentTypes": [
-    "markdown",
-    "latex",
-    "plaintext"
-  ]
+  "spellright.language": ["en_CA", "en_GB", "en_US"],
+  "spellright.documentTypes": ["markdown", "latex", "plaintext"],
+  "editor.formatOnSave": false
 }

@@ -1,0 +1,409 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass[landscape, letterpaper]{extarticle}
+
+\usepackage[margin=.25in]{geometry}
+\usepackage{fontspec}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{scrextend}
+\usepackage[outputdir=obj]{minted}
+
+%\setmainfont{Lato}
+%\linespread{0.2}
+
+\renewcommand{\complement}[1]{{#1}^\mathsf{c}}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+
+\begin{document}
+\begin{multicols}{3}
+    \section*{Functional Programming}
+    Functions are mappings from an input domain to a co-domain.
+    \begin{itemize}[noitemsep,nolistsep]
+        \item \textbf{Total Function:} function defined for every element in a domain.
+        \item \textbf{Partial Function:} function has undefined relations in a domain.
+        \item Co-domain of inner function must be a subset of the outer function's domain.
+        \item \textbf{Higher Order Functions:} functions that have other functions as the input and/or output.
+        \item \textbf{Atoms:} primitives, inseperable.
+        \item \textbf{Lists:} a list contains atoms or other lists.
+    \end{itemize}
+    \subsection*{Common Lisp}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item \verb|(car '(a b c))| returns \verb|a|
+        \item \verb|(cdr '(a b c))| returns \verb|(b c)|
+        \item \verb|car| and \verb|cdr| can be stacked together, operations read right to left.
+        \item \verb|(cons a, (b))| returns \verb|(a b)|.
+        \item \verb|(apply func (arg1 arg2))| and\\\verb|(funcall func arg1 arg2)|
+        \item Common Lisp has \verb|mapcar|, \verb|reduce|, \verb|remove-if| and \verb|remove-if-not| instead of filter.
+    \end{itemize}
+    \section*{Lambda Calculus}
+    \subsection*{Lambda Calculus Primitives}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item \textbf{SUC:} \(\lambda x s z | s(xsz)\)
+        \item \textbf{ADD:} \(\lambda w z s x | ws(zsx)\)
+        \item \textbf{T:} \(\lambda x y | x\)
+        \item \textbf{F:} \(\lambda x y | y\)
+        \item \textbf{IF:} \(\lambda x y z | x y z\)
+        \item \textbf{NOT:} \(\lambda x | x F T\)
+        \item \textbf{AND:} \(\lambda x y | xyF\)
+        \item \textbf{OR:} \(\lambda x y | xTy\)
+        \item \textbf{ZEROT:} \(\lambda x | x F NOT F\)
+    \end{itemize}
+    \subsection*{Lambda Calculus Recursion}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item \textbf{Y Combinator: } \(\lambda y | (\lambda x | y (xx)) (\lambda x | y(xx))\)
+    \end{itemize}
+
+    \subsection*{Lambda Calculus Reduction}
+    \verb|((lambda (x) (x 2)) (lambda (z) (+ z 1)))|\\
+    \verb|((lambda (z) (+ z 1)) 2)|\\
+    \verb|(+ 2 1)|
+    The function is the one with \verb|x| as argument, the argument of that function is the one with \verb|z|. When the function is applied, \verb|x| gets replaced by \verb|lambda (z)|. This leaves an application of 2 into the function at the end.
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Reductions: \textbf{\(\alpha\)-reduction:} variable renaming, \textbf{\(\beta\)-reduction:} function
+              \begin{itemize}[noitemsep,nolistsep]
+                  \item \(\lambda x | (+ x y)\)
+                  \item \(x\) is bound in the scope, can be renamed to anything other than \(y\).
+                  \item \(y\) is free, cannot be renamed.
+                  \item \(\lambda z | (\lambda x | (+ x z))\)
+                  \item \(z\) is still bound due to outer scope.
+              \end{itemize}
+        \item Scope of variable must always be mantained by renaming to ensure correct reductoin.
+        \item \textbf{Normal Form: } A lambda expression that cannot be reduced further. Does not always exist for every lambda expression.
+        \item \textbf{Normal Order of Reduction (NOR): } Evaluate leftmost outermost application. More redundant calculations but terminates more often.
+        \item \textbf{Applicative Order of Reduction (AOR): } Evaluate leftmost innermost application. Usually more effecient than NOR but terminates less often.
+        \item For both of above orders, if there's a tie, go for leftmost expression always.
+        \item \textbf{Church-Rosser Theorem: } Does not tell us if there exists a normal form, like Turing halting problem.
+              \begin{enumerate}[noitemsep,nolistsep]
+                  \item If \(A \rightarrow B\) and \(A \rightarrow C\), there exists \(D\) such that \(B \rightarrow D\) and \(C \rightarrow D\).
+                  \item If \(A\) has normal form \(E\), there exists \(A \rightarrow E\).
+              \end{enumerate}
+    \end{itemize}
+    \subsection*{Context + Closure}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item \textbf{Context: } Current variables and their bindings.
+        \item \textbf{Closure: } a pair of an s-expr and the context for that s-expr.
+    \end{itemize}
+    \subsection*{SECD}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Four stacks: s for evaluation, e for environment (value list), c for storing instructions, d for storing context.
+        \item \textbf{NIL:} Push nil Pointer \verb|s e (NIL.c) d|:
+        
+        \verb|(nil.s) e c d|
+        \item \textbf{LDC:} Load Constant \verb|s e (LDC x.c) d|:
+        
+        \verb|(x.s) e c d|
+        \item \textbf{LD:} Load from Env \verb|s e (LD (i.j).c) d|:
+
+        \verb|(locate((i.j), e).s) e c d|
+        \begin{itemize}[noitemsep,nolistsep]
+            \item locate finds the \verb|j|th element of the \verb|i|th sublist in e.
+        \end{itemize}
+        \item \textbf{LDF:} Load Function \verb|s e (LDF f.c) d|:
+        
+        \verb|((f.e).s) e c d|
+        \item \textbf{AP:} Apply Function \verb|((f.e') v.s) e (AP.c) d|:
+
+        \verb|NIL (v.e') f (s e c.d)|
+        \item \textbf{RTN:} Return \verb|(x.z) e' (RTN.q) (s e c.d)|:
+        
+        \verb|(x.s) e c d|
+        \item \textbf{SEL:} Select If \verb|(x.s) e (SEL ct cf.c) d|:
+        
+        \verb|s e c' (c.d)|
+        \item \textbf{JOIN:} Rejoin after If \verb|s e (JOIN.c) (cr.d)|: \verb|s e cr d|
+    \end{itemize}
+    \section*{Horn Clause Logic Programming}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item A program is a collection of Horn clauses of the form \(A \leftarrow B_1, \cdots B_n\) where \(A\) and \(B_i\) are atoms.
+        \item Computations are deductions in Horn LP.
+        \item Defined by the following symbols: Constants, functions, predicates, variables, connectives, quantifiers and punctuation.
+        \item Let \(W\) be a set of formulas and \(A\) be a formula. \(W |= A\) means for every way that W is true, A is true.
+        \begin{itemize}[noitemsep,nolistsep]
+            \item W entails A.
+            \item W implies A.
+            \item A follows from W.
+            \item A is a logical consequence of W.
+            \item A is a theorem of W
+        \end{itemize}
+        \item For propositional logic, since there are finitely many possible assignments given a finite set of propositions, a truth table can always be used. The number of assignments is exponential to the number of propositions. This is not true for predicate logic.
+        \item \textbf{Herbrand Universe:} Given set \(C\) of constants and set \(F\) of function symbols:
+        \begin{enumerate}[noitemsep,nolistsep]
+            \item \(H_u\) contains any constant in \(C\).
+            \item Any function \(f\) iff all it's params are in \(H_u\).
+            \item Anything else that can be constructed by 1 and 2.
+        \end{enumerate}
+        \item The Herbrand Universe is not necessarily infinite. E.g: no functions, finite constants. The Herbrand Universe is the set of all Ground Terms that can be constructed from the given constants and function symbols.
+        \item \textbf{Ground Atoms:} Atoms whose variables are instantiated by the ground terms in the Herbrand Universe. It can be iteratively constructed, and terminates for a finite Herbrand Universe. Stop when \(S_n = s_n + 1\).
+    \end{itemize}
+    \section*{Prolog}
+    \subsection*{Predicates}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item \verb|X is E| X is value of arithmetic expression E.
+        \item \verb|X = Y| X and Y are unifiable.
+        \item \verb|E1 =:= E2| Arithmetic expressions are equal.
+        \item \verb|E1 =\= E2| Arithmetic expressions are not equal.
+        \item \verb|X == Y| X and Y are identical.
+        \item \verb|X \== Y| X and Y are not identical.
+        \item \verb|var(X)| X is instantiated.
+        \item \verb|nonvar(X)| X is uninstantiated.
+        \item \verb|atom(X)|.
+        \item \verb|integer(X)|.
+        \item \verb|number(X)|.
+        \item \verb|atomic(X)| X is atom or number.
+        \item \verb|findall(X, Pred, List)|.
+        \item \verb|member(E, L)| E is member of L.
+        \item \verb|append(L1, L2, L3)| L3 is concat of L1 and L2.
+        \item \verb|append(L1, L2)| L1 is a list of lists, and L2 is the concat of all the lists.
+        \item \verb|nth0(Idx, List, Elem)|.
+    \end{itemize}
+    \subsection*{Lists}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item \verb|[]| is an empty list.
+        \item \verb|[a, b, c]| is a list with 3 elements.
+        \item \verb![F|R]! is a pattern matching construct, where F matches first element and R matches the rest.
+        \item \verb![A|L]! and \verb![a, b, c]! are unifiable.
+    \end{itemize}
+    \subsection*{Unification}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item \textbf{Unification} is a two way matching process where terms are substituted to both sides the same.
+        \item \textbf{Occurs Check} is a phenomenon where an equation has a variable on one side and a term containing that variable on the other side. This cannot be unified no matter what the substitution is.
+    \end{itemize}
+    \subsection*{Inference Engine}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item \textbf{Resolution:} When resolving, any subgoal can be solved first. Prolog defaults to leftmost first recursively. 
+        \item Resolution uses a tree, where the root node is the goal, and every leaf is a trial in unification. A leaf node becomes either an empty goal, or a node that cannot be unified. When it cannot be unified, that goal is failed.
+        \item Prolog searches the tree depth first until a failure, then it will backtrack to find an alternative goal, going one level up each time the goal fails.
+        \item \textbf{Cuts} are a way to commit all the choices previously. This means that backtracking will stop at the cut.
+        \item \verb|assert(Clause)| adds clause to the current program. Implementation dependent positioning.
+        \item \verb|asserta(Clause)| adds clause to the top of current program.
+        \item \verb|assertz(Clause)| adds clause to the bottom of current program.
+        \item \verb|clause(Head, Body)| search current program for Body that matches Head.
+        \item \verb|retract(Clause)| Remove topmost clause that matches.
+       \item \verb|retractall(Head)| Remove all clauses that match Head.
+    \end{itemize}
+    \section*{Constraint Logic Programming}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item \textbf{Constraint Store:} A collection of primitive constraints (comparison, equality)
+        \item \verb|all_distinct| propagates constraints over a list, while \verb|all_different| does not.
+        \item \verb|labeling| has the following options:
+        \begin{enumerate}[noitemsep,nolistsep]
+            \item \verb|leftmost| The leftmost variable is selected, default.
+            \item \verb|min| The leftmost variable with the smallest lowest bound first.
+            \item \verb|max| The leftmost variable with the largest upper bound first.
+            \item \verb|ff| The leftmost variable with the smallest domain first.
+            \item \verb|ffc| The leftmost variable with the smallest domain, then breaking ties with most constraints first.
+            \item \verb|up| Explore domain in ascending order, default.
+            \item \verb|down| Explore domain in descending order.
+        \end{enumerate}
+    \end{itemize}
+    \section*{Answer Set Programming}
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Not a general purpose programming paradigm.
+        \item Aim is to get to a stable model/answer set.
+        \item Encode problem into program, then compute stable models of program with ASP.\@ Solutions can be extracted from stable models.
+        \item When there are no solutions, there are no stable models.
+        \item A ground program has no variables, and thus grounding replaces variables with every single possible instance of the rule.
+        \item An answer set \(M\) of a program \(P\) is a model of \(P\) that satisfies the following:
+        \begin{itemize}
+            \item \(M\) satisfies all rules in P.
+            \item For any rule \(a \leftarrow b_1, \cdots b_k, \neg c_1, \cdots \neg c_n\), if for all \(b_k, c_k, b_k \in M, c_k \notin M\) then \(a \in M\).
+            \item For any \(h \in M\) there exists a rule \(h \leftarrow b_1, \cdots b_k, \neg c_1, \cdots \neg c_n\) such that for all \(b_k, c_k, b_k \in M, c_k \notin M\).
+        \end{itemize}
+        \item Head of a rule can be empty, defining a constraint. Any answer set that satisfies the body of a headless constraint is eliminated.
+        \item \({a, b}\) is a choice rule, giving the following solutions: \({\neg a, \neg b}, {a, \neg b}, {\neg a, b}\)
+    \end{itemize}
+\pagebreak
+    \section*{Examples}
+    \begin{example}
+        Lambda Expression with no Normal Form:
+        \begin{align*}
+                               & (\lambda x | (x x))(\lambda z | (z z)) \\
+            \rightarrow_\beta  & (\lambda z | (z z))(\lambda z | (z z)) \\
+            \rightarrow_\alpha & (\lambda x | (x x))(\lambda z | (z z))
+        \end{align*}
+        Back at the start again, will go on to infinity.
+    \end{example}
+
+    \begin{example}
+        Infinitely recursing lisp function:
+
+        \begin{minted}{common-lisp}
+(defun f (x) (+ (f x) (f x)))
+        \end{minted}
+    \end{example}
+
+    \begin{example}
+        NOR and AOR comparisons:
+        Terminating:
+        \begin{minted}{cl}
+((lambda (x) (+ 1 x))
+((lambda (z) (+ 1 z)) 3))
+        \end{minted}
+
+        NOR:\@
+        \begin{minted}{cl}
+(+ 1 ((lambda (z) (+ 1 z)) 3))
+(+ 1 (+ 1 3))
+(+ 1 4)
+5
+        \end{minted}
+
+        AOR:\@
+        \begin{minted}{cl}
+((lambda (x) (+ 1 x)) (+ 1 3))
+((lambda (x) (+ 1 x)) 4)
+(+ 1 4)
+5
+        \end{minted}
+
+        Non terminating
+        \begin{align*}
+            g(x) & = cons(x, g(x+1)) \\
+            f(x) & = 5               \\
+            f(g(0))
+        \end{align*}
+
+        NOR:\@
+        \begin{align*}
+            f(g(0)) \rightarrow 5
+        \end{align*}
+
+        AOR:\@
+        \begin{align*}
+             & f(g(0))                                  \\
+             & \rightarrow f(cons(0, g(1)))             \\
+             & \rightarrow f(cons(0, f(cons(1, g(2))))) \\              & \rightarrow\cdots
+        \end{align*}
+    \end{example}
+
+    \begin{example}
+        Context and Closure:
+
+        \begin{minted}{common-lisp}
+(((lambda (x y) (lambda (x) (+ x y))) 2 3) 4)
+\end{minted}
+        \begin{enumerate}[noitemsep,nolistsep]
+            \item Start: Break down outer most list, it becomes \verb|(e 4)| where \verb|e = ((lambda (x y) ... ))|. Eval e at CT0, eval 4 at CT0.
+            \item Eval e at CT0: Break down into \verb|(e1 2 3)| where \verb|e1 = (lambda (x y) ... )|. Eval e1 at CT0 making a closure \([e1, CT0]\). Variables get bound, so make new context \(CT1 = {x \rightarrow 2, y \rightarrow 3} \cup CT0\).
+            \item Repeat until no more lambdas.
+        \end{enumerate}
+    \end{example}
+
+\begin{example}
+Prolog Examples
+
+More Money
+\begin{minted}{prolog}
+add_letters([Head], Count, Sum) :-
+    Exponent is (10 ** Count),
+    Sum = Head * Exponent.
+
+add_letters([Head|Tail], Count, Sum) :-
+    Exponent is (10 ** Count),
+    Count1 is Count + 1,
+    Sum = Sum1 + Head * Exponent,
+    add_letters(Tail, Count1, Sum1).
+
+add_letters(Word, Sum) :-
+    reverse(Word, RWord),
+    add_letters(RWord, 0, Sum).
+
+encrypt(Word1, Word2, Word3) :-
+    append([Word1, Word2, Word3], L),
+    list_to_set(L, Letters),
+    [Head1|_] = Word1,
+    [Head2|_] = Word2,
+    [Head3|_] = Word3,
+    !,
+    Letters ins 0..9,
+    all_different(Letters),
+    add_letters(Word1, Sum1),
+    add_letters(Word2, Sum2),
+    add_letters(Word3, Sum3),
+    Sum1 + Sum2 #= Sum3,
+    Head1 #\= 0,
+    Head2 #\= 0,
+    Head3 #\= 0,
+    label(Letters).
+\end{minted}
+\end{example}
+
+    \begin{example}
+        CSP Constraint Store
+\begin{verbatim}
+solve p(Z)      CS = {}
+        |
+        V
+    X > 1, q(X) CS = {Z = f(X)}
+        |
+        V
+    q(X)        CS = {Z = f(X), X > 1}
+        |
+        V
+    X < 5       CS = {Z = f(X), X > 1}
+        |
+        V       CS = {Z = f(X), X > 1, X < 5}
+       []
+\end{verbatim}
+
+    \end{example}
+
+
+    \begin{example}
+        ASP programs
+
+
+        Let Program \(P_1\) be:
+        \[ a \leftarrow a. \]
+
+        \(M = {a}\) is a model, but not an answer since it is not justified by a non circular derivation.
+
+        Let Program \(P_2\) be:
+        \begin{align*}
+            &a \leftarrow \neg b.\\
+            &b \leftarrow \neg a. 
+        \end{align*}
+
+        \(M = {a}\) is a model, so is \(M = {b}\).
+    \end{example}
+
+    \begin{example}
+        3-colorability:
+
+Define 3 colors and the graph:
+\begin{verbatim}
+node(a).
+node(b).
+arc(a, b).
+...
+color(r).
+color(b).
+color(y).
+\end{verbatim}
+
+Each vertex must be colored with exactly one color:
+\begin{verbatim}
+colored(N, r) :-
+    node(V), !colored(V, b), !colored(V, y).
+colored(N, b) :-
+    node(V), !colored(V, r), !colored(V, y).
+colored(N, y) :-
+    node(V), !colored(V, r), !colored(V, b).
+\end{verbatim}
+
+No adjacent vertices can be same color:
+\begin{verbatim}
+:- node(V), node(U), arc(V, U), V != U,
+    color(C), colored(V, C), colored(U, C).
+\end{verbatim}
+The body reads as: for all node V and node U where there is an arc and V not equal U, the color of V and U is the color C. Since the head is empty, this fact must never be true.
+\end{example}
+
+\end{multicols}
+\end{document}
