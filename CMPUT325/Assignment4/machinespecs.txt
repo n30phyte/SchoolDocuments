@@ -1,0 +1,3 @@
+CPU: Intel i7-8750H, 2.20GHz
+RAM: 16GB
+OS: Linux 5.16.18
