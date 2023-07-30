@@ -1,0 +1,77 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage[outputdir=obj]{minted}
+
+\title{ECE 420 Assignment 1}
+\author{Michael Kwok}
+
+\begin{document}
+\maketitle
+\begin{enumerate}
+    \item \begin{enumerate}
+              \item SISD:\@ Single Instruction, Single Data. An example would be an 8086 CPU from Intel.
+              \item SIMD:\@ Single Instruction, Multiple Data. Modern GPUs such as the Nvidia GeForce series would be SIMD because they have multiple cores that can process multiple different data streams but only with the same instructions.
+              \item MISD:\@ Multiple Instruction, Single Data. Flight data computers in planes are usually MISD for redundancy.
+              \item MIMD:\@ Multiple Instruction, Multiple Data. Modern multicore CPUs such as the AMD Ryzen series are MIMD devices as each core works independently.
+          \end{enumerate}
+    \item  \begin{enumerate}
+              \item Sharing data with the shared memory memory architecture is fast as the threads can simply send pointers to the data to each other, and the threads can access the data via pointer redirection.
+              \item It is simpler for developers to use shared memory as there is no additional layer of message passing to think about when using shared memory.
+              \item Shared memory is not as scalable, as there is a maximum limit to how much memory a single processor can have, example: the 64-bit address limit.
+              \item Distributed memory is easier to scale as each node has access to the maximum addressible memory space.
+              \item Distributed memory might be slower due to the requirements of having communication between the processors, and copying data over a communication link.
+          \end{enumerate}
+    \item \begin{align}
+              Speedup\left(s\right) & = \frac{1}{\left[1 - \left(1 - y\right)\right] + \frac{y}{s}} \\
+                                    & = \frac{1}{y \left(1 + \frac{1}{s}\right)}                    \\
+              \lim_{s \to \infty}   & = \frac{1}{y}
+          \end{align}
+    \item Efficiency of the program with original number of threads:
+
+          \[E_1 = \frac{n}{\frac{n}{p} + \log_2\left(p\right)} = \frac{n}{n + p \log_2\left(p\right)}\]
+
+          When threads get scaled by \(k\) and size increased by \(x\):
+
+          \[E_2 = \frac{xn}{xn + kp \log_2\left(kp\right)}\]
+
+          Let \(x = k\) and check if \(E_2 = E_1\) to show scalability:
+
+          \[E_2 = \frac{kn}{kn + kp \log_2\left(kp\right)} = \frac{n}{n + p \log_2\left(kp\right)} \neq E_1 \]
+
+          Not scalable.
+
+          Find \(x\) where \(E_1 = E_2\):
+
+          \begin{align*}
+              \frac{xn}{xn + kp \log_2\left(kp\right)} & = \frac{n}{n + p \log_2\left(p\right)} \\
+              xn^2 + xnp \log_2(p)                     & = xn^2 + knp \log_2(kp)                \\
+              x \log_2(p)                              & = k \log_2(kp)                         \\
+              x \log_2(p)                              & = k \left(\log_2(k) + \log_2(p)\right) \\
+              \left(x - k\right) \log_2 (p)            & = k \log_2 (k)                         \\
+              p^{x - k}                                & = k^k                                  \\
+              x - k                                    & = k \log_p (k)                         \\
+              x                                        & = k (1 + \log_p(k))
+          \end{align*}
+
+    \item The programs have different outputs. In program 1, the returned value is a pointer to data stored in the heap, while in program 2 the data of the  returned pointer is stored in the stack of the new thread. In POSIX threads, the heap is shared between threads while the stack is not.
+    \item \inputminted{c}{./barrier.c}
+    \item \inputminted{c}{./prodcon.c}
+    \item The case with the matrix sized \(8 \times 8000000\) is the most likely to have false sharing. This is because of the line:
+          \begin{minted}{c}
+        y[i] += A[i*n+j]*x[j];
+    \end{minted}
+          Despite having each thread operate on a different item in the array, the cache line will have to be invalidated whenever it is read by each core as it was written to by a different core. While this can happen at any size, the small width and thus close proximity of the output matrix causes this invalidation to happen more often. With the wider matrices, each core will operate on different areas of the matrix, and so the cache lines are independent of each other.
+
+          To improve this, each thread can have local storage for the summation that it adds to before storing the value in the output matrix. Padding the matrix with dummy data could also be done so the cache will behave as if it's a wider matrix.
+\end{enumerate}
+\end{document}

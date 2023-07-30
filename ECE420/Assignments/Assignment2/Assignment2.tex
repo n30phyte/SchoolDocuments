@@ -1,0 +1,98 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass{article}
+
+\usepackage[letterpaper, margin=1.3cm]{geometry}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage[outputdir=obj]{minted}
+
+\title{ECE 420 Assignment 2}
+\author{Michael Kwok}
+
+\begin{document}
+\maketitle
+\begin{enumerate}
+    \item Thread 0 will get all the odd iterations, and thread 1 will get all the even iterations. With guided, thread 0 will get assigned half of the iterations at the start, then thread 1 will get assigned half of the rest, repeating until the assigned chunk size is the value of \verb|chunksize|.
+    \item The program is creating a new team at each inner for loop. It will be faster to only create the team once.
+          \begin{minted}{cpp}
+#pragma omp parallel num_threads(thread_count) default(none) shared(a, n) private(i, tmp, phase)
+for (phase = 0; phase < n; phase++) {
+    if (phase % 2 == 0) {
+#pramga omp for
+        for (i = 1; i < n; i+= 2) {
+            if (a[i - 1] > a[i]) {
+                a[i], a[i - 1] = a[i - 1], a[i];
+            }
+        }
+    } else {
+#pramga omp for
+        for (i = 1; i < n - 1; i+= 2) {
+            if (a[i] > a[i + 1]) {
+                a[i], a[i + 1] = a[i + 1], a[i];
+            }
+        }
+    }
+}\end{minted}
+
+    \item The \verb|parallel for| can be converted to reduction.
+          \begin{minted}{cpp}
+int largest = 0;
+#pragma omp parallel for reduction(max: largest)
+for (int i = 0; i < 1000; i++) {
+    largest = data[i] > largest ? largest : data[i];
+}
+\end{minted}
+    \item The column paralellization is incorrect since j becomes shared between the teams, when they should each have their own j to operate on. The pragma for the second one should be:
+          \begin{minted}{cpp}
+#pragma omp parallel default(none) shared(v2, v1, matrix, tam) private(i, j)
+\end{minted}
+    \item Thread 0 will print out \verb|0: 2 4|, thread 1 will print out \verb|1: 2 6|. These two threads will make children threads in the next section then print out \verb|Inner: 4| and \verb|Inner: 6| respectively. \verb|count me.| will show up 10 times, one for each thread set by the threads at the start with \verb|omp_set_num_threads|.
+    \item \begin{enumerate}
+              \item \begin{minted}{cpp}
+int fib_tasks(int n) {
+    if (n < 2)
+        return n;
+    else {
+        int i, j;
+#pragma omp task shared(j) firstprivate(n)
+        i = fib_tasks(n - 1);
+#pragma omp task shared(i) firstprivate(n)
+        j = fib_tasks(n - 2);
+
+#pragma omp taskwait
+        return i + j;
+    }
+}
+\end{minted}
+              \item \begin{minted}{cpp}
+int fib_sections(int n) {
+    if (n < 2)
+        return n;
+    else {
+        int i, j;
+
+#pragma omp parallel sections
+        {
+#pragma omp section
+            {
+                i = fib_sections(n - 1);
+            }
+#pragma omp section
+            {
+                j = fib_sections(n - 2);
+            }
+        }
+        return i + j;
+    }
+}
+\end{minted}
+              \item At most 3 threads will be launched at a time, since dynamic thread number is disabled, and the maximum number of threads has been set to 3.
+          \end{enumerate}
+\end{enumerate}
+\end{document}
